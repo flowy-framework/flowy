@@ -1,0 +1,40 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: erlef/setup-elixir@v1
+        with:
+          elixir-version: "1.15.7" # Define the elixir version [required]
+          otp-version: "26.1.2" # Define the OTP version [required]
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Run tests
+        run: mix test
+      - name: Check Formatting
+        run: mix format --check-formatted
+      - name: Audit
+        run: mix deps.audit
+      - name: Run tests
+        run: mix coveralls.json
+        env:
+          MIX_ENV: test
+      - name: Upload to Codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
