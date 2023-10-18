@@ -8,7 +8,16 @@ defmodule Flowy.MixProject do
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "Flowy",
+      source_url: "https://github.com/flowy-framework/flowy",
+      homepage_url: "",
+      docs: [
+        # The main page in the docs
+        main: "Flowy"
+      ]
     ]
   end
 
@@ -30,7 +39,10 @@ defmodule Flowy.MixProject do
       # security-focused static analysis
       {:sobelow, "~> 0.8", only: :dev},
       # scan Mix dependencies for security vulnerabilities
-      {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false}
+      {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false},
+      {:doctor, "~> 0.21.0", only: :dev},
+      # Docs
+      {:ex_doc, "~> 0.30", only: :dev, runtime: false}
     ]
   end
 end
