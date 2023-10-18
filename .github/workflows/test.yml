@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  test:
+  build-test:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
@@ -38,3 +38,5 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
+      - name: Doctor
+        run: mix doctor --full --raise
