@@ -32,8 +32,10 @@ defmodule Flowy.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:nimble_options, "~> 1.0"},
+      {:jason, "~> 1.4"},
+      {:bypass, "~> 2.1", only: :test},
       {:excoveralls, "~> 0.15", only: :test},
-      {:castore, "~> 1.0", only: :test},
       # static code analysis tool with a focus on teaching and code consistency
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       # security-focused static analysis
@@ -42,7 +44,10 @@ defmodule Flowy.MixProject do
       {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false},
       {:doctor, "~> 0.21.0", only: :dev},
       # Docs
-      {:ex_doc, "~> 0.30", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.30", only: :dev, runtime: false},
+
+      # TODO: This dependency should probably be optional
+      {:finch, "~> 0.16"}
     ]
   end
 end
