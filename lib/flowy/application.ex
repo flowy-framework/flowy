@@ -9,7 +9,9 @@ defmodule Flowy.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Flowy.Worker.start_link(arg)
-      # {Flowy.Worker, arg}
+      # TODO: Once we add another http client, we will want to
+      # move this out of here and into the host application.
+      {Finch, name: Flowy.Finch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

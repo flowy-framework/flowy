@@ -1,10 +1,18 @@
 defmodule Flowy.Support.Cache.MemoryStore do
+  @options [
+    ttl: [
+      default: 5 * 60,
+      doc: "the time-to-live for a key in seconds. Default to 5 minutes.",
+      type: :integer
+    ]
+  ]
+
   @moduledoc """
   A simple in-memory cache store backed by ETS
 
-  ## Options
+  ### Options
 
-  * `ttl` - the time-to-live for a key in seconds. Default to 5 minutes.
+  #{NimbleOptions.docs(@options)}
   """
 
   @behaviour Flowy.Support.Cache.Store
@@ -12,6 +20,8 @@ defmodule Flowy.Support.Cache.MemoryStore do
   use GenServer
 
   @table :flowy_memory_store
+
+  # This is a back in case the configuration is missing.
   # 5 minutes
   @default_ttl 5 * 60
 
