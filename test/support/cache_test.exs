@@ -2,6 +2,8 @@ defmodule Flowy.Support.CacheTest do
   use ExUnit.Case, async: true
   alias Flowy.Support.{Cache, Cache.MemoryStore}
 
+  doctest Flowy.Support.Cache
+
   describe "read/1" do
     @describetag :memory_store
     setup do

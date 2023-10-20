@@ -37,6 +37,8 @@ defmodule Flowy.Support.Cache do
 
   defstruct [:store, :opts]
 
+  alias Flowy.Telemetry
+
   @doc """
   Builds a cache struct.
   """
@@ -59,6 +61,7 @@ defmodule Flowy.Support.Cache do
   """
   @spec read(cache, key) :: any()
   def read(%__MODULE__{store: store, opts: opts}, key) do
+    Telemetry.event(:cache_read, %{}, %{key: key, store: store})
     store.read(key, opts)
   end
 
@@ -77,6 +80,7 @@ defmodule Flowy.Support.Cache do
   """
   @spec fetch(cache, key, function()) :: any()
   def fetch(%__MODULE__{store: store, opts: opts}, key, fnc) do
+    Telemetry.event(:cache_fetched, %{}, %{key: key, store: store})
     store.fetch(key, fnc, opts)
   end
 
@@ -94,6 +98,7 @@ defmodule Flowy.Support.Cache do
   """
   @spec write(cache, key, any()) :: any()
   def write(%__MODULE__{store: store}, key, value) do
+    Telemetry.event(:cache_wrote, %{}, %{key: key, store: store})
     store.write(key, value)
   end
 
@@ -111,6 +116,7 @@ defmodule Flowy.Support.Cache do
   """
   @spec delete(cache, key) :: {:error, :not_found} | {:ok, :deleted}
   def delete(%__MODULE__{store: store}, key) do
+    Telemetry.event(:cache_deleted, %{}, %{key: key, store: store})
     store.delete(key)
   end
 
