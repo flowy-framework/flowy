@@ -42,7 +42,7 @@ defmodule Flowy.Support.Cache do
   @doc """
   Builds a cache struct.
   """
-  @spec build(keyword()) :: cache
+  @spec build(opts :: keyword()) :: cache
   def build(opts \\ []) do
     struct!(__MODULE__, options(opts))
   end
@@ -53,6 +53,12 @@ defmodule Flowy.Support.Cache do
   @spec read(key) :: any()
   def read(key) do
     build()
+    |> read(key)
+  end
+
+  @spec read(key, opts :: keyword()) :: any()
+  def read(key, opts) when is_atom(key) or is_binary(key) do
+    build(opts: opts)
     |> read(key)
   end
 

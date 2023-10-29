@@ -16,6 +16,8 @@ defmodule Flowy.Support.CacheTest do
 
     test "returns :ok with value when key exists and has not expired" do
       assert {:ok, "bar"} = Cache.read(:foo)
+
+      assert {:ok, "bar"} = Cache.read(:foo, ttl: 1)
     end
 
     test "returns :error when key does not exist" do
