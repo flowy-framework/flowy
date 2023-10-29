@@ -22,6 +22,21 @@
 
 <!-- MDOC !-->
 
+**⚠️ Important Notice: Early Stage Development**
+We are delighted to introduce Flowy, a powerful and versatile software library. As we continue to refine and expand its capabilities, please be aware of the following:
+
+**🚧 Under Construction:**
+
+- Development Stage: Flowy is currently in its infancy. Rapid changes and updates are an integral part of this phase.
+- API Stability: Expect fluctuations in the API. Future versions may introduce changes that could disrupt existing implementations.
+
+**🔗 Use at Your Own Risk:**
+
+- Testing: Ensure thorough testing when integrating Flowy into your projects.
+- Feedback: Your input is invaluable. Please report any issues or suggestions to help us improve.
+
+Thank you for choosing Flowy. We are excited to build something great together!
+
 ## Introduction
 
 Flowy is designed to streamline your Elixir development process, bringing the magic and simplicity of Rails-like frameworks into the Elixir world. Our goal is to reduce boilerplate, enhance productivity, and make development enjoyable.
