@@ -8,4 +8,5 @@ defmodule Flowy.Support.Cache.Store do
               {:ok, any()} | {:error, :expired | :not_found}
   @callback write(key :: String.t(), value :: any()) :: {:ok, any()}
   @callback delete(key :: String.t()) :: {:error, :not_found} | {:ok, :deleted}
+  @callback reset() :: true
 end
