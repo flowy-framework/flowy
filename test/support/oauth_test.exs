@@ -8,6 +8,14 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
   describe "OAuth" do
     @describetag :oauth_dynamic_supervisor
 
+    @tag :oauth_client
+    test "client/0" do
+      # Removing settings from the application environment
+      Application.put_env(:flowy, :oauth, nil)
+
+      assert OAuthDynamicSupervisor.clients() == []
+    end
+
     test "start_children/1" do
       with_mocks([
         {OAuth2.Client, [],

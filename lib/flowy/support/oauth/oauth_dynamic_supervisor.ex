@@ -100,8 +100,11 @@ defmodule Flowy.Support.OAuth.OAuthDynamicSupervisor do
     end
   end
 
-  defp clients() do
-    Application.fetch_env!(:flowy, :oauth)
-    |> Keyword.get(:clients)
+  def clients() do
+    Application.get_env(:flowy, :oauth, [])
+    |> items()
   end
+
+  defp items(nil), do: []
+  defp items(items), do: items |> Keyword.get(:clients)
 end
