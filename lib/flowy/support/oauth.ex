@@ -1,6 +1,22 @@
 defmodule Flowy.Support.OAuth do
   @moduledoc """
   This module is responsible for managing the OAuth clients.
+
+  ## Configuration
+
+  ```elixir
+  config :flowy, :oauth,
+    site: "https://hydra.mysite.net",
+    clients: [
+      %{
+        client_id: System.get_env("APP_CLIENT_ID"),
+        client_secret: System.get_env("APP_SECRET"),
+        audience: System.get_env(" APP_AUDIENCE"),
+        token_url: "/oauth2/token",
+        scopes: []
+      }
+    ]
+  ```
   """
   alias OAuth2.AccessToken
 

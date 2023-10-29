@@ -14,7 +14,7 @@ defmodule Flowy.Application do
       # TODO: Once we add another http client, we will want to
       # move this out of here and into the host application.
       {Finch, name: Flowy.Finch},
-      {Flowy.Support.OAuth.OAuthDynamicSupervisor,
+      {OAuthDynamicSupervisor,
        strategy: :one_for_one, name: Flowy.Support.OAuth.OAuthDynamicSupervisor},
       # TODO: Explore other alternatives to this approach
       {Task, &OAuthDynamicSupervisor.start_children/0}

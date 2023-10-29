@@ -1,25 +1,34 @@
 defmodule Flowy.Support.OAuth.OAuthServer do
+  require Logger
+
   @moduledoc """
   This module is responsible for managing the OAuth clients.
   """
   use GenServer
 
   def start_link(%{client_id: client_id} = client) do
+    Logger.info("OAuthServer.start_link/1: #{client_id}")
     GenServer.start_link(__MODULE__, client, name: name(client_id))
   end
 
   @impl true
   @spec init(map()) :: {:ok, Flowy.Support.OAuth.Client.t()}
-  def init(client) do
+  def init(%{client_id: client_id} = client) do
     oauth_client =
       client
       |> Flowy.Support.OAuth.build()
 
+    Logger.info("OAuthServer.init: #{client_id} configured")
     {:ok, oauth_client}
   end
 
   def token(client_id) do
-    GenServer.call(name(client_id), :token)
+    try do
+      GenServer.call(name(client_id), :token)
+    catch
+      :exit, e ->
+        {:error, e}
+    end
   end
 
   def stop(client_id) do
