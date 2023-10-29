@@ -1,4 +1,6 @@
 defmodule Flowy.Support.OAuth.OAuthDynamicSupervisor do
+  require Logger
+
   @moduledoc """
   This supervisor is responsible for starting all the OAuthServer processes.
 
@@ -21,6 +23,7 @@ defmodule Flowy.Support.OAuth.OAuthDynamicSupervisor do
 
   use DynamicSupervisor
 
+  @spec start_link(any()) :: {:error, any()} | {:ok, pid()}
   def start_link(init_arg) do
     DynamicSupervisor.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
@@ -35,31 +38,70 @@ defmodule Flowy.Support.OAuth.OAuthDynamicSupervisor do
   when the supervisor starts. But we want to do it in a
   Task so we don't block the supervisor.
   """
+  @spec start_children() :: {:ok, [{:ok, pid()}]} | {:error, any()}
   def start_children do
-    Application.fetch_env!(:flowy, :oauth)
+    clients()
+    |> log_children()
     |> start_children()
 
     :ok
   end
 
+  defp log_children([]) do
+    log_children(nil)
+  end
+
+  defp log_children(nil = clients) do
+    Logger.info("OAuthDynamicSupervisor.start_children/0: no clients configured")
+    clients
+  end
+
+  defp log_children(clients) do
+    Logger.info("OAuthDynamicSupervisor.start_children # of clients: #{length(clients)}")
+    clients
+  end
+
+  @doc """
+  Start OAuthServer processes for each configured client.
+  """
+  @spec start_children([Flowy.Support.OAuth.Client.t()]) ::
+          {:ok, [{:ok, pid()}]} | {:error, any()}
   def start_children([]), do: nil
   def start_children(nil), do: nil
 
   def start_children(clients) do
-    clients
-    |> Enum.each(&start_child/1)
+    pids =
+      clients
+      |> Enum.map(&start_child/1)
 
-    :ok
+    {:ok, pids}
   end
 
+  @doc """
+  Start an OAuthServer process for a given client.
+  """
+  @spec start_child(Flowy.Support.OAuth.Client.t()) ::
+          {:ok, pid()} | {:error, any()}
   def start_child(client) do
-    DynamicSupervisor.start_child(
-      __MODULE__,
-      # TODO: Explore the possibility of using a supervisor
-      # that starts the OAuthServer instead of the dynamic supervisor
-      # The dynamic supervisor could crash if one of the OAuthServer
-      # doesn't start.
-      {Flowy.Support.OAuth.OAuthServer, client}
-    )
+    case DynamicSupervisor.start_child(
+           __MODULE__,
+           # TODO: Explore the possibility of using a supervisor
+           # that starts the OAuthServer instead of the dynamic supervisor
+           # The dynamic supervisor could crash if one of the OAuthServer
+           # doesn't start.
+           {Flowy.Support.OAuth.OAuthServer, client}
+         ) do
+      {:ok, pid} ->
+        {:ok, pid}
+
+      {:error, something} ->
+        Logger.error("OAuthDynamicSupervisor.start_child/1: #{inspect(something)}")
+        {:error, something}
+    end
+  end
+
+  defp clients() do
+    Application.fetch_env!(:flowy, :oauth)
+    |> Keyword.get(:clients)
   end
 end
