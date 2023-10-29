@@ -17,7 +17,10 @@ defmodule Flowy.Application do
       {OAuthDynamicSupervisor,
        strategy: :one_for_one, name: Flowy.Support.OAuth.OAuthDynamicSupervisor},
       # TODO: Explore other alternatives to this approach
-      {Task, &OAuthDynamicSupervisor.start_children/0}
+      {Task, &OAuthDynamicSupervisor.start_children/0},
+      # TODO: Once we add another cache store, we will want to
+      # move this out of here and into the host application.
+      Flowy.Support.Cache.MemoryStore
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

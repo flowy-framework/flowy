@@ -49,6 +49,7 @@ defmodule Flowy.Support.Cache.MemoryStoreTest do
     @describetag :memory_store
     setup do
       start_supervised(MemoryStore)
+      MemoryStore.reset()
       :ok
     end
 

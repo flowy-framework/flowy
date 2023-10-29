@@ -120,6 +120,15 @@ defmodule Flowy.Support.Cache.MemoryStore do
     end
   end
 
+  @doc """
+  Reset the cache
+  """
+  @spec reset() :: true
+  @impl Flowy.Support.Cache.Store
+  def reset do
+    :ets.delete_all_objects(@table)
+  end
+
   # Return current timestamp
   defp timestamp, do: DateTime.to_unix(DateTime.utc_now())
 end
