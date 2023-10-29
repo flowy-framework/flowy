@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="140px" src="logos/logo-small.png">
+  <img width="140px" src="assets/logo-small.png">
   
   <h1 align="center">Flowy</h1>
   

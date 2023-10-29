@@ -1,23 +1,25 @@
 defmodule Flowy.MixProject do
   use Mix.Project
 
+  @repo_url "https://github.com/flowy-framework/flowy"
+  @name "Flowy"
+  @version "0.1.0"
+
   def project do
     [
       app: :flowy,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.14",
+      description: "A modern framework that promises a smooth developer experience.",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       deps: deps(),
-
+      package: package(),
       # Docs
-      name: "Flowy",
-      source_url: "https://github.com/flowy-framework/flowy",
-      homepage_url: "",
-      docs: [
-        # The main page in the docs
-        main: "Flowy"
-      ]
+      name: @name,
+      source_url: @repo_url,
+      homepage_url: "https://hex.pm/packages/flowy",
+      docs: docs()
     ]
   end
 
@@ -26,6 +28,25 @@ defmodule Flowy.MixProject do
     [
       extra_applications: [:logger],
       mod: {Flowy.Application, []}
+    ]
+  end
+
+  defp docs do
+    [
+      logo: "assets/logo-small.png",
+      source_ref: "v#{@version}",
+      source_url: @repo_url,
+      main: @name,
+      extras: []
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => @repo_url
+      }
     ]
   end
 
