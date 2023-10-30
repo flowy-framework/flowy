@@ -46,7 +46,8 @@ defmodule Flowy.MixProject do
       licenses: ["MIT"],
       links: %{
         "GitHub" => @repo_url
-      }
+      },
+      files: ~w(priv)
     ]
   end
 
@@ -72,7 +73,11 @@ defmodule Flowy.MixProject do
       {:finch, "~> 0.16"},
       {:oauth2, "~> 2.0"},
       {:telemetry, "~> 1.2"},
-      {:prom_ex, "~> 1.9.0"}
+      {:prom_ex, "~> 1.9.0"},
+      {:phoenix, "~> 1.7.0"},
+      # Database
+      {:ecto_sql, "~> 3.6"},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
 end

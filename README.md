@@ -39,4 +39,8 @@ Thank you for choosing Flowy. We are excited to build something great together!
 
 ## Introduction
 
-Flowy is designed to streamline your Elixir development process, bringing the magic and simplicity of Rails-like frameworks into the Elixir world. Our goal is to reduce boilerplate, enhance productivity, and make development enjoyable.
+Flowy is designed to streamline your Elixir development process by reducing boilerplate, enhancing productivity, and making development enjoyable. We bring a framework that embodies the magic and simplicity of popular web frameworks, tailored specifically for the Elixir environment.
+
+## Embracing Code Generation Over Metaprogramming
+
+Flowy champions the use of convention over configuration while taking a different path from the metaprogramming-heavy frameworks. We generate the necessary boilerplate code for you, ensuring transparency, performance, and a more intuitive learning experience.
