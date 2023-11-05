@@ -37,7 +37,12 @@ defmodule Mix.Flowy.Query do
   @doc """
   Builds a query struct from the given arguments.
   """
-  @spec new(schema_name :: string, schema_plural :: string, cli_attrs :: list, opts :: Keyword.t()) :: t
+  @spec new(
+          schema_name :: string,
+          schema_plural :: string,
+          cli_attrs :: list,
+          opts :: Keyword.t()
+        ) :: t
   def new(schema_name, schema_plural, cli_attrs, opts) do
     schema = Mix.Phoenix.Schema.new("Schemas.#{schema_name}", schema_plural, cli_attrs, opts)
 

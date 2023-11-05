@@ -22,7 +22,12 @@ defmodule Mix.Flowy.Core do
   @doc """
   Builds a schema struct from the given arguments.
   """
-  @spec new(schema_name :: String.t(), schema_plural :: String.t(), cli_attrs :: list, opts :: Keyword.t()) :: t
+  @spec new(
+          schema_name :: String.t(),
+          schema_plural :: String.t(),
+          cli_attrs :: list,
+          opts :: Keyword.t()
+        ) :: t
   def new(schema_name, schema_plural, cli_attrs, opts) do
     schema = Mix.Phoenix.Schema.new("Schemas.#{schema_name}", schema_plural, cli_attrs, opts)
 
