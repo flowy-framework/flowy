@@ -611,15 +611,15 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(app_path(app, "lib/custom_path/repo.ex"), "Ecto.Adapters.Postgres")
 
       assert_file(root_path(app, "config/dev.exs"), [
-        ~r/username: "postgres"/,
-        ~r/password: "postgres"/,
-        ~r/hostname: "localhost"/
+        ~r/username: System.get_env(\"DBUSER\") || \"postgres\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"postgres\"/,
+        ~r/hostname: System.get_env(\"DBHOST\") || \"localhost\"/
       ])
 
       assert_file(root_path(app, "config/test.exs"), [
-        ~r/username: "postgres"/,
-        ~r/password: "postgres"/,
-        ~r/hostname: "localhost"/
+        ~r/username: System.get_env(\"DBUSER\") || \"postgres\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"postgres\"/,
+        ~r/hostname: System.get_env(\"DBHOST\") || \"localhost\"/
       ])
 
       assert_file(root_path(app, "config/runtime.exs"), [~r/url: database_url/])
@@ -637,8 +637,8 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(app_path(app, "mix.exs"), ":myxql")
       assert_file(app_path(app, "lib/custom_path/repo.ex"), "Ecto.Adapters.MyXQL")
 
-      assert_file(root_path(app, "config/dev.exs"), [~r/username: "root"/, ~r/password: ""/])
-      assert_file(root_path(app, "config/test.exs"), [~r/username: "root"/, ~r/password: ""/])
+      assert_file(root_path(app, "config/dev.exs"), [~r/username: System.get_env(\"DBUSER\") || \"root\"/, ~r/password: System.get_env(\"DBPASSWORD\") || \"\"/])
+      assert_file(root_path(app, "config/test.exs"), [~r/username: System.get_env(\"DBUSER\") || \"root\"/, ~r/password: System.get_env(\"DBPASSWORD\") || \"\"/])
       assert_file(root_path(app, "config/runtime.exs"), [~r/url: database_url/])
 
       assert_file(web_path(app, "test/support/conn_case.ex"), "DataCase.setup_sandbox(tags)")
@@ -684,13 +684,13 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(app_path(app, "lib/custom_path/repo.ex"), "Ecto.Adapters.Tds")
 
       assert_file(root_path(app, "config/dev.exs"), [
-        ~r/username: "sa"/,
-        ~r/password: "some!Password"/
+        ~r/username: System.get_env(\"DBUSER\") || \"sa\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"some!Password\"/
       ])
 
       assert_file(root_path(app, "config/test.exs"), [
-        ~r/username: "sa"/,
-        ~r/password: "some!Password"/
+        ~r/username: System.get_env(\"DBUSER\") || \"sa\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"some!Password\"/
       ])
 
       assert_file(root_path(app, "config/runtime.exs"), [~r/url: database_url/])

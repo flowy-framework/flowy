@@ -40,7 +40,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       end)
 
       assert_file("flowy_app/.formatter.exs", fn file ->
-        assert file =~ "import_deps: [:ecto, :ecto_sql, :phoenix]"
+        assert file =~ "import_deps: [:open_api_spex, :ecto, :ecto_sql, :phoenix]"
         assert file =~ "subdirectories: [\"priv/*/migrations\"]"
         assert file =~ "plugins: [Phoenix.LiveView.HTMLFormatter]"
 
@@ -351,7 +351,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       end)
 
       assert_file("flowy_app/.formatter.exs", fn file ->
-        assert file =~ "import_deps: [:phoenix]"
+        assert file =~ "import_deps: [:open_api_spex, :phoenix]"
         assert file =~ "inputs: [\"*.{ex,exs}\", \"{config,lib,test}/**/*.{ex,exs}\"]"
         refute file =~ "subdirectories:"
       end)
@@ -493,7 +493,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       end)
 
       assert_file("flowy_app/.formatter.exs", fn file ->
-        assert file =~ "import_deps: [:ecto, :ecto_sql, :phoenix]"
+        assert file =~ "import_deps: [:open_api_spex, :ecto, :ecto_sql, :phoenix]"
         assert file =~ "subdirectories: [\"priv/*/migrations\"]"
 
         assert file =~
@@ -530,6 +530,8 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       assert_file("flowy_app/.gitignore")
       assert_file("flowy_app/docs/guides/directory_structure.md")
+      assert_file("flowy_app/.github/dependabot.yml")
+      assert_file("flowy_app/.github/workflows/test.yml")
       assert_file("flowy_app/.gitignore", ~r/\n$/)
       assert_file("flowy_app/priv/static/assets/app.css")
       assert_file("flowy_app/priv/static/assets/app.js")
@@ -550,7 +552,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       Mix.Tasks.Flowy.New.run([@app_name, "--no-ecto"])
 
       assert_file("flowy_app/.formatter.exs", fn file ->
-        assert file =~ "import_deps: [:phoenix]"
+        assert file =~ "import_deps: [:open_api_spex, :phoenix]"
         assert file =~ "plugins: [Phoenix.LiveView.HTMLFormatter]"
         assert file =~ "inputs: [\"*.{heex,ex,exs}\", \"{config,lib,test}/**/*.{heex,ex,exs}\"]"
         refute file =~ "subdirectories:"
@@ -645,15 +647,15 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert_file("custom_path/mix.exs", ":postgrex")
 
       assert_file("custom_path/config/dev.exs", [
-        ~r/username: "postgres"/,
-        ~r/password: "postgres"/,
-        ~r/hostname: "localhost"/
+        ~r/username: System.get_env(\"DBUSER\") || \"postgres\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"postgres\"/,
+        ~r/hostname: System.get_env(\"DBHOST\") || \"localhost\"/
       ])
 
       assert_file("custom_path/config/test.exs", [
-        ~r/username: "postgres"/,
-        ~r/password: "postgres"/,
-        ~r/hostname: "localhost"/
+        ~r/username: System.get_env(\"DBUSER\") || \"postgres\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"postgres\"/,
+        ~r/hostname: System.get_env(\"DBHOST\") || \"localhost\"/
       ])
 
       assert_file("custom_path/config/runtime.exs", [~r/url: database_url/])
@@ -674,8 +676,8 @@ defmodule Mix.Tasks.Flowy.NewTest do
       Mix.Tasks.Flowy.New.run([project_path, "--database", "mysql"])
 
       assert_file("custom_path/mix.exs", ":myxql")
-      assert_file("custom_path/config/dev.exs", [~r/username: "root"/, ~r/password: ""/])
-      assert_file("custom_path/config/test.exs", [~r/username: "root"/, ~r/password: ""/])
+      assert_file("custom_path/config/dev.exs", [~r/username: System.get_env(\"DBUSER\") || \"root\"/, ~r/password: System.get_env(\"DBPASSWORD\") || \"\"/])
+      assert_file("custom_path/config/test.exs", [~r/username: System.get_env(\"DBUSER\") || \"root\"/, ~r/password: System.get_env(\"DBPASSWORD\") || \"\"/])
       assert_file("custom_path/config/runtime.exs", [~r/url: database_url/])
       assert_file("custom_path/lib/custom_path/repo.ex", "Ecto.Adapters.MyXQL")
 
@@ -728,13 +730,13 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert_file("custom_path/mix.exs", ":tds")
 
       assert_file("custom_path/config/dev.exs", [
-        ~r/username: "sa"/,
-        ~r/password: "some!Password"/
+        ~r/username: System.get_env(\"DBUSER\") || \"sa\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"some!Password\"/
       ])
 
       assert_file("custom_path/config/test.exs", [
-        ~r/username: "sa"/,
-        ~r/password: "some!Password"/
+        ~r/username: System.get_env(\"DBUSER\") || \"sa\"/,
+        ~r/password: System.get_env(\"DBPASSWORD\") || \"some!Password\"/
       ])
 
       assert_file("custom_path/config/runtime.exs", [~r/url: database_url/])

@@ -22,7 +22,13 @@ defmodule Flowy.New.Single do
      "phx_single/README.md": "README.md",
      "phx_single/formatter.exs": ".formatter.exs",
      "phx_single/gitignore": ".gitignore",
+     "phx_single/dockerignore": ".dockerignore",
+     "phx_single/credo.exs": ".credo.exs",
+     "phx_single/Dockerfile": "Dockerfile",
+     "phx_single/renovate.json": "renovate.json",
      "phx_single/docs/guides/directory_structure.md": "docs/guides/directory_structure.md",
+     "phx_single/github/dependabot.yml": ".github/dependabot.yml",
+     "phx_single/github/workflows/test.yml": ".github/workflows/test.yml",
      "phx_test/support/conn_case.ex": "test/support/conn_case.ex",
      "phx_single/test/test_helper.exs": "test/test_helper.exs",
      "phx_test/controllers/error_json_test.exs":

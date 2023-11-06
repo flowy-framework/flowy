@@ -354,18 +354,18 @@ defmodule Flowy.New.Generator do
   defp socket_db_config(app, module, user, pass) do
     [
       dev: [
-        username: user,
-        password: pass,
-        hostname: "localhost",
+        username: {:literal, ~s|System.get_env("DBUSER") \|\| "#{user}"|} ,
+        password: {:literal, ~s|System.get_env("DBPASSWORD") \|\| "#{pass}"|} ,
+        hostname: {:literal, ~s|System.get_env("DBHOST") \|\| "localhost"|} ,
         database: "#{app}_dev",
         stacktrace: true,
         show_sensitive_data_on_connection_error: true,
         pool_size: 10
       ],
       test: [
-        username: user,
-        password: pass,
-        hostname: "localhost",
+        username: {:literal, ~s|System.get_env("DBUSER") \|\| "#{user}"|} ,
+        password: {:literal, ~s|System.get_env("DBPASSWORD") \|\| "#{pass}"|} ,
+        hostname: {:literal, ~s|System.get_env("DBHOST") \|\| "localhost"|} ,
         database: {:literal, ~s|"#{app}_test\#{System.get_env("MIX_TEST_PARTITION")}"|},
         pool: Ecto.Adapters.SQL.Sandbox,
         pool_size: 10
