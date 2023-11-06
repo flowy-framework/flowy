@@ -41,7 +41,6 @@ defmodule Flowy.New.Web do
 
   template(:html, [
     {:eex, :web,
-     "phx_web/components/core_components.ex": "lib/:web_app/components/core_components.ex",
      "phx_web/components/layouts.ex": "lib/:web_app/components/layouts.ex",
      "phx_web/controllers/page_controller.ex": "lib/:web_app/controllers/page_controller.ex",
      "phx_web/controllers/error_html.ex": "lib/:web_app/controllers/error_html.ex",
@@ -51,7 +50,6 @@ defmodule Flowy.New.Web do
      "phx_test/controllers/page_controller_test.exs":
        "test/:web_app/controllers/page_controller_test.exs",
      "phx_test/controllers/error_html_test.exs": "test/:web_app/controllers/error_html_test.exs",
-     "phx_assets/topbar.js": "assets/vendor/topbar.js",
      "phx_web/components/layouts/root.html.heex": "lib/:web_app/components/layouts/root.html.heex",
      "phx_web/components/layouts/app.html.heex": "lib/:web_app/components/layouts/app.html.heex"}
   ])

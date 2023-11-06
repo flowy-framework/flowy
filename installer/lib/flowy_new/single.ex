@@ -50,7 +50,8 @@ defmodule Flowy.New.Single do
      "phx_web/controllers/error_html.ex": "lib/:lib_web_name/controllers/error_html.ex",
      "phx_test/controllers/error_html_test.exs":
        "test/:lib_web_name/controllers/error_html_test.exs",
-     "phx_web/components/core_components.ex": "lib/:lib_web_name/components/core_components.ex",
+     "phx_web/live/home_live.ex": "lib/:lib_web_name/live/home_live.ex",
+     "phx_web/live/home_live.html.heex": "lib/:lib_web_name/live/home_live.html.heex",
      "phx_web/controllers/page_controller.ex": "lib/:lib_web_name/controllers/page_controller.ex",
      "phx_web/controllers/page_html.ex": "lib/:lib_web_name/controllers/page_html.ex",
      "phx_web/controllers/page_html/home.html.heex":
@@ -61,8 +62,12 @@ defmodule Flowy.New.Single do
        "lib/:lib_web_name/components/layouts/root.html.heex",
      "phx_web/components/layouts/app.html.heex":
        "lib/:lib_web_name/components/layouts/app.html.heex",
-     "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"},
-    {:eex, :web, "phx_assets/logo.svg": "priv/static/images/logo.svg"}
+     "phx_web/components/layouts/live.html.heex":
+       "lib/:lib_web_name/components/layouts/live.html.heex",
+     "phx_web/components/layouts/unauthenticated.html.heex":
+       "lib/:lib_web_name/components/layouts/unauthenticated.html.heex",
+     "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"}
+    # {:eex, :web, "phx_assets/logo.png": "priv/static/images/logo.png"}
   ])
 
   template(:ecto, [
@@ -87,7 +92,7 @@ defmodule Flowy.New.Single do
 
   template(:js, [
     {:eex, :web,
-     "phx_assets/app.js": "assets/js/app.js", "phx_assets/topbar.js": "assets/vendor/topbar.js"}
+     "phx_assets/app.js": "assets/js/app.js"}
   ])
 
   template(:no_js, [

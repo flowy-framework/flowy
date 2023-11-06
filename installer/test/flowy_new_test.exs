@@ -21,11 +21,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
     end
   end
 
-  test "components are in sync with priv" do
-    assert File.read!("../priv/templates/phx.gen.live/core_components.ex") ==
-             File.read!("templates/phx_web/components/core_components.ex")
-  end
-
   test "returns the version" do
     Mix.Tasks.Flowy.New.run(["-v"])
     assert_received {:mix_shell, :info, ["Flowy installer v" <> _]}
@@ -110,10 +105,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
         ~r/defmodule FlowyAppWeb.ErrorJSON/
       )
 
-      assert_file("flowy_app/lib/flowy_app_web/components/core_components.ex", fn file ->
-        assert file =~ "defmodule FlowyAppWeb.CoreComponents"
-      end)
-
       assert_file("flowy_app/lib/flowy_app_web/components/layouts.ex", fn file ->
         assert file =~ "defmodule FlowyAppWeb.Layouts"
       end)
@@ -138,7 +129,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert_file("flowy_app/lib/flowy_app_web/controllers/page_html/home.html.heex")
 
       # assets
-      assert_file("flowy_app/priv/static/images/logo.svg")
+      assert_file("flowy_app/priv/static/images/logo.png")
 
       assert_file("flowy_app/.gitignore", fn file ->
         assert file =~ "/priv/static/assets/"
@@ -330,7 +321,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
         assert file =~ ~r/\n$/
       end)
 
-      refute File.exists?("flowy_app/priv/static/images/logo.svg")
+      refute File.exists?("flowy_app/priv/static/images/logo.png")
 
       assert_file("flowy_app/config/dev.exs", ~r/watchers: \[\]/)
 

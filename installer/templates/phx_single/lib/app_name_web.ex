@@ -52,7 +52,8 @@ defmodule <%= @web_namespace %> do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {<%= @web_namespace %>.Layouts, :app}
+        layout: {<%= @web_namespace %>.Layouts, :live},
+        container: {:main, class: "main-content w-full px-[var(--margin-x)] pb-8"}
 
       unquote(html_helpers())
     end
@@ -84,9 +85,10 @@ defmodule <%= @web_namespace %> do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import <%= @web_namespace %>.CoreComponents<%= if @gettext do %>
+      <%= if @gettext do %>
       import <%= @web_namespace %>.Gettext<% end %>
 
+      use Palette
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

@@ -57,7 +57,8 @@ defmodule Flowy.New.MixProject do
 
   def deps do
     [
-      {:ex_doc, "~> 0.24", only: :docs}
+      {:ex_doc, "~> 0.24", only: :docs},
+      {:palette, git: "https://github.com/livesup-dev/palette", tag: "0.2.12"},
     ]
   end
 

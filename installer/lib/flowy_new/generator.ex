@@ -31,6 +31,7 @@ defmodule Flowy.New.Generator do
           path = Path.join(root, source)
 
           if format in [:config, :prod_config, :eex] do
+            IO.inspect(path)
             compiled = EEx.compile_file(path)
 
             quote do

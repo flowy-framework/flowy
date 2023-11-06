@@ -162,11 +162,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       end)
 
       assert_file(
-        web_path(@app, "lib/#{@app}_web/components/core_components.ex"),
-        "defmodule PhxUmbWeb.CoreComponents"
-      )
-
-      assert_file(
         web_path(@app, "lib/#{@app}_web/components/layouts.ex"),
         "defmodule PhxUmbWeb.Layouts"
       )
