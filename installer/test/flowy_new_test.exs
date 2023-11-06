@@ -220,6 +220,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert_file("flowy_app/priv/repo/seeds.exs", ~r"FlowyApp.Repo.insert!")
       assert_file("flowy_app/test/support/data_case.ex", ~r"defmodule FlowyApp.DataCase")
       assert_file("flowy_app/priv/repo/migrations/.formatter.exs", ~r"import_deps: \[:ecto_sql\]")
+      assert_file("flowy_app/priv/repo/migrations/20230906161135_add_oban_jobs_table.exs")
 
       # LiveView
       refute_file("flowy_app/lib/flowy_app_web/live/page_live_view.ex")

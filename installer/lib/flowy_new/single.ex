@@ -69,6 +69,7 @@ defmodule Flowy.New.Single do
     {:eex, :app,
      "phx_ecto/repo.ex": "lib/:app/repo.ex",
      "phx_ecto/formatter.exs": "priv/repo/migrations/.formatter.exs",
+     "phx_ecto/20230906161135_add_oban_jobs_table.exs": "priv/repo/migrations/20230906161135_add_oban_jobs_table.exs",
      "phx_ecto/seeds.exs": "priv/repo/seeds.exs",
      "phx_ecto/data_case.ex": "test/support/data_case.ex"},
     {:keep, :app, "phx_ecto/priv/repo/migrations": "priv/repo/migrations"}
