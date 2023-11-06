@@ -122,10 +122,11 @@ defmodule Mix.Tasks.Flowy.NewTest do
       end)
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/root.html.heex", fn file ->
-        assert file =~ ~s|<meta name="csrf-token" content={get_csrf_token()} />|
+        assert file =~ ~s|<.html>\n  <.head title_suffix=\"Flowy\" />\n  <.body>\n    <.preloader />\n|
       end)
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/app.html.heex")
+      assert_file("flowy_app/lib/flowy_app_web/components/layouts/live.html.heex")
       assert_file("flowy_app/lib/flowy_app_web/controllers/page_html/home.html.heex")
 
       # assets
@@ -145,8 +146,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       # tailwind
       assert_file("flowy_app/assets/css/app.css")
       assert_file "flowy_app/assets/tailwind.config.js", fn file ->
-        assert file =~ "flowy_app_web.ex"
-        assert file =~ "flowy_app_web/**/*.*ex"
+        assert file =~ "module.exports = {\n  content: [\n    \"./js/**/*.js\",\n    \"./css/**/*.css\",\n"
       end
 
       assert_file("flowy_app/assets/vendor/heroicons/LICENSE.md")
@@ -217,8 +217,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       refute_file("flowy_app/lib/flowy_app_web/live/page_live_view.ex")
 
       assert_file("flowy_app/assets/js/app.js", fn file ->
-        assert file =~ ~s|import {LiveSocket} from "phoenix_live_view"|
-        assert file =~ ~s|liveSocket.connect()|
+        assert file =~ ~s|import \"palette\"\n|
       end)
 
       assert_file("flowy_app/mix.exs", fn file ->

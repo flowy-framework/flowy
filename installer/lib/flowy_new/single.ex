@@ -66,8 +66,8 @@ defmodule Flowy.New.Single do
        "lib/:lib_web_name/components/layouts/live.html.heex",
      "phx_web/components/layouts/unauthenticated.html.heex":
        "lib/:lib_web_name/components/layouts/unauthenticated.html.heex",
-     "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"}
-    # {:eex, :web, "phx_assets/logo.png": "priv/static/images/logo.png"}
+     "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"},
+     {:text, :web, "phx_assets/logo.png": "priv/static/images/logo.png"}
   ])
 
   template(:ecto, [
@@ -83,7 +83,8 @@ defmodule Flowy.New.Single do
   template(:css, [
     {:eex, :web,
      "phx_assets/app.css": "assets/css/app.css",
-     "phx_assets/tailwind.config.js": "assets/tailwind.config.js"},
+     "phx_assets/tailwind.config.js": "assets/tailwind.config.js",
+     "phx_assets/package.json": "assets/package.json"},
     {:eex, :web,
      "phx_assets/heroicons/LICENSE.md": "assets/vendor/heroicons/LICENSE.md",
      "phx_assets/heroicons/UPGRADE.md": "assets/vendor/heroicons/UPGRADE.md"},

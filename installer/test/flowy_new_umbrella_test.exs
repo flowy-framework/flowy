@@ -167,7 +167,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       )
 
       assert_file(web_path(@app, "lib/#{@app}_web/components/layouts/root.html.heex"), fn file ->
-        assert file =~ ~s|<meta name="csrf-token" content={get_csrf_token()} />|
+        assert file =~ ~s|<.html>\n  <.head title_suffix=\"Flowy\" />\n  <.body>\n    <.preloader />\n|
       end)
 
       assert_file(web_path(@app, "lib/#{@app}_web/components/layouts/app.html.heex"))
@@ -179,8 +179,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(web_path(@app, "assets/css/app.css"))
 
       assert_file web_path(@app, "assets/tailwind.config.js"), fn file ->
-        assert file =~ "phx_umb_web.ex"
-        assert file =~ "phx_umb_web/**/*.*ex"
+        assert file =~ "module.exports = {\n  content: [\n    \"./js/**/*.js\",\n"
       end
 
       assert_file(web_path(@app, "priv/static/favicon.ico"))
@@ -246,7 +245,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
 
       # Live
       assert_file(web_path(@app, "assets/js/app.js"), fn file ->
-        assert file =~ ~s[import {LiveSocket} from "phoenix_live_view"]
+        assert file =~ ~s[import \"palette\"]
       end)
 
       assert_file(root_path(@app, "config/config.exs"), fn file ->
@@ -460,10 +459,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       end)
 
       assert_file(web_path(@app, "assets/js/app.js"), fn file ->
-        assert file =~ ~s|// import {Socket} from "phoenix"|
-        assert file =~ ~s|// import {LiveSocket} from "phoenix_live_view"|
-        assert file =~ ~s|// import topbar from "../vendor/topbar"|
-        assert file =~ ~s|// liveSocket.connect()|
+        assert file =~ ~s|import \"palette\"\n|
       end)
     end)
   end
