@@ -100,3 +100,42 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.<% end %>
 end
+
+config :flowy, :oauth,
+  site: "",
+  clients: []
+
+config :flowy, :prometheus,
+  opt_app: :<%= @app_name %>,
+  module_name:  <%= @app_module %>,
+  datasource_id: System.get_env("PROM_DATASOURCE_ID"),
+  plugins: [
+    :application,
+    :beam,
+    :phoenix,
+    :ecto,
+    :phoenix_live_view
+  ],
+  dashboards: [
+    :application,
+    :beam,
+    :phoenix,
+    :ecto,
+    :phoenix_live_view
+  ]
+
+# TODO: We could probably move this configuration into the prometheus config
+config :<%= @app_name %>, Flowy.Prometheus,
+  # disabled: true,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  grafana: [
+    host: System.get_env("GRAFANA_HOST"),
+    # auth_token: System.get_env("GRAFANA_TOKEN") || raise("GRAFANA_TOKEN is required"),
+    username: System.get_env("GRAFANA_USERNAME") || "admin",
+    password: System.get_env("GRAFANA_PASSWORD") || "grafana",
+    upload_dashboards_on_start: true,
+    folder_name: "Flowy App Dashboards",
+    annotate_app_lifecycle: true
+  ]

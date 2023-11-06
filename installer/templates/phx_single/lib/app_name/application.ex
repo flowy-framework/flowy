@@ -8,6 +8,7 @@ defmodule <%= @app_module %>.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Flowy.Prometheus,
       <%= @web_namespace %>.Telemetry,<%= if @ecto do %>
       <%= @app_module %>.Repo,<% end %><%= if @adapter_app == :ecto_sqlite3 do %>
       {Ecto.Migrator,
@@ -17,6 +18,7 @@ defmodule <%= @app_module %>.Application do
       {Phoenix.PubSub, name: <%= @app_module %>.PubSub},<%= if @mailer do %>
       # Start the Finch HTTP client for sending emails
       {Finch, name: <%= @app_module %>.Finch},<% end %>
+      {Oban, Application.fetch_env!(:<%= @app_name %>, Oban)},
       # Start a worker by calling: <%= @app_module %>.Worker.start_link(arg)
       # {<%= @app_module %>.Worker, arg},
       # Start to serve requests, typically the last entry

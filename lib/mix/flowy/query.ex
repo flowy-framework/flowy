@@ -38,8 +38,8 @@ defmodule Mix.Flowy.Query do
   Builds a query struct from the given arguments.
   """
   @spec new(
-          schema_name :: string,
-          schema_plural :: string,
+          schema_name :: String.t(),
+          schema_plural :: String.t(),
           cli_attrs :: list,
           opts :: Keyword.t()
         ) :: t

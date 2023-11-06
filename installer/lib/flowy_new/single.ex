@@ -22,7 +22,13 @@ defmodule Flowy.New.Single do
      "phx_single/README.md": "README.md",
      "phx_single/formatter.exs": ".formatter.exs",
      "phx_single/gitignore": ".gitignore",
+     "phx_single/dockerignore": ".dockerignore",
+     "phx_single/credo.exs": ".credo.exs",
+     "phx_single/Dockerfile": "Dockerfile",
+     "phx_single/renovate.json": "renovate.json",
      "phx_single/docs/guides/directory_structure.md": "docs/guides/directory_structure.md",
+     "phx_single/github/dependabot.yml": ".github/dependabot.yml",
+     "phx_single/github/workflows/test.yml": ".github/workflows/test.yml",
      "phx_test/support/conn_case.ex": "test/support/conn_case.ex",
      "phx_single/test/test_helper.exs": "test/test_helper.exs",
      "phx_test/controllers/error_json_test.exs":
@@ -63,6 +69,7 @@ defmodule Flowy.New.Single do
     {:eex, :app,
      "phx_ecto/repo.ex": "lib/:app/repo.ex",
      "phx_ecto/formatter.exs": "priv/repo/migrations/.formatter.exs",
+     "phx_ecto/20230906161135_add_oban_jobs_table.exs": "priv/repo/migrations/20230906161135_add_oban_jobs_table.exs",
      "phx_ecto/seeds.exs": "priv/repo/seeds.exs",
      "phx_ecto/data_case.ex": "test/support/data_case.ex"},
     {:keep, :app, "phx_ecto/priv/repo/migrations": "priv/repo/migrations"}
