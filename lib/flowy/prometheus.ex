@@ -22,8 +22,8 @@ defmodule Flowy.Prometheus do
 
   def plugin(:phoenix) do
     module_name = config(:module_name)
-    router = "#{module_name}Web.Router" |> String.to_existing_atom()
-    endpoint = "#{module_name}Web.Endpoint" |> String.to_existing_atom()
+    router = "#{module_name}.Router" |> String.to_existing_atom()
+    endpoint = "#{module_name}.Endpoint" |> String.to_existing_atom()
     {Plugins.Phoenix, router: router, endpoint: endpoint}
   end
 
