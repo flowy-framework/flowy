@@ -69,8 +69,7 @@ defmodule Mix.Tasks.Flowy.New.WebTest do
       Mix.Tasks.Flowy.New.Web.run(["testweb"])
 
       assert_file "testweb/assets/tailwind.config.js", fn file ->
-        assert file =~ "testweb.ex"
-        assert file =~ "testweb/**/*.*ex"
+        assert file =~ "module.exports = {\n  content: [\n    \"./js/**/*.js\",\n    \"./css/**/*.css\",\n"
       end
     end
   end

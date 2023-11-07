@@ -21,11 +21,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
     end
   end
 
-  test "components are in sync with priv" do
-    assert File.read!("../priv/templates/phx.gen.live/core_components.ex") ==
-             File.read!("templates/phx_web/components/core_components.ex")
-  end
-
   test "returns the version" do
     Mix.Tasks.Flowy.New.run(["-v"])
     assert_received {:mix_shell, :info, ["Flowy installer v" <> _]}
@@ -110,10 +105,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
         ~r/defmodule FlowyAppWeb.ErrorJSON/
       )
 
-      assert_file("flowy_app/lib/flowy_app_web/components/core_components.ex", fn file ->
-        assert file =~ "defmodule FlowyAppWeb.CoreComponents"
-      end)
-
       assert_file("flowy_app/lib/flowy_app_web/components/layouts.ex", fn file ->
         assert file =~ "defmodule FlowyAppWeb.Layouts"
       end)
@@ -131,14 +122,15 @@ defmodule Mix.Tasks.Flowy.NewTest do
       end)
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/root.html.heex", fn file ->
-        assert file =~ ~s|<meta name="csrf-token" content={get_csrf_token()} />|
+        assert file =~ ~s|<.html>\n  <.head title_suffix=\"Flowy\" />\n  <.body>\n    <.preloader />\n|
       end)
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/app.html.heex")
+      assert_file("flowy_app/lib/flowy_app_web/components/layouts/live.html.heex")
       assert_file("flowy_app/lib/flowy_app_web/controllers/page_html/home.html.heex")
 
       # assets
-      assert_file("flowy_app/priv/static/images/logo.svg")
+      assert_file("flowy_app/priv/static/images/logo.png")
 
       assert_file("flowy_app/.gitignore", fn file ->
         assert file =~ "/priv/static/assets/"
@@ -154,8 +146,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       # tailwind
       assert_file("flowy_app/assets/css/app.css")
       assert_file "flowy_app/assets/tailwind.config.js", fn file ->
-        assert file =~ "flowy_app_web.ex"
-        assert file =~ "flowy_app_web/**/*.*ex"
+        assert file =~ "module.exports = {\n  content: [\n    \"./js/**/*.js\",\n    \"./css/**/*.css\",\n"
       end
 
       assert_file("flowy_app/assets/vendor/heroicons/LICENSE.md")
@@ -226,8 +217,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       refute_file("flowy_app/lib/flowy_app_web/live/page_live_view.ex")
 
       assert_file("flowy_app/assets/js/app.js", fn file ->
-        assert file =~ ~s|import {LiveSocket} from "phoenix_live_view"|
-        assert file =~ ~s|liveSocket.connect()|
+        assert file =~ ~s|import \"palette\"\n|
       end)
 
       assert_file("flowy_app/mix.exs", fn file ->
@@ -330,7 +320,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
         assert file =~ ~r/\n$/
       end)
 
-      refute File.exists?("flowy_app/priv/static/images/logo.svg")
+      refute File.exists?("flowy_app/priv/static/images/logo.png")
 
       assert_file("flowy_app/config/dev.exs", ~r/watchers: \[\]/)
 

@@ -102,11 +102,12 @@ lib/<%= @app_name %>_web
 │   └── page_html
 │       └── home.html.heex
 ├── components
-│   ├── core_components.ex
 │   ├── layouts.ex
 │   └── layouts
 │       ├── app.html.heex
 │       └── root.html.heex
+│       └── live.html.heex
+│       └── unauthenticated.html.heex
 ├── endpoint.ex
 ├── gettext.ex
 ├── router.ex
