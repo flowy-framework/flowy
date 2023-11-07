@@ -140,21 +140,10 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
         ~r/defmodule PhxUmbWeb.Endpoint do/
       )
 
-      assert_file(web_path(@app, "test/#{@app}_web/controllers/page_controller_test.exs"))
       assert_file(web_path(@app, "test/#{@app}_web/controllers/error_html_test.exs"))
       assert_file(web_path(@app, "test/#{@app}_web/controllers/error_json_test.exs"))
       assert_file(web_path(@app, "test/support/conn_case.ex"))
       assert_file(web_path(@app, "test/test_helper.exs"))
-
-      assert_file(
-        web_path(@app, "lib/#{@app}_web/controllers/page_controller.ex"),
-        ~r/defmodule PhxUmbWeb.PageController/
-      )
-
-      assert_file(
-        web_path(@app, "lib/#{@app}_web/controllers/page_html.ex"),
-        ~r/defmodule PhxUmbWeb.PageHTML/
-      )
 
       assert_file(web_path(@app, "lib/#{@app}_web/router.ex"), fn file ->
         assert file =~ "defmodule PhxUmbWeb.Router"
@@ -266,7 +255,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(web_path(@app, "lib/phx_umb_web/router.ex"), fn file ->
         assert file =~ ~s[plug :fetch_live_flash]
         assert file =~ ~s[plug :put_root_layout, html: {PhxUmbWeb.Layouts, :root}]
-        assert file =~ ~s[get "/", PageController]
+        assert file =~ ~s[live(\"/\", HomeLive, :show)]
       end)
 
       # Mailer
@@ -377,11 +366,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert File.exists?(web_path(@app, "test/#{@app}_web/controllers"))
       refute File.exists?(web_path(@app, "test/#{@app}_web/controllers/error_html_test.exs"))
       assert File.exists?(web_path(@app, "lib/#{@app}_web/controllers"))
-      refute File.exists?(web_path(@app, "test/controllers/page_controller_test.exs"))
-      refute File.exists?(web_path(@app, "lib/#{@app}_web/controllers/page_controller.ex"))
       refute File.exists?(web_path(@app, "lib/#{@app}_web/controllers/error_html.ex"))
-      refute File.exists?(web_path(@app, "lib/#{@app}_web/controllers/page_html.ex"))
-      refute File.exists?(web_path(@app, "lib/#{@app}_web/controllers/page_html"))
       refute File.exists?(web_path(@app, "lib/#{@app}_web/components"))
 
       assert_file(web_path(@app, "mix.exs"), &refute(&1 =~ ~r":phoenix_html"))
@@ -817,23 +802,10 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
         assert_file("another/lib/another.ex", ~r/defmodule Another do/)
         assert_file("another/lib/another/endpoint.ex", ~r/defmodule Another.Endpoint do/)
 
-        assert_file("another/test/another/controllers/page_controller_test.exs")
         assert_file("another/test/another/controllers/error_html_test.exs")
         assert_file("another/test/another/controllers/error_json_test.exs")
         assert_file("another/test/support/conn_case.ex")
         assert_file("another/test/test_helper.exs")
-
-        assert_file(
-          "another/lib/another/controllers/page_controller.ex",
-          ~r/defmodule Another.PageController/
-        )
-
-        assert File.dir?("another/lib/another/controllers/page_html")
-
-        assert_file(
-          "another/lib/another/controllers/page_html.ex",
-          ~r/defmodule Another.PageHTML/
-        )
 
         assert_file("another/lib/another/router.ex", "defmodule Another.Router")
         assert_file("another/lib/another.ex", "defmodule Another")

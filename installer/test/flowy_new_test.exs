@@ -79,21 +79,10 @@ defmodule Mix.Tasks.Flowy.NewTest do
         assert file =~ "Phoenix.LiveView"
       end)
 
-      assert_file("flowy_app/test/flowy_app_web/controllers/page_controller_test.exs")
       assert_file("flowy_app/test/flowy_app_web/controllers/error_html_test.exs")
       assert_file("flowy_app/test/flowy_app_web/controllers/error_json_test.exs")
       assert_file("flowy_app/test/support/conn_case.ex")
       assert_file("flowy_app/test/test_helper.exs")
-
-      assert_file(
-        "flowy_app/lib/flowy_app_web/controllers/page_controller.ex",
-        ~r/defmodule FlowyAppWeb.PageController/
-      )
-
-      assert_file(
-        "flowy_app/lib/flowy_app_web/controllers/page_html.ex",
-        ~r/defmodule FlowyAppWeb.PageHTML/
-      )
 
       assert_file(
         "flowy_app/lib/flowy_app_web/controllers/error_html.ex",
@@ -127,7 +116,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/app.html.heex")
       assert_file("flowy_app/lib/flowy_app_web/components/layouts/live.html.heex")
-      assert_file("flowy_app/lib/flowy_app_web/controllers/page_html/home.html.heex")
 
       # assets
       assert_file("flowy_app/priv/static/images/logo.png")
@@ -231,7 +219,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       )
 
       assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[plug :put_root_layout]))
-      assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[PageController]))
+      assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[live(\"/\", HomeLive, :show)]))
 
       # Telemetry
       assert_file("flowy_app/mix.exs", fn file ->
@@ -378,8 +366,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert File.exists?("flowy_app/lib/flowy_app_web/controllers")
 
       refute File.exists?("flowy_app/test/web/controllers/pager_controller_test.exs")
-      refute File.exists?("flowy_app/lib/flowy_app_web/controllers/page_controller.ex")
-      refute File.exists?("flowy_app/lib/flowy_app_web/controllers/page_html")
       refute File.exists?("flowy_app/lib/flowy_app_web/controllers/error_html.ex")
       refute File.exists?("flowy_app/lib/flowy_app_web/components")
 

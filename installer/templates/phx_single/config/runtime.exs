@@ -107,7 +107,7 @@ config :flowy, :oauth,
 
 config :flowy, :prometheus,
   opt_app: :<%= @app_name %>,
-  module_name:  <%= @app_module %>,
+  module_name:  <%= @web_namespace %>,
   datasource_id: System.get_env("PROM_DATASOURCE_ID"),
   plugins: [
     :application,

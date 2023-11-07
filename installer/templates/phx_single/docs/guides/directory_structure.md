@@ -95,12 +95,8 @@ The `lib/<%= @app_name %>_web` directory holds the web-related parts of our appl
 ```console
 lib/<%= @app_name %>_web
 ├── controllers
-│   ├── page_controller.ex
-│   ├── page_html.ex
 │   ├── error_html.ex
 │   ├── error_json.ex
-│   └── page_html
-│       └── home.html.heex
 ├── components
 │   ├── layouts.ex
 │   └── layouts

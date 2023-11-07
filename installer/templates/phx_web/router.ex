@@ -17,7 +17,6 @@ defmodule <%= @web_namespace %>.Router do
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
 
-    get "/", PageController, :home
     live("/", HomeLive, :show)
   end
 

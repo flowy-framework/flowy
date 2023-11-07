@@ -52,12 +52,6 @@ defmodule Flowy.New.Single do
        "test/:lib_web_name/controllers/error_html_test.exs",
      "phx_web/live/home_live.ex": "lib/:lib_web_name/live/home_live.ex",
      "phx_web/live/home_live.html.heex": "lib/:lib_web_name/live/home_live.html.heex",
-     "phx_web/controllers/page_controller.ex": "lib/:lib_web_name/controllers/page_controller.ex",
-     "phx_web/controllers/page_html.ex": "lib/:lib_web_name/controllers/page_html.ex",
-     "phx_web/controllers/page_html/home.html.heex":
-       "lib/:lib_web_name/controllers/page_html/home.html.heex",
-     "phx_test/controllers/page_controller_test.exs":
-       "test/:lib_web_name/controllers/page_controller_test.exs",
      "phx_web/components/layouts/root.html.heex":
        "lib/:lib_web_name/components/layouts/root.html.heex",
      "phx_web/components/layouts/app.html.heex":

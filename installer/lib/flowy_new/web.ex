@@ -42,13 +42,7 @@ defmodule Flowy.New.Web do
   template(:html, [
     {:eex, :web,
      "phx_web/components/layouts.ex": "lib/:web_app/components/layouts.ex",
-     "phx_web/controllers/page_controller.ex": "lib/:web_app/controllers/page_controller.ex",
      "phx_web/controllers/error_html.ex": "lib/:web_app/controllers/error_html.ex",
-     "phx_web/controllers/page_html.ex": "lib/:web_app/controllers/page_html.ex",
-     "phx_web/controllers/page_html/home.html.heex":
-       "lib/:web_app/controllers/page_html/home.html.heex",
-     "phx_test/controllers/page_controller_test.exs":
-       "test/:web_app/controllers/page_controller_test.exs",
      "phx_test/controllers/error_html_test.exs": "test/:web_app/controllers/error_html_test.exs",
      "phx_web/components/layouts/root.html.heex": "lib/:web_app/components/layouts/root.html.heex",
      "phx_web/components/layouts/app.html.heex": "lib/:web_app/components/layouts/app.html.heex"}
