@@ -136,7 +136,7 @@ defmodule <%= @app_module %>.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"<%= if @ecto do %>, "ecto.setup"<% end %><%= if @asset_builders != [] do %>, "assets.setup", "assets.build"<% end %>]<%= if @ecto do %>,
+      setup: ["deps.get", "cmd npm install --prefix assets"<%= if @ecto do %>, "ecto.setup"<% end %><%= if @asset_builders != [] do %>, "assets.setup", "assets.build"<% end %>]<%= if @ecto do %>,
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "ecto.reset.db": ["ecto.drop", "ecto.create", "ecto.migrate"],
