@@ -61,7 +61,8 @@ defmodule Flowy.New.Single do
      "phx_web/components/layouts/unauthenticated.html.heex":
        "lib/:lib_web_name/components/layouts/unauthenticated.html.heex",
      "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"},
-     {:text, :web, "phx_assets/logo.png": "priv/static/images/logo.png"}
+     {:text, :web, "phx_assets/logo.png": "priv/static/images/logo.png"},
+    {:zip, :web, "phx_assets/fonts/fonts.zip": "priv/static/fonts/fonts"}
   ])
 
   template(:ecto, [

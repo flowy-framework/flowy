@@ -219,7 +219,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       )
 
       assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[plug :put_root_layout]))
-      assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[live(\"/\", HomeLive, :show)]))
+      assert_file("flowy_app/lib/flowy_app_web/router.ex", &assert(&1 =~ ~s[live(\"/\", Live.HomeLive, :show)]))
 
       # Telemetry
       assert_file("flowy_app/mix.exs", fn file ->
