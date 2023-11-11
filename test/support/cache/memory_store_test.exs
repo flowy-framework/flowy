@@ -53,7 +53,6 @@ defmodule Flowy.Support.Cache.MemoryStoreTest do
       :ok
     end
 
-    @tag :emi
     test "returns :ok with value when key exists and has not expired" do
       assert {:ok, "bar"} = MemoryStore.fetch(:foo, fn -> "bar" end)
       assert {:ok, "bar"} = MemoryStore.read(:foo)

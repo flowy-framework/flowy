@@ -255,7 +255,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       assert_file(web_path(@app, "lib/phx_umb_web/router.ex"), fn file ->
         assert file =~ ~s[plug :fetch_live_flash]
         assert file =~ ~s[plug :put_root_layout, html: {PhxUmbWeb.Layouts, :root}]
-        assert file =~ ~s[live(\"/\", HomeLive, :show)]
+        assert file =~ ~s[live(\"/\", Live.HomeLive, :show)]
       end)
 
       # Mailer

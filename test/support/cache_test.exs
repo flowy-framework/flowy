@@ -58,19 +58,18 @@ defmodule Flowy.Support.CacheTest do
       :ok
     end
 
-    @tag :emi
     test "returns :ok with value when key exists and has not expired" do
-      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end)
+      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end, [])
       assert {:ok, "bar"} = Cache.read(:foo)
     end
 
     test "returns :ok with new value when key does not exist" do
-      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end)
+      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end, [])
     end
 
     @tag :memory_store_fetch
     test "returns :ok with updated value when key has expired" do
-      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end)
+      assert {:ok, "bar"} = Cache.fetch(:foo, fn -> "bar" end, [])
       # TODO: I don't like to wait for 2s here, but I didn't find an
       # easy way to mock the timestamp() function in the MemoryStore
       # wait for the default TTL of 5 minutes to expire

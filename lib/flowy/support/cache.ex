@@ -6,7 +6,7 @@ defmodule Flowy.Support.Cache do
 
   @options [
     opts: [
-      type: :non_empty_keyword_list,
+      type: :keyword_list,
       default: [ttl: 300],
       keys: [
         ttl: [
@@ -72,15 +72,6 @@ defmodule Flowy.Support.Cache do
   end
 
   @doc """
-  Fetches a value from the cache store using the default cache.
-  """
-  @spec fetch(key, function()) :: any()
-  def fetch(key, fnc) do
-    build()
-    |> fetch(key, fnc)
-  end
-
-  @doc """
   Fetches a value from the cache store. If the key does not exist, the function
   is called and the result is stored in the cache store.
   """
@@ -88,6 +79,12 @@ defmodule Flowy.Support.Cache do
   def fetch(%__MODULE__{store: store, opts: opts}, key, fnc) do
     Telemetry.event(:cache_fetched, %{}, %{key: key, store: store})
     store.fetch(key, fnc, opts)
+  end
+
+  @spec fetch(key, function(), opts :: keyword()) :: any()
+  def fetch(key, fnc, opts) do
+    build(opts: opts)
+    |> fetch(key, fnc)
   end
 
   @doc """
@@ -124,6 +121,21 @@ defmodule Flowy.Support.Cache do
   def delete(%__MODULE__{store: store}, key) do
     Telemetry.event(:cache_deleted, %{}, %{key: key, store: store})
     store.delete(key)
+  end
+
+  @doc """
+  Resets the cache store using the default cache.
+  """
+  @spec reset() :: :ok
+  def reset() do
+    build()
+    |> reset()
+  end
+
+  @spec reset(cache) :: :ok
+  def reset(%__MODULE__{store: store}) do
+    Telemetry.event(:cache_reset, %{}, %{store: store})
+    store.reset()
   end
 
   defp options(opts) do

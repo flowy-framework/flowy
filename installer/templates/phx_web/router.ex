@@ -17,7 +17,7 @@ defmodule <%= @web_namespace %>.Router do
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
 
-    live("/", HomeLive, :show)
+    live("/", Live.HomeLive, :show)
   end
 
   # Other scopes may use custom stacks.

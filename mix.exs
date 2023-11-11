@@ -77,7 +77,10 @@ defmodule Flowy.MixProject do
       {:phoenix, "~> 1.7.0"},
       # Database
       {:ecto_sql, "~> 3.6"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+
+      # Auth
+      {:joken, "~> 2.5"}
     ]
   end
 end
