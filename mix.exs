@@ -14,6 +14,7 @@ defmodule Flowy.MixProject do
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       # Docs
       name: @name,
@@ -22,6 +23,9 @@ defmodule Flowy.MixProject do
       docs: docs()
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help compile.app" to learn about applications.
   def application do
@@ -78,6 +82,7 @@ defmodule Flowy.MixProject do
       # Database
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
+      {:recase, "~> 0.7"},
 
       # Auth
       {:joken, "~> 2.5"}

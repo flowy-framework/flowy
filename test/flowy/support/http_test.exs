@@ -1,5 +1,5 @@
 defmodule Flowy.Support.HttpTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   alias Flowy.Support.Http
 
   doctest Flowy.Support.Http
