@@ -1,16 +1,16 @@
-defmodule Flowy.Auth.JwtToken do
+defmodule Flowy.Utils.JwtToken do
   @moduledoc """
   This module is responsible for decoding and verifying a JWT token
   """
 
   alias Joken.Signer
-  alias Flowy.Auth.JwtToken.{OIDCConfig, Context}
+  alias Flowy.Utils.JwtToken.{OIDCConfig, Context}
   alias Flowy.Support.{Http, Cache}
 
   @doc """
   Decodes and verifies a JWT token using the public keys found in the JWKS endpoint
   """
-  @spec decode_and_validate(Flowy.Auth.JwtToken.Context.t(), keyword()) ::
+  @spec decode_and_validate(Flowy.Utils.JwtToken.Context.t(), keyword()) ::
           {:error, String.t()} | {:ok, map()}
   def decode_and_validate(context, opts \\ [])
   def decode_and_validate(%Context{} = context, opts), do: decode(context, opts)
@@ -20,7 +20,7 @@ defmodule Flowy.Auth.JwtToken do
 
   def decode_and_validate(_, _), do: {:error, "No token provided"}
 
-  @spec decode(Flowy.Auth.JwtToken.Context.t(), keyword()) ::
+  @spec decode(Flowy.Utils.JwtToken.Context.t(), keyword()) ::
           {:error, String.t()} | {:ok, map()}
   def decode(context, opts \\ [])
   def decode(nil, _opts), do: {:error, "No token provided"}

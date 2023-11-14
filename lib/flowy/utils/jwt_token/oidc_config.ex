@@ -1,4 +1,4 @@
-defmodule Flowy.Auth.JwtToken.OIDCConfig do
+defmodule Flowy.Utils.JwtToken.OIDCConfig do
   @moduledoc """
   OIDC configuration to be used with JWT Token authentication
   """

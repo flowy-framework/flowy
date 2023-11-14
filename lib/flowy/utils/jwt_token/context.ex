@@ -1,4 +1,4 @@
-defmodule Flowy.Auth.JwtToken.Context do
+defmodule Flowy.Utils.JwtToken.Context do
   @moduledoc """
   This module is responsible for decoding and verifying a JWT token
   """
@@ -12,7 +12,7 @@ defmodule Flowy.Auth.JwtToken.Context do
   @doc """
   Builds a context struct with the token and the claims
   """
-  @spec build(any(), keyword()) :: %Flowy.Auth.JwtToken.Context{
+  @spec build(any(), keyword()) :: %Flowy.Utils.JwtToken.Context{
           claims: [Joken.Claim.t()],
           token: String.t()
         }
