@@ -1,11 +1,11 @@
-defmodule Flowy.Auth.JwtTokenTest do
+defmodule Flowy.Utils.JwtTokenTest do
   use ExUnit.Case
   import Mock
 
-  alias Flowy.Auth.JwtToken
+  alias Flowy.Utils.JwtToken
   alias Flowy.Support.{Http, Cache}
 
-  describe "JWT Auth util" do
+  describe "JWT Token" do
     @describetag :jwt_token
 
     setup do

@@ -1,6 +1,6 @@
-defmodule Flowy.Auth.JwtToken.OIDCConfigTest do
+defmodule Flowy.Utils.JwtToken.OIDCConfigTest do
   use ExUnit.Case, async: true
-  alias Flowy.Auth.JwtToken.OIDCConfig
+  alias Flowy.Utils.JwtToken.OIDCConfig
 
   describe "OIDCConfig" do
     @describetag :oidc_config

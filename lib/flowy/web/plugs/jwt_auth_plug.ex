@@ -4,7 +4,8 @@ defmodule Flowy.Web.Plugs.JwtAuthPlug do
   """
   import Plug.Conn
   require Logger
-  alias Flowy.Auth.JwtToken
+  alias Flowy.Utils.JwtToken
+  alias Flowy.Utils.JwtToken.OIDCConfig
 
   @behaviour Plug
 
@@ -15,7 +16,7 @@ defmodule Flowy.Web.Plugs.JwtAuthPlug do
   @impl Plug
   def call(conn, opts) do
     opts =
-      Flowy.Auth.JwtToken.OIDCConfig.claims()
+      OIDCConfig.claims()
       |> Keyword.merge(opts)
 
     # TODO: mergear las opts por default
