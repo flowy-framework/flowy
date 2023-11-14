@@ -300,11 +300,11 @@ defmodule Mix.Tasks.Flowy.New do
     Mix.shell().info("""
     Start your Flowy app with:
 
-        $ mix flowy.server
+        $ mix phx.server
 
     You can also run your app inside IEx (Interactive Elixir) as:
 
-        $ iex -S mix flowy.server
+        $ iex -S mix phx.server
     """)
   end
 

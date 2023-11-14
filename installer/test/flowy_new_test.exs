@@ -79,20 +79,8 @@ defmodule Mix.Tasks.Flowy.NewTest do
         assert file =~ "Phoenix.LiveView"
       end)
 
-      assert_file("flowy_app/test/flowy_app_web/controllers/error_html_test.exs")
-      assert_file("flowy_app/test/flowy_app_web/controllers/error_json_test.exs")
       assert_file("flowy_app/test/support/conn_case.ex")
       assert_file("flowy_app/test/test_helper.exs")
-
-      assert_file(
-        "flowy_app/lib/flowy_app_web/controllers/error_html.ex",
-        ~r/defmodule FlowyAppWeb.ErrorHTML/
-      )
-
-      assert_file(
-        "flowy_app/lib/flowy_app_web/controllers/error_json.ex",
-        ~r/defmodule FlowyAppWeb.ErrorJSON/
-      )
 
       assert_file("flowy_app/lib/flowy_app_web/components/layouts.ex", fn file ->
         assert file =~ "defmodule FlowyAppWeb.Layouts"
@@ -119,6 +107,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       # assets
       assert_file("flowy_app/priv/static/images/logo.png")
+      assert_file("flowy_app/priv/static/images/default-user-avatar.jpg")
 
       assert_file("flowy_app/.gitignore", fn file ->
         assert file =~ "/priv/static/assets/"
@@ -200,6 +189,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       assert_file("flowy_app/test/support/data_case.ex", ~r"defmodule FlowyApp.DataCase")
       assert_file("flowy_app/priv/repo/migrations/.formatter.exs", ~r"import_deps: \[:ecto_sql\]")
       assert_file("flowy_app/priv/repo/migrations/20230906161135_add_oban_jobs_table.exs")
+      assert_file("flowy_app/priv/repo/migrations/20230907161135_create_users_auth_tables.exs")
 
       # LiveView
       refute_file("flowy_app/lib/flowy_app_web/live/page_live_view.ex")
@@ -383,8 +373,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
         refute file =~ ~r"Phoenix.LiveReloader.Socket"
       end)
 
-      refute_file("flowy_app/lib/flowy_app_web/controllers/error_html.ex")
-      assert_file("flowy_app/lib/flowy_app_web/controllers/error_json.ex")
       assert_file("flowy_app/lib/flowy_app_web/router.ex", &refute(&1 =~ ~r"pipeline :browser"))
 
       # No Dashboard

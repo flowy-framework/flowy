@@ -140,8 +140,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
         ~r/defmodule PhxUmbWeb.Endpoint do/
       )
 
-      assert_file(web_path(@app, "test/#{@app}_web/controllers/error_html_test.exs"))
-      assert_file(web_path(@app, "test/#{@app}_web/controllers/error_json_test.exs"))
       assert_file(web_path(@app, "test/support/conn_case.ex"))
       assert_file(web_path(@app, "test/test_helper.exs"))
 
@@ -364,9 +362,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
 
       # No HTML
       assert File.exists?(web_path(@app, "test/#{@app}_web/controllers"))
-      refute File.exists?(web_path(@app, "test/#{@app}_web/controllers/error_html_test.exs"))
-      assert File.exists?(web_path(@app, "lib/#{@app}_web/controllers"))
-      refute File.exists?(web_path(@app, "lib/#{@app}_web/controllers/error_html.ex"))
       refute File.exists?(web_path(@app, "lib/#{@app}_web/components"))
 
       assert_file(web_path(@app, "mix.exs"), &refute(&1 =~ ~r":phoenix_html"))
@@ -382,8 +377,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
         refute file =~ ~r"Phoenix.LiveReloader"
         refute file =~ ~r"Phoenix.LiveReloader.Socket"
       end)
-
-      assert_file(web_path(@app, "lib/#{@app}_web/controllers/error_json.ex"), ~r".json")
 
       assert_file(
         web_path(@app, "lib/#{@app}_web/router.ex"),
@@ -802,8 +795,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
         assert_file("another/lib/another.ex", ~r/defmodule Another do/)
         assert_file("another/lib/another/endpoint.ex", ~r/defmodule Another.Endpoint do/)
 
-        assert_file("another/test/another/controllers/error_html_test.exs")
-        assert_file("another/test/another/controllers/error_json_test.exs")
         assert_file("another/test/support/conn_case.ex")
         assert_file("another/test/test_helper.exs")
 

@@ -10,6 +10,7 @@ defmodule Flowy.ConfigTest do
       config = Config.build([])
 
       assert config == %Config{
+               name: "Flowy",
                service: %Service{
                  keys_format: :snake_case,
                  codes: [

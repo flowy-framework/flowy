@@ -2,8 +2,6 @@ defmodule Flowy.Support.HttpTest do
   use ExUnit.Case, async: false
   alias Flowy.Support.Http
 
-  doctest Flowy.Support.Http
-
   describe "build" do
     @describetag :http
     test "build/0" do

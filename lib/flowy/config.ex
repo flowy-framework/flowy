@@ -6,10 +6,12 @@ defmodule Flowy.Config do
   alias Flowy.Config.Service
 
   @type t :: %__MODULE__{
+          name: String.t(),
           service: Service.t()
         }
 
   defstruct [
+    :name,
     :service
   ]
 
@@ -19,6 +21,7 @@ defmodule Flowy.Config do
   @spec build(map()) :: t()
   def build(opts) do
     %__MODULE__{
+      name: Keyword.get(opts, :name, "Flowy"),
       service: service(Keyword.get(opts, :service, []))
     }
   end
