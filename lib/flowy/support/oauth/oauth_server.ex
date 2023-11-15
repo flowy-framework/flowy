@@ -23,12 +23,7 @@ defmodule Flowy.Support.OAuth.OAuthServer do
   end
 
   def token(client_id) do
-    try do
-      GenServer.call(name(client_id), :token)
-    catch
-      :exit, e ->
-        {:error, e}
-    end
+    GenServer.call(name(client_id), :token)
   end
 
   def stop(client_id) do

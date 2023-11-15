@@ -79,6 +79,8 @@ defmodule Flowy.MixProject do
       {:telemetry, "~> 1.2"},
       {:prom_ex, "~> 1.9.0"},
       {:phoenix, "~> 1.7.0"},
+      {:phoenix_live_view, "~> 0.20.0"},
+      {:palette, git: "https://github.com/livesup-dev/palette", tag: "0.2.12"},
       # Database
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},

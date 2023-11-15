@@ -3,7 +3,6 @@ defmodule Flowy.Web.Plugs.JwtAuthPlug do
     Looks for and validates a token found in the `Authorization` header.
   """
   import Plug.Conn
-  require Logger
   alias Flowy.Utils.JwtToken
   alias Flowy.Utils.JwtToken.OIDCConfig
 
@@ -31,8 +30,9 @@ defmodule Flowy.Web.Plugs.JwtAuthPlug do
   end
 
   # Sends an error response with the given code and message.
-  defp send_error(conn, error) do
-    Logger.error("JwtAuthPlug Error: #{inspect(error)}")
+  defp send_error(conn, _error) do
+    # TODO: Do we want to send it to the logs or tracing?
+    # Logger.error("JwtAuthPlug Error: #{inspect(error)}")
 
     body =
       error_body(error_code())

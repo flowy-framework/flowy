@@ -22,7 +22,6 @@ defmodule Flowy.New.Web do
      "phx_web/endpoint.ex": "lib/:web_app/endpoint.ex",
      "phx_web/router.ex": "lib/:web_app/router.ex",
      "phx_web/telemetry.ex": "lib/:web_app/telemetry.ex",
-     "phx_web/controllers/error_json.ex": "lib/:web_app/controllers/error_json.ex",
      "#{@pre}/mix.exs": "mix.exs",
      "#{@pre}/README.md": "README.md",
      "#{@pre}/gitignore": ".gitignore",
@@ -42,8 +41,6 @@ defmodule Flowy.New.Web do
   template(:html, [
     {:eex, :web,
      "phx_web/components/layouts.ex": "lib/:web_app/components/layouts.ex",
-     "phx_web/controllers/error_html.ex": "lib/:web_app/controllers/error_html.ex",
-     "phx_test/controllers/error_html_test.exs": "test/:web_app/controllers/error_html_test.exs",
      "phx_web/components/layouts/root.html.heex": "lib/:web_app/components/layouts/root.html.heex",
      "phx_web/components/layouts/app.html.heex": "lib/:web_app/components/layouts/app.html.heex"}
   ])

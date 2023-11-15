@@ -18,7 +18,7 @@ config :<%= @app_name %>, <%= @endpoint_module %>,
   url: [host: "localhost"],
   adapter: <%= inspect @web_adapter_module %>,
   render_errors: [
-    formats: [<%= if @html do%>html: <%= @web_namespace %>.ErrorHTML, <% end %>json: <%= @web_namespace %>.ErrorJSON],
+    formats: [<%= if @html do%>html: Flowy.Web.ErrorHTML, <% end %>json: Flowy.Web.ErrorJSON],
     layout: false
   ],
   pubsub_server: <%= @app_module %>.PubSub,

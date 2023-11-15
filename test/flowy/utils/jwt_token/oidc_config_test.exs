@@ -3,6 +3,11 @@ defmodule Flowy.Utils.JwtToken.OIDCConfigTest do
   alias Flowy.Utils.JwtToken.OIDCConfig
 
   describe "OIDCConfig" do
+    setup do
+      System.delete_env("OIDC_PUBLIC_KEYS")
+      :ok
+    end
+
     @describetag :oidc_config
     test "pem/0 returns the correct value" do
       assert OIDCConfig.pem() ==

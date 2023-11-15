@@ -8,6 +8,12 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
   describe "OAuth" do
     @describetag :oauth_dynamic_supervisor
 
+    setup(_) do
+      start_supervised(OAuthDynamicSupervisor)
+
+      :ok
+    end
+
     @tag :oauth_client
     test "client/0" do
       # Removing settings from the application environment
@@ -89,6 +95,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
       end
     end
 
+    @tag :capture_log
     test "start_child/1 with no connection" do
       with_mocks([
         {OAuth2.Client, [],
@@ -116,8 +123,16 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
         assert child_pid != nil
         assert Process.alive?(child_pid)
 
-        token = OAuthServer.token(@client_id)
-        assert {:error, _} = token
+        Process.flag(:trap_exit, true)
+
+        assert {{%OAuth2.Error{reason: :econnrefused}, _}, _} =
+                 catch_exit(OAuthServer.token(@client_id))
+
+        # assert_received({:EXIT, _, _})
+
+        # token = OAuthServer.token(@client_id)
+        # assert_receive {:EXIT, ^child_pid, _}
+        # assert {:error, _} = token
       end
     end
   end

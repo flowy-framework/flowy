@@ -13,7 +13,6 @@ defmodule Flowy.New.Single do
     {:eex, :web,
      "phx_single/lib/app_name/application.ex": "lib/:app/application.ex",
      "phx_single/lib/app_name.ex": "lib/:app.ex",
-     "phx_web/controllers/error_json.ex": "lib/:lib_web_name/controllers/error_json.ex",
      "phx_web/endpoint.ex": "lib/:lib_web_name/endpoint.ex",
      "phx_web/router.ex": "lib/:lib_web_name/router.ex",
      "phx_web/telemetry.ex": "lib/:lib_web_name/telemetry.ex",
@@ -47,9 +46,6 @@ defmodule Flowy.New.Single do
 
   template(:html, [
     {:eex, :web,
-     "phx_web/controllers/error_html.ex": "lib/:lib_web_name/controllers/error_html.ex",
-     "phx_test/controllers/error_html_test.exs":
-       "test/:lib_web_name/controllers/error_html_test.exs",
      "phx_web/live/home_live.ex": "lib/:lib_web_name/live/home_live.ex",
      "phx_web/live/home_live.html.heex": "lib/:lib_web_name/live/home_live.html.heex",
      "phx_web/components/layouts/root.html.heex":
@@ -62,6 +58,7 @@ defmodule Flowy.New.Single do
        "lib/:lib_web_name/components/layouts/unauthenticated.html.heex",
      "phx_web/components/layouts.ex": "lib/:lib_web_name/components/layouts.ex"},
      {:text, :web, "phx_assets/logo.png": "priv/static/images/logo.png"},
+     {:text, :web, "phx_assets/default-user-avatar.jpg": "priv/static/images/default-user-avatar.jpg"},
     {:zip, :web, "phx_assets/fonts/fonts.zip": "priv/static/fonts/fonts"}
   ])
 
@@ -70,6 +67,7 @@ defmodule Flowy.New.Single do
      "phx_ecto/repo.ex": "lib/:app/repo.ex",
      "phx_ecto/formatter.exs": "priv/repo/migrations/.formatter.exs",
      "phx_ecto/20230906161135_add_oban_jobs_table.exs": "priv/repo/migrations/20230906161135_add_oban_jobs_table.exs",
+     "phx_ecto/20230907161135_create_users_auth_tables.exs": "priv/repo/migrations/20230907161135_create_users_auth_tables.exs",
      "phx_ecto/seeds.exs": "priv/repo/seeds.exs",
      "phx_ecto/data_case.ex": "test/support/data_case.ex"},
     {:keep, :app, "phx_ecto/priv/repo/migrations": "priv/repo/migrations"}
