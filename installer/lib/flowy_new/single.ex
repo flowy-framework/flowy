@@ -24,6 +24,7 @@ defmodule Flowy.New.Single do
      "phx_single/dockerignore": ".dockerignore",
      "phx_single/credo.exs": ".credo.exs",
      "phx_single/Dockerfile": "Dockerfile",
+     "phx_single/entrypoint.sh": "entrypoint.sh",
      "phx_single/renovate.json": "renovate.json",
      "phx_single/docs/guides/directory_structure.md": "docs/guides/directory_structure.md",
      "phx_single/github/dependabot.yml": ".github/dependabot.yml",
