@@ -92,7 +92,7 @@ RUN mix local.hex --force && \
 ENV PARTY_IP 0.0.0.0
 
 # copy release to app container
-COPY --from=build /app/_build/prod/rel/app .
+COPY --from=build /app/_build/prod/rel/<%= @app_name %> .
 COPY entrypoint.sh .
 RUN chown -R nobody: /app
 USER nobody
