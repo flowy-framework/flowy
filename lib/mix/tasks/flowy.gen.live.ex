@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Phx.Gen.Live do
+defmodule Mix.Tasks.Flowy.Gen.Live do
   @shortdoc "Generates LiveView, templates, and core for a resource"
 
   @moduledoc """
