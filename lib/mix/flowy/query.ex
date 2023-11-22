@@ -15,7 +15,7 @@ defmodule Mix.Flowy.Query do
           singular: String.t(),
           human_singular: String.t(),
           human_plural: String.t(),
-          schema: Mix.Phoenix.Schema.t(),
+          schema: Mix.Flowy.Schema.t(),
           context_app: atom
         }
 
@@ -44,13 +44,13 @@ defmodule Mix.Flowy.Query do
           opts :: Keyword.t()
         ) :: t
   def new(schema_name, schema_plural, cli_attrs, opts) do
-    schema = Mix.Phoenix.Schema.new("Schemas.#{schema_name}", schema_plural, cli_attrs, opts)
+    schema = Mix.Flowy.Schema.new(schema_name, schema_plural, cli_attrs, opts)
 
     basename = Phoenix.Naming.underscore(schema.singular)
-    ctx_app = opts[:context_app] || Mix.Phoenix.context_app()
-    # otp_app = Mix.Phoenix.otp_app()
+    ctx_app = opts[:context_app] || Mix.Flowy.context_app()
+    # otp_app = Mix.Flowy.otp_app()
     # opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
-    base = Mix.Phoenix.context_base(ctx_app)
+    base = Mix.Flowy.context_base(ctx_app)
 
     %__MODULE__{
       base_module: base,

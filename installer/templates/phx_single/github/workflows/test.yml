@@ -29,6 +29,8 @@ jobs:
         run: mix format --check-formatted
       - name: Audit
         run: mix deps.audit
+      - name: Linter
+        run: mix credo
       - name: Run tests
         run: mix coveralls.json
         env:
