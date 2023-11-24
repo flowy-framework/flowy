@@ -88,7 +88,7 @@ defmodule Flowy.MixProject do
       # Auth
       {:joken, "~> 2.5"}
     ] ++
-    private_deps()
+      private_deps()
   end
 
   def private_deps() do

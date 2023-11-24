@@ -16,7 +16,8 @@ defmodule Mix.Flowy.Query do
           human_singular: String.t(),
           human_plural: String.t(),
           schema: Mix.Flowy.Schema.t(),
-          context_app: atom
+          context_app: atom,
+          generate?: boolean
         }
 
   defstruct base_module: nil,
@@ -32,25 +33,19 @@ defmodule Mix.Flowy.Query do
             human_singular: nil,
             human_plural: nil,
             schema: nil,
-            context_app: nil
+            context_app: nil,
+            generate?: false
 
   @doc """
   Builds a query struct from the given arguments.
   """
-  @spec new(
-          schema_name :: String.t(),
-          schema_plural :: String.t(),
-          cli_attrs :: list,
-          opts :: Keyword.t()
-        ) :: t
-  def new(schema_name, schema_plural, cli_attrs, opts) do
-    schema = Mix.Flowy.Schema.new(schema_name, schema_plural, cli_attrs, opts)
-
+  @spec new(schema :: Mix.Flowy.Schema.t(), opts :: keyword()) :: t
+  def new(schema, opts) do
     basename = Phoenix.Naming.underscore(schema.singular)
-    ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     # otp_app = Mix.Flowy.otp_app()
     # opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
-    base = Mix.Flowy.context_base(ctx_app)
+    base = Mix.Flowy.context_base(schema.context_app)
+    generate? = Keyword.get(opts, :query, true)
 
     %__MODULE__{
       base_module: base,
@@ -67,7 +62,20 @@ defmodule Mix.Flowy.Query do
       fixture_setup_file: Mix.Flowy.context_test_path(schema.context_app, "support/setup.ex"),
       plural: schema.plural,
       schema: schema,
-      context_app: schema.context_app
+      context_app: schema.context_app,
+      generate?: generate?
     }
   end
+
+  @doc """
+  Check if the query module already exists.
+  """
+  @spec pre_existing?(t()) :: boolean()
+  def pre_existing?(%__MODULE__{file: file}), do: File.exists?(file)
+
+  @doc """
+  Check if the query test module already exists.
+  """
+  @spec pre_existing_tests?(t()) :: boolean()
+  def pre_existing_tests?(%__MODULE__{test_file: file}), do: File.exists?(file)
 end

@@ -4,8 +4,7 @@ defmodule Mix.Tasks.Flowy.Gen.QueryTest do
   use ExUnit.Case
   import MixHelper
   alias Mix.Tasks.Flowy.Gen
-  alias Mix.Phoenix.Schema
-  alias Mix.Flowy.Query
+  alias Mix.Flowy.{Schema, Query}
 
   setup do
     Mix.Task.clear()

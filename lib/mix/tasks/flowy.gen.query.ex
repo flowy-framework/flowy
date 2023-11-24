@@ -9,6 +9,21 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
 
   use Mix.Task
   alias Mix.Flowy.Query
+  alias Mix.Tasks.Flowy.Gen
+
+  @switches [
+    binary_id: :boolean,
+    table: :string,
+    web: :string,
+    schema: :boolean,
+    context: :boolean,
+    context_app: :string,
+    merge_with_existing_context: :boolean,
+    prefix: :string,
+    live: :boolean
+  ]
+
+  @default_opts [schema: true]
 
   @doc false
   def run(args) do
@@ -21,13 +36,14 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
   end
 
   @doc false
-  def build(args, parent_opts, help \\ __MODULE__) do
-    {schema_name, plural, attrs, opts} = Mix.Flowy.pre_build(args, parent_opts, help)
+  def build(args, _parent_opts, _help \\ __MODULE__) do
+    {opts, _parsed, _} = parse_opts(args)
 
-    Query.new(schema_name, plural, attrs, opts)
+    Gen.Schema.build(args, [])
+    |> Query.new(opts)
   end
 
-  defp print_shell_instructions(%{schema: schema} = query) do
+  def print_shell_instructions(%{schema: schema} = query) do
     Mix.shell().info("""
 
     Add the generated fixture to your #{query.fixture_setup_file} file:
@@ -63,5 +79,22 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
     Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.query", binding, files)
 
     query
+  end
+
+  defp parse_opts(args) do
+    {opts, parsed, invalid} = OptionParser.parse(args, switches: @switches)
+
+    merged_opts =
+      @default_opts
+      |> Keyword.merge(opts)
+      |> put_context_app(opts[:context_app])
+
+    {merged_opts, parsed, invalid}
+  end
+
+  defp put_context_app(opts, nil), do: opts
+
+  defp put_context_app(opts, string) do
+    Keyword.put(opts, :context_app, String.to_atom(string))
   end
 end

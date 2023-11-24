@@ -10,7 +10,8 @@ defmodule Mix.Flowy.Core do
           alias: atom,
           file: String.t(),
           test_file: String.t(),
-          schema: map(),
+          schema: Mix.Flowy.Schema.t(),
+          query: Mix.Flowy.Query.t(),
           generate?: boolean,
           dir: String.t(),
           context_app: atom,
@@ -23,6 +24,7 @@ defmodule Mix.Flowy.Core do
             file: nil,
             test_file: nil,
             schema: nil,
+            query: nil,
             generate?: false,
             context_app: nil,
             dir: nil,
@@ -48,10 +50,12 @@ defmodule Mix.Flowy.Core do
     dir = Mix.Flowy.context_lib_path(ctx_app, basedir)
     opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
     base = Mix.Flowy.context_base(ctx_app)
+    query = Mix.Flowy.Query.new(schema, opts)
 
     %__MODULE__{
       context_app: opts[:context_app] || Mix.Flowy.context_app(),
       base_module: base,
+      query: query,
       module: Module.concat([base, "Core", "#{schema.human_plural}"]),
       alias: schema.human_plural |> Module.concat(nil),
       file: Mix.Flowy.lib_path(:core, schema.context_app, basename <> ".ex"),
@@ -60,6 +64,14 @@ defmodule Mix.Flowy.Core do
       dir: dir,
       opts: opts
     }
+  end
+
+  @doc """
+  Validates the core module name.
+  """
+  @spec valid?(String.t()) :: boolean()
+  def valid?(core) do
+    core =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
   end
 
   @doc """

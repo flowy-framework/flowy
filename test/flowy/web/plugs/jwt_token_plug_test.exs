@@ -1,5 +1,5 @@
 defmodule Flowy.Web.Plugs.JwtAuthPlugTest do
-  use Flowy.ConnCase, async: true
+  use Flowy.ConnCase, async: false
   import Mock
 
   alias Flowy.Web.Plugs.JwtAuthPlug

@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Flowy.Gen.CoreTest do
   use ExUnit.Case
   import MixHelper
   alias Mix.Tasks.Flowy.Gen
-  alias Mix.Flowy.Core
+  alias Mix.Flowy.{Core, Schema}
 
   setup do
     Mix.Task.clear()
@@ -14,21 +14,26 @@ defmodule Mix.Tasks.Flowy.Gen.CoreTest do
   @tag :gen_core_build
   test "build" do
     in_tmp_project("build", fn ->
-      schema = Gen.Core.build(~w(User users name:string age:integer), [])
+      {core, schema} = Gen.Core.build(~w(Users User users name:string age:integer), [])
 
       assert %Core{
                alias: Users,
                module: Flowy.Core.Users
-             } = schema
+             } = core
 
-      assert String.ends_with?(schema.file, "lib/flowy/core/users.ex")
+      assert String.ends_with?(core.file, "lib/flowy/core/users.ex")
+
+      assert %Schema{
+               alias: User,
+               module: Flowy.Schemas.User
+             } = schema
     end)
   end
 
   @tag :gen_core_run
   test "generates files", config do
     in_tmp_project(config.test, fn ->
-      Gen.Core.run(~w(User users name:string age:integer))
+      Gen.Core.run(~w(Users User users name:string age:integer))
 
       assert_file("lib/flowy/schemas/user.ex")
       assert_file("lib/flowy/queries/user_query.ex")

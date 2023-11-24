@@ -28,20 +28,83 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   """
 
   use Mix.Task
-  alias Mix.Flowy.Core
+  alias Mix.Flowy.{Core, Schema}
+  alias Mix.Tasks.Flowy.Gen
+
+  @switches [
+    binary_id: :boolean,
+    table: :string,
+    web: :string,
+    schema: :boolean,
+    context: :boolean,
+    context_app: :string,
+    merge_with_existing_context: :boolean,
+    prefix: :string,
+    live: :boolean
+  ]
+
+  @default_opts [schema: true, core: true, query: true]
 
   @doc false
   def run(args) do
-    run_schema(args)
-    run_query(args)
+    # run_query(args)
     run_core(args)
   end
 
   @doc false
-  def build(args, parent_opts, help \\ __MODULE__) do
-    {schema_name, plural, attrs, opts} = Mix.Flowy.pre_build(args, parent_opts, help)
+  def build(args, help \\ __MODULE__) do
+    {opts, parsed, _} = parse_opts(args)
+    [context_name, schema_name, plural | schema_args] = validate_args!(parsed, help)
+    schema = Gen.Schema.build([schema_name, plural | schema_args], opts, help)
+    core = Core.new(context_name, schema, opts)
+    {core, schema}
+  end
 
-    Core.new(schema_name, plural, attrs, opts)
+  defp parse_opts(args) do
+    {opts, parsed, invalid} = OptionParser.parse(args, switches: @switches)
+
+    merged_opts =
+      @default_opts
+      |> Keyword.merge(opts)
+      |> put_context_app(opts[:context_app])
+
+    {merged_opts, parsed, invalid}
+  end
+
+  defp put_context_app(opts, nil), do: opts
+
+  defp put_context_app(opts, string) do
+    Keyword.put(opts, :context_app, String.to_atom(string))
+  end
+
+  defp validate_args!([core, schema, _plural | _] = args, help) do
+    cond do
+      not Core.valid?(core) ->
+        help.raise_with_help("Expected the core, #{inspect(core)}, to be a valid module name")
+
+      not Schema.valid?(schema) ->
+        help.raise_with_help("Expected the schema, #{inspect(schema)}, to be a valid module name")
+
+      core == schema ->
+        help.raise_with_help("The core and schema should have different names")
+
+      core == Mix.Phoenix.base() ->
+        help.raise_with_help(
+          "Cannot generate context #{core} because it has the same name as the application"
+        )
+
+      schema == Mix.Phoenix.base() ->
+        help.raise_with_help(
+          "Cannot generate schema #{schema} because it has the same name as the application"
+        )
+
+      true ->
+        args
+    end
+  end
+
+  defp validate_args!(_, help) do
+    help.raise_with_help("Invalid arguments")
   end
 
   @doc false
@@ -54,25 +117,35 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
 
   @doc false
   def copy_new_files(
-        %Core{} = core,
+        %Core{schema: schema, query: query} = core,
         paths,
         binding
       ) do
+    if schema.generate?, do: Gen.Schema.copy_new_files(schema, paths, binding)
+    if query.generate?, do: Gen.Query.copy_new_files(query, paths, binding)
     files = files_to_be_generated(core)
     Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.core", binding, files)
 
     core
   end
 
-  defp run_schema(args), do: Mix.Tasks.Flowy.Gen.Schema.run(args)
-  defp run_query(args), do: Mix.Tasks.Flowy.Gen.Query.run(args)
-
   defp run_core(args) do
-    core = build(args, [])
-    paths = Mix.Flowy.generator_paths() ++ [:flowy]
+    {core, schema} = build(args)
+    binding = [core: core, schema: schema, query: core.query]
+    paths = Mix.Flowy.generator_paths()
+
+    prompt_for_conflicts(core)
+    prompt_for_code_injection(core)
 
     core
-    |> copy_new_files(paths, core: core, schema: core.schema)
+    |> copy_new_files(paths, binding)
+    |> print_shell_instructions()
+  end
+
+  defp prompt_for_conflicts(context) do
+    context
+    |> files_to_be_generated()
+    |> Mix.Phoenix.prompt_for_conflicts()
   end
 
   @doc false
@@ -83,6 +156,22 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
       System.halt()
     end
   end
+
+  @doc false
+  def print_shell_instructions(%Core{schema: schema, query: query}) do
+    print_schema_shell_instructions(schema)
+    print_query_shell_instructions(query)
+  end
+
+  defp print_schema_shell_instructions(%{generate?: true} = schema),
+    do: Gen.Schema.print_shell_instructions(schema)
+
+  defp print_schema_shell_instructions(%{generate?: false}), do: :ok
+
+  defp print_query_shell_instructions(%{generate?: true} = query),
+    do: Gen.Query.print_shell_instructions(query)
+
+  defp print_query_shell_instructions(%{generate?: false}), do: :ok
 
   defp merge_with_existing_core?(%Core{} = core) do
     Keyword.get_lazy(core.opts, :merge_with_existing_core, fn ->

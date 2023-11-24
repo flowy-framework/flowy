@@ -167,8 +167,10 @@ defmodule Mix.Tasks.Flowy.Gen.SchemaTest do
       Gen.Schema.run(~w(Blog.Post blog_posts title:string tags:map published_at:naive_datetime))
 
       assert_file("lib/flowy/schemas/blog/post.ex", fn file ->
-        assert file =~ "cast(attrs, [:title, :tags, :published_at]"
-        assert file =~ "validate_required([:title, :published_at]"
+        assert file =~ "@required_fields [:title, :published_at]"
+        assert file =~ "@optional_fields [:tags]"
+        assert file =~ "cast(attrs, @required_fields ++ @optional_fields)"
+        assert file =~ "validate_required(@required_fields"
       end)
     end)
   end
