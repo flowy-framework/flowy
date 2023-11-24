@@ -80,7 +80,7 @@ defmodule <%= @app_module %>.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.2"},<% end %><%= if @javascript do %>
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},<% end %><%= if @css do %>
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},<% end %><%= if @mailer do %>
-      {:swoosh, "~> 1.3"},
+      {:swoosh, "~> 1.14"},
       {:finch, "~> 0.16"},<% end %><%= if @gettext do %>
       {:gettext, "~> 0.23"},<% end %>
       {:jason, "~> 1.2"},

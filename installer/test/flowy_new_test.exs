@@ -231,8 +231,8 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       # Mailer
       assert_file("flowy_app/mix.exs", fn file ->
-        assert file =~ "{:swoosh, \"~> 1.3\"}"
-        assert file =~ "{:finch, \"~> 0.13\"}"
+        assert file =~ "{:swoosh, \"~> 1.14\"}"
+        assert file =~ "{:finch, \"~> 0.16\"}"
       end)
 
       assert_file("flowy_app/lib/flowy_app/application.ex", fn file ->
@@ -387,8 +387,8 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       # No mailer or emails
       assert_file("flowy_app/mix.exs", fn file ->
-        refute file =~ "{:swoosh, \"~> 1.3\"}"
-        refute file =~ "{:finch, \"~> 0.13\"}"
+        refute file =~ "{:swoosh, \"~> 1.4\"}"
+        refute file =~ "{:finch, \"~> 0.16\"}"
       end)
 
       assert_file("flowy_app/lib/flowy_app/application.ex", fn file ->

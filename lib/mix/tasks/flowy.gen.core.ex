@@ -43,23 +43,19 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
     live: :boolean
   ]
 
-  @default_opts [schema: true, core: true]
+  @default_opts [schema: true, core: true, query: true]
 
   @doc false
   def run(args) do
-    run_schema(args)
-    run_query(args)
+    # run_query(args)
     run_core(args)
   end
 
   @doc false
   def build(args, help \\ __MODULE__) do
-    # {schema_name, plural, attrs, opts} = Mix.Flowy.pre_build(args, parent_opts, help)
-
     {opts, parsed, _} = parse_opts(args)
-    [context_name, schema_name, plural | schema_args] = validate_args!(parsed, help) |> dbg()
+    [context_name, schema_name, plural | schema_args] = validate_args!(parsed, help)
     schema = Gen.Schema.build([schema_name, plural | schema_args], opts, help)
-    # context = Context.new(context_name, schema, opts)
     core = Core.new(context_name, schema, opts)
     {core, schema}
   end
@@ -121,25 +117,35 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
 
   @doc false
   def copy_new_files(
-        %Core{} = core,
+        %Core{schema: schema, query: query} = core,
         paths,
         binding
       ) do
+    if schema.generate?, do: Gen.Schema.copy_new_files(schema, paths, binding)
+    if query.generate?, do: Gen.Query.copy_new_files(query, paths, binding)
     files = files_to_be_generated(core)
     Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.core", binding, files)
 
     core
   end
 
-  defp run_schema(args), do: Mix.Tasks.Flowy.Gen.Schema.run(args)
-  defp run_query(args), do: Mix.Tasks.Flowy.Gen.Query.run(args)
-
   defp run_core(args) do
-    core = build(args, [])
-    paths = Mix.Flowy.generator_paths() ++ [:flowy]
+    {core, schema} = build(args)
+    binding = [core: core, schema: schema, query: core.query]
+    paths = Mix.Flowy.generator_paths()
+
+    prompt_for_conflicts(core)
+    prompt_for_code_injection(core)
 
     core
-    |> copy_new_files(paths, core: core, schema: core.schema)
+    |> copy_new_files(paths, binding)
+    |> print_shell_instructions()
+  end
+
+  defp prompt_for_conflicts(context) do
+    context
+    |> files_to_be_generated()
+    |> Mix.Phoenix.prompt_for_conflicts()
   end
 
   @doc false
@@ -150,6 +156,22 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
       System.halt()
     end
   end
+
+  @doc false
+  def print_shell_instructions(%Core{schema: schema, query: query}) do
+    print_schema_shell_instructions(schema)
+    print_query_shell_instructions(query)
+  end
+
+  defp print_schema_shell_instructions(%{generate?: true} = schema),
+    do: Gen.Schema.print_shell_instructions(schema)
+
+  defp print_schema_shell_instructions(%{generate?: false}), do: :ok
+
+  defp print_query_shell_instructions(%{generate?: true} = query),
+    do: Gen.Query.print_shell_instructions(query)
+
+  defp print_query_shell_instructions(%{generate?: false}), do: :ok
 
   defp merge_with_existing_core?(%Core{} = core) do
     Keyword.get_lazy(core.opts, :merge_with_existing_core, fn ->

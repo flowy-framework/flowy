@@ -33,7 +33,7 @@ defmodule Mix.Tasks.Flowy.Gen.CoreTest do
   @tag :gen_core_run
   test "generates files", config do
     in_tmp_project(config.test, fn ->
-      Gen.Core.run(~w(User users name:string age:integer))
+      Gen.Core.run(~w(Users User users name:string age:integer))
 
       assert_file("lib/flowy/schemas/user.ex")
       assert_file("lib/flowy/queries/user_query.ex")
