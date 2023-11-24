@@ -28,7 +28,22 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   """
 
   use Mix.Task
-  alias Mix.Flowy.Core
+  alias Mix.Flowy.{Core, Schema}
+  alias Mix.Tasks.Flowy.Gen
+
+  @switches [
+    binary_id: :boolean,
+    table: :string,
+    web: :string,
+    schema: :boolean,
+    context: :boolean,
+    context_app: :string,
+    merge_with_existing_context: :boolean,
+    prefix: :string,
+    live: :boolean
+  ]
+
+  @default_opts [schema: true, core: true]
 
   @doc false
   def run(args) do
@@ -38,10 +53,62 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   end
 
   @doc false
-  def build(args, parent_opts, help \\ __MODULE__) do
-    {schema_name, plural, attrs, opts} = Mix.Flowy.pre_build(args, parent_opts, help)
+  def build(args, help \\ __MODULE__) do
+    # {schema_name, plural, attrs, opts} = Mix.Flowy.pre_build(args, parent_opts, help)
 
-    Core.new(schema_name, plural, attrs, opts)
+    {opts, parsed, _} = parse_opts(args)
+    [context_name, schema_name, plural | schema_args] = validate_args!(parsed, help) |> dbg()
+    schema = Gen.Schema.build([schema_name, plural | schema_args], opts, help)
+    # context = Context.new(context_name, schema, opts)
+    core = Core.new(context_name, schema, opts)
+    {core, schema}
+  end
+
+  defp parse_opts(args) do
+    {opts, parsed, invalid} = OptionParser.parse(args, switches: @switches)
+
+    merged_opts =
+      @default_opts
+      |> Keyword.merge(opts)
+      |> put_context_app(opts[:context_app])
+
+    {merged_opts, parsed, invalid}
+  end
+
+  defp put_context_app(opts, nil), do: opts
+
+  defp put_context_app(opts, string) do
+    Keyword.put(opts, :context_app, String.to_atom(string))
+  end
+
+  defp validate_args!([core, schema, _plural | _] = args, help) do
+    cond do
+      not Core.valid?(core) ->
+        help.raise_with_help("Expected the core, #{inspect(core)}, to be a valid module name")
+
+      not Schema.valid?(schema) ->
+        help.raise_with_help("Expected the schema, #{inspect(schema)}, to be a valid module name")
+
+      core == schema ->
+        help.raise_with_help("The core and schema should have different names")
+
+      core == Mix.Phoenix.base() ->
+        help.raise_with_help(
+          "Cannot generate context #{core} because it has the same name as the application"
+        )
+
+      schema == Mix.Phoenix.base() ->
+        help.raise_with_help(
+          "Cannot generate schema #{schema} because it has the same name as the application"
+        )
+
+      true ->
+        args
+    end
+  end
+
+  defp validate_args!(_, help) do
+    help.raise_with_help("Invalid arguments")
   end
 
   @doc false

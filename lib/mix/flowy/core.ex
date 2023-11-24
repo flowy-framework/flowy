@@ -63,6 +63,14 @@ defmodule Mix.Flowy.Core do
   end
 
   @doc """
+  Validates the core module name.
+  """
+  @spec valid?(String.t()) :: boolean()
+  def valid?(core) do
+    core =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
+  end
+
+  @doc """
   Check if the core module already exists.
   """
   @spec pre_existing?(t()) :: boolean()
