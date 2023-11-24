@@ -59,7 +59,7 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
         binding
       ) do
     files = files_to_be_generated(core)
-    Mix.Phoenix.copy_from(paths, "priv/templates/flowy.gen.core", binding, files)
+    Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.core", binding, files)
 
     core
   end
@@ -69,9 +69,48 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
 
   defp run_core(args) do
     core = build(args, [])
-    paths = Mix.Phoenix.generator_paths() ++ [:flowy]
+    paths = Mix.Flowy.generator_paths() ++ [:flowy]
 
     core
     |> copy_new_files(paths, core: core, schema: core.schema)
   end
+
+  @doc false
+  def prompt_for_code_injection(%Core{generate?: false}), do: :ok
+
+  def prompt_for_code_injection(%Core{} = core) do
+    if Core.pre_existing?(core) && !merge_with_existing_core?(core) do
+      System.halt()
+    end
+  end
+
+  defp merge_with_existing_core?(%Core{} = core) do
+    Keyword.get_lazy(core.opts, :merge_with_existing_core, fn ->
+      function_count = Core.function_count(core)
+      file_count = Core.file_count(core)
+
+      Mix.shell().info("""
+      You are generating into an existing core.
+
+      The #{inspect(core.module)} core currently has #{singularize(function_count, "functions")} and \
+      #{singularize(file_count, "files")} in its directory.
+
+        * It's OK to have multiple resources in the same core as \
+      long as they are closely related. But if a core grows too \
+      large, consider breaking it apart
+
+        * If they are not closely related, another context probably works better
+
+      The fact two entities are related in the database does not mean they belong \
+      to the same context.
+
+      If you are not sure, prefer creating a new context over adding to the existing one.
+      """)
+
+      Mix.shell().yes?("Would you like to proceed?")
+    end)
+  end
+
+  defp singularize(1, plural), do: "1 " <> String.trim_trailing(plural, "s")
+  defp singularize(amount, plural), do: "#{amount} #{plural}"
 end

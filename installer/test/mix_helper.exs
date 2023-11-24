@@ -28,7 +28,7 @@ defmodule MixHelper do
   end
 
   def in_tmp_project(which, function) do
-    conf_before = Application.get_env(:phoenix, :generators) || []
+    conf_before = Application.get_env(:flowy, :generators) || []
     base_path = Path.join([tmp_path(), random_string(10)])
     path = Path.join([base_path, to_string(which)])
 
@@ -39,7 +39,7 @@ defmodule MixHelper do
         File.touch!("mix.exs")
         File.write!(".formatter.exs", """
         [
-          import_deps: [:phoenix, :ecto, :ecto_sql],
+          import_deps: [:flowy, :ecto, :ecto_sql],
           inputs: ["*.exs"]
         ]
         """)
@@ -47,12 +47,12 @@ defmodule MixHelper do
       end)
     after
       File.rm_rf!(base_path)
-      Application.put_env(:phoenix, :generators, conf_before)
+      Application.put_env(:flowy, :generators, conf_before)
     end
   end
 
   def in_tmp_umbrella_project(which, function) do
-    conf_before = Application.get_env(:phoenix, :generators) || []
+    conf_before = Application.get_env(:flowy, :generators) || []
     path = Path.join([tmp_path(), random_string(10), to_string(which)])
 
     try do
@@ -68,7 +68,7 @@ defmodule MixHelper do
       end
       File.cd!(apps_path, function)
     after
-      Application.put_env(:phoenix, :generators, conf_before)
+      Application.put_env(:flowy, :generators, conf_before)
       File.rm_rf!(path)
     end
   end
@@ -117,7 +117,7 @@ defmodule MixHelper do
     File.write!(path, content)
   end
 
-  def with_generator_env(app_name \\ :phoenix, new_env, fun) do
+  def with_generator_env(app_name \\ :flowy, new_env, fun) do
     config_before = Application.fetch_env(app_name, :generators)
     Application.put_env(app_name, :generators, new_env)
     try do

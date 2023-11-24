@@ -10,7 +10,7 @@ defmodule <%= query.base_module %>.Tests.Fixtures.<%= inspect schema.alias %>Fix
   Generate a <%= schema.singular %>.
   """
   def <%= schema.singular %>_fixture(attrs \\ %{}) do
-    attrs = default_attrs |> Map.merge(attrs)
+    attrs = default_attrs() |> Map.merge(attrs)
 
     %<%= inspect schema.alias %>{}
     |> <%= inspect schema.alias %>.changeset(attrs)
@@ -18,6 +18,6 @@ defmodule <%= query.base_module %>.Tests.Fixtures.<%= inspect schema.alias %>Fix
   end
 
   def default_attrs do
-    <%= Mix.Phoenix.to_text schema.params.create %>
+    <%= Mix.Flowy.to_text schema.params.create %>
   end
 end

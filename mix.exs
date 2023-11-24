@@ -80,7 +80,6 @@ defmodule Flowy.MixProject do
       {:prom_ex, "~> 1.9.0"},
       {:phoenix, "~> 1.7.0"},
       {:phoenix_live_view, "~> 0.20.0"},
-      {:palette, git: "https://github.com/livesup-dev/palette", tag: "0.2.12"},
       # Database
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
@@ -88,6 +87,27 @@ defmodule Flowy.MixProject do
 
       # Auth
       {:joken, "~> 2.5"}
+    ] ++
+    private_deps()
+  end
+
+  def private_deps() do
+    [
+      {"../palette", :palette_dep}
+    ]
+    |> Enum.map(fn {path, fun} ->
+      apply(__MODULE__, fun, [File.exists?(path)])
+    end)
+    |> List.flatten()
+  end
+
+  def palette_dep(true = _local) do
+    [{:palette, path: "../palette"}]
+  end
+
+  def palette_dep(false) do
+    [
+      {:palette, git: "https://github.com/livesup-dev/palette", tag: "0.2.12"}
     ]
   end
 end

@@ -86,8 +86,8 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
   """
   use Mix.Task
 
-  alias Mix.Phoenix.{Context, Schema}
-  alias Mix.Tasks.Phx.Gen
+  alias Mix.Flowy.{Core, Schema}
+  alias Mix.Tasks.Flowy.Gen
 
   @doc false
   def run(args) do
@@ -97,11 +97,11 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
       )
     end
 
-    {context, schema} = Gen.Context.build(args)
-    Gen.Context.prompt_for_code_injection(context)
+    {context, schema} = Gen.Core.build(args)
+    Gen.Core.prompt_for_code_injection(context)
 
     binding = [context: context, schema: schema, inputs: inputs(schema)]
-    paths = Mix.Phoenix.generator_paths()
+    paths = Mix.Flowy.generator_paths()
 
     prompt_for_conflicts(context)
 
@@ -114,21 +114,21 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
   defp prompt_for_conflicts(context) do
     context
     |> files_to_be_generated()
-    |> Kernel.++(context_files(context))
-    |> Mix.Phoenix.prompt_for_conflicts()
+    |> Kernel.++(core_files(context))
+    |> Mix.Flowy.prompt_for_conflicts()
   end
 
-  defp context_files(%Context{generate?: true} = context) do
-    Gen.Context.files_to_be_generated(context)
+  defp core_files(%Core{generate?: true} = context) do
+    Gen.Core.files_to_be_generated(context)
   end
 
-  defp context_files(%Context{generate?: false}) do
+  defp core_files(%Core{generate?: false}) do
     []
   end
 
-  defp files_to_be_generated(%Context{schema: schema, context_app: context_app}) do
-    web_prefix = Mix.Phoenix.web_path(context_app)
-    test_prefix = Mix.Phoenix.web_test_path(context_app)
+  defp files_to_be_generated(%Core{schema: schema, context_app: context_app}) do
+    web_prefix = Mix.Flowy.web_path(context_app)
+    test_prefix = Mix.Flowy.web_test_path(context_app)
     web_path = to_string(schema.web_path)
     live_subdir = "#{schema.singular}_live"
     web_live = Path.join([web_prefix, "live", web_path, live_subdir])
@@ -144,37 +144,37 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
     ]
   end
 
-  defp copy_new_files(%Context{} = context, binding, paths) do
-    files = files_to_be_generated(context)
+  defp copy_new_files(%Core{} = core, binding, paths) do
+    files = files_to_be_generated(core)
 
     binding =
       Keyword.merge(binding,
         assigns: %{
-          web_namespace: inspect(context.web_module),
+          web_namespace: inspect(core.web_module),
           gettext: true
         }
       )
 
-    Mix.Phoenix.copy_from(paths, "priv/templates/flowy.gen.live", binding, files)
-    if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
+    Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.live", binding, files)
+    if core.generate?, do: Gen.Core.copy_new_files(core, paths, binding)
 
-    context
+    core
   end
 
-  defp maybe_inject_imports(%Context{context_app: ctx_app} = context) do
-    web_prefix = Mix.Phoenix.web_path(ctx_app)
+  defp maybe_inject_imports(%Core{context_app: ctx_app} = core) do
+    web_prefix = Mix.Flowy.web_path(ctx_app)
     [lib_prefix, web_dir] = Path.split(web_prefix)
     file_path = Path.join(lib_prefix, "#{web_dir}.ex")
     file = File.read!(file_path)
-    inject = "import #{inspect(context.web_module)}.CoreComponents"
+    inject = "import #{inspect(core.web_module)}.CoreComponents"
 
     if String.contains?(file, inject) do
       :ok
     else
-      do_inject_imports(context, file, file_path, inject)
+      do_inject_imports(core, file, file_path, inject)
     end
 
-    context
+    core
   end
 
   defp do_inject_imports(context, file, file_path, inject) do
@@ -207,9 +207,9 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
   end
 
   @doc false
-  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
-    prefix = Module.concat(context.web_module, schema.web_namespace)
-    web_path = Mix.Phoenix.web_path(ctx_app)
+  def print_shell_instructions(%Core{schema: schema, context_app: ctx_app} = core) do
+    prefix = Module.concat(core.web_module, schema.web_namespace)
+    web_path = Mix.Flowy.web_path(ctx_app)
 
     if schema.web_namespace do
       Mix.shell().info("""
@@ -226,13 +226,13 @@ defmodule Mix.Tasks.Flowy.Gen.Live do
     else
       Mix.shell().info("""
 
-      Add the live routes to your browser scope in #{Mix.Phoenix.web_path(ctx_app)}/router.ex:
+      Add the live routes to your browser scope in #{Mix.Flowy.web_path(ctx_app)}/router.ex:
 
       #{for line <- live_route_instructions(schema), do: "    #{line}"}
       """)
     end
 
-    if context.generate?, do: Gen.Context.print_shell_instructions(context)
+    if core.generate?, do: Gen.Context.print_shell_instructions(core)
     maybe_print_upgrade_info()
   end
 

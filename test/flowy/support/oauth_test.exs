@@ -42,7 +42,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
         {:ok, [{:ok, child_pid}]} =
           OAuthDynamicSupervisor.start_children([
             %{
-              client_id: "test_client_id",
+              client_id: @client_id,
               client_secret: "test_client_secret",
               audience: "http://test_client",
               site: "http://test_client",
@@ -77,7 +77,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
       ]) do
         {:ok, child_pid} =
           OAuthDynamicSupervisor.start_child(%{
-            client_id: "test_client_id",
+            client_id: "test_client_id_child",
             client_secret: "test_client_secret",
             audience: "http://test_client",
             site: "http://test_client",
@@ -88,7 +88,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
         assert child_pid != nil
         assert Process.alive?(child_pid)
 
-        token = OAuthServer.token(@client_id)
+        token = OAuthServer.token("test_client_id_child")
         assert token == {:ok, "the_token"}
 
         DynamicSupervisor.terminate_child(OAuthDynamicSupervisor, child_pid)
@@ -111,7 +111,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
           start_supervised(
             {Flowy.Support.OAuth.OAuthServer,
              %{
-               client_id: "test_client_id",
+               client_id: "test_client_id_no_conn",
                client_secret: "test_client_secret",
                audience: "http://test_client",
                site: "http://test_client",
@@ -126,7 +126,7 @@ defmodule Flowy.Support.OAuthDynamicSupervisorTest do
         Process.flag(:trap_exit, true)
 
         assert {{%OAuth2.Error{reason: :econnrefused}, _}, _} =
-                 catch_exit(OAuthServer.token(@client_id))
+                 catch_exit(OAuthServer.token("test_client_id_no_conn"))
 
         # assert_received({:EXIT, _, _})
 

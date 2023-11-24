@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
   @doc false
   def run(args) do
     query = build(args, [])
-    paths = Mix.Phoenix.generator_paths() ++ [:flowy]
+    paths = Mix.Flowy.generator_paths() ++ [:flowy]
 
     query
     |> copy_new_files(paths, query: query, schema: query.schema)
@@ -60,7 +60,7 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
         binding
       ) do
     files = files_to_be_generated(query)
-    Mix.Phoenix.copy_from(paths, "priv/templates/flowy.gen.query", binding, files)
+    Mix.Flowy.copy_from(paths, "priv/templates/flowy.gen.query", binding, files)
 
     query
   end
