@@ -3,6 +3,48 @@ defmodule Mix.Flowy.Schema do
 
   alias Mix.Flowy.Schema
 
+  @type t :: %__MODULE__{
+          module: atom,
+          repo: atom,
+          table: String.t(),
+          collection: String.t(),
+          embedded?: boolean(),
+          generate?: boolean(),
+          opts: Keyword.t(),
+          alias: atom,
+          file: String.t(),
+          test_file: String.t(),
+          attrs: [{atom(), any()}],
+          string_attr: atom(),
+          plural: String.t(),
+          singular: String.t(),
+          uniques: [atom()],
+          redacts: [atom()],
+          assocs: [{atom(), atom(), String.t(), String.t()}],
+          types: %{atom() => any()},
+          indexes: [String.t()],
+          defaults: %{atom() => String.t()},
+          human_singular: String.t(),
+          human_plural: String.t(),
+          binary_id: boolean(),
+          migration_defaults: %{atom() => String.t()},
+          migration?: boolean(),
+          params: %{atom() => any()},
+          optionals: [atom()],
+          sample_id: any(),
+          web_path: String.t(),
+          web_namespace: String.t(),
+          context_app: atom(),
+          route_helper: String.t(),
+          route_prefix: String.t(),
+          api_route_prefix: String.t(),
+          migration_module: atom(),
+          fixture_unique_functions: %{atom() => {String.t(), String.t(), boolean()}},
+          fixture_params: %{atom() => String.t()},
+          prefix: String.t(),
+          timestamp_type: atom()
+        }
+
   defstruct module: nil,
             repo: nil,
             table: nil,
@@ -65,12 +107,24 @@ defmodule Mix.Flowy.Schema do
     :enum
   ]
 
+  @doc """
+  Returns the list of valid types for a schema.
+  """
+  @spec valid_types() :: [atom()]
   def valid_types, do: @valid_types
 
+  @doc """
+  Return if a schema name is valid.
+  """
+  @spec valid?(String.t()) :: boolean()
   def valid?(schema) do
     schema =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
   end
 
+  @doc """
+  Builds a schema struct from a schema name and attributes.
+  """
+  @spec new(String.t(), String.t(), Keyword.t(), Keyword.t()) :: t()
   def new(schema_name, schema_plural, cli_attrs, opts) do
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     otp_app = Mix.Flowy.otp_app()
@@ -161,6 +215,7 @@ defmodule Mix.Flowy.Schema do
   @doc """
   Returns the string value of the default schema param.
   """
+  @spec default_param(t(), atom()) :: String.t()
   def default_param(%Schema{} = schema, action) do
     schema.params
     |> Map.fetch!(action)
@@ -168,6 +223,8 @@ defmodule Mix.Flowy.Schema do
     |> to_string()
   end
 
+  @doc false
+  @spec extract_attr_flags([String.t()]) :: {list(), list(), list()}
   def extract_attr_flags(cli_attrs) do
     {attrs, uniques, redacts} =
       Enum.reduce(cli_attrs, {[], [], []}, fn attr, {attrs, uniques, redacts} ->
@@ -191,6 +248,7 @@ defmodule Mix.Flowy.Schema do
   @doc """
   Parses the attrs as received by generators.
   """
+  @spec attrs([String.t()]) :: [{atom(), any()}]
   def attrs(attrs) do
     Enum.map(attrs, fn attr ->
       attr
@@ -203,6 +261,7 @@ defmodule Mix.Flowy.Schema do
   @doc """
   Generates some sample params based on the parsed attributes.
   """
+  @spec params([atom()], atom()) :: %{atom() => any()}
   def params(attrs, action \\ :create) when action in [:create, :update] do
     Map.new(attrs, fn {k, t} -> {k, type_to_default(k, t, action)} end)
   end

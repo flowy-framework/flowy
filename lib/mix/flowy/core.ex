@@ -28,10 +28,18 @@ defmodule Mix.Flowy.Core do
             dir: nil,
             opts: []
 
+  @doc """
+  Builds a core module struct from a schema.
+  """
+  @spec new(String.t(), Keyword.t()) :: t()
   def new(core_name, opts) do
     new(core_name, %Schema{}, opts)
   end
 
+  @doc """
+  Builds a core module struct from a schema.
+  """
+  @spec new(String.t(), t(), Keyword.t()) :: t()
   def new(core_name, %Schema{} = schema, opts) do
     basename = Phoenix.Naming.underscore(schema.plural)
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
@@ -54,10 +62,20 @@ defmodule Mix.Flowy.Core do
     }
   end
 
+  @doc """
+  Check if the core module already exists.
+  """
+  @spec pre_existing?(t()) :: boolean()
   def pre_existing?(%__MODULE__{file: file}), do: File.exists?(file)
 
+  @doc """
+  Check if the core test module already exists.
+  """
+  @spec pre_existing_tests?(t()) :: boolean()
   def pre_existing_tests?(%__MODULE__{test_file: file}), do: File.exists?(file)
 
+  @doc false
+  @spec function_count(t()) :: non_neg_integer()
   def function_count(%__MODULE__{file: file}) do
     {_ast, count} =
       file
@@ -72,6 +90,8 @@ defmodule Mix.Flowy.Core do
     count
   end
 
+  @doc false
+  @spec file_count(t()) :: non_neg_integer()
   def file_count(%__MODULE__{dir: dir}) do
     dir
     |> Path.join("**/*.ex")
