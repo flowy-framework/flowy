@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "palette": "file:../deps/palette"
+    "paleta": "file:../deps/paleta"
   }
 }

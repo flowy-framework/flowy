@@ -195,7 +195,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       refute_file("flowy_app/lib/flowy_app_web/live/page_live_view.ex")
 
       assert_file("flowy_app/assets/js/app.js", fn file ->
-        assert file =~ ~s|import \"palette\"\n|
+        assert file =~ ~s|import \"paleta\"\n|
       end)
 
       assert_file("flowy_app/mix.exs", fn file ->

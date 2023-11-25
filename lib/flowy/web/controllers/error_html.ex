@@ -5,7 +5,7 @@ defmodule Flowy.Web.Controllers.ErrorHTML do
 
   use Phoenix.Component
 
-  import Palette.Components.ErrorPage
+  import Paleta.Components.ErrorPage
 
   # If you want to customize your error pages,
   # uncomment the embed_templates/1 call below

@@ -232,7 +232,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
 
       # Live
       assert_file(web_path(@app, "assets/js/app.js"), fn file ->
-        assert file =~ ~s[import \"palette\"]
+        assert file =~ ~s[import \"paleta\"]
       end)
 
       assert_file(root_path(@app, "config/config.exs"), fn file ->
@@ -437,7 +437,7 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
       end)
 
       assert_file(web_path(@app, "assets/js/app.js"), fn file ->
-        assert file =~ ~s|import \"palette\"\n|
+        assert file =~ ~s|import \"paleta\"\n|
       end)
     end)
   end

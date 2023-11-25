@@ -88,7 +88,7 @@ defmodule <%= @web_namespace %> do
       <%= if @gettext do %>
       import <%= @web_namespace %>.Gettext<% end %>
 
-      use Palette
+      use Paleta
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

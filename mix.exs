@@ -93,21 +93,25 @@ defmodule Flowy.MixProject do
 
   def private_deps() do
     [
-      {"../palette", :palette_dep}
+      {"../paleta", :paleta_dep}
     ]
     |> Enum.map(fn {path, fun} ->
-      apply(__MODULE__, fun, [File.exists?(path)])
+      apply(__MODULE__, fun, [File.exists?(path) && local_dev?()])
     end)
     |> List.flatten()
   end
 
-  def palette_dep(true = _local) do
-    [{:palette, path: "../palette"}]
+  def local_dev?() do
+    Mix.env() == :dev || Mix.env() == :test
   end
 
-  def palette_dep(false) do
+  def paleta_dep(true = _local) do
+    [{:paleta, path: "../paleta"}]
+  end
+
+  def paleta_dep(false) do
     [
-      {:palette, git: "https://github.com/livesup-dev/palette", tag: "0.2.12"}
+      {:paleta, "~> 0.1.0"}
     ]
   end
 end
