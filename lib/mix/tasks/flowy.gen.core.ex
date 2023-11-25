@@ -2,29 +2,77 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   @shortdoc "Generates a Core module"
 
   @moduledoc """
-  Generates Flowy components.
+  Generates a core module with functions around the query module.
 
-      $ mix flowy.gen.core User users name:string age:integer
+      $ mix flowy.gen.core Users User users name:string age:integer
 
-  The first argument is the schema module followed by its plural
-  name (used as the table name).
+  The first argument is the core module followed by the schema module
+  and its plural name (used as the schema table name).
 
-  The core is an Elixir module that serves as an API boundary for
-  the given resource. A core module often holds many related resources.
-  Therefore, if the core module already exists, it will be augmented with
+  The cire is an Elixir module that serves as an API boundary for
+  the given resource. A core often holds many related resources.
+  Therefore, if the context already exists, it will be augmented with
   functions for the given resource.
+
+  > Note: A resource may also be split
+  > over distinct cores (such as Accounts.User and Payments.User).
 
   The schema is responsible for mapping the database fields into an
   Elixir struct.
 
   Overall, this generator will add the following files to `lib/your_app`:
 
-    * a core module in `accounts.ex`, serving as the API boundary
-    * a query in `queries/user_query.ex`, serving as the Repo boundary
-    * a schema in `schemas/user.ex`, with a `users` table
+    * a core module in `/core/users.ex`, serving as the API boundary
+    * a query module in `/queries/users.ex`, serving as the API db boundary
+    * a schema in `/schemas/user.ex`, with a `users` table
 
-  A migration file for the repository and test files for the context
-  will also be generated.
+  A migration file for the repository and test files for the core, query
+  and schema will also be generated.
+
+  ## Generating without a schema
+
+  In some cases, you may wish to bootstrap the core module and
+  tests, but leave internal implementation of the core and schema
+  to yourself. Use the `--no-schema` flags to accomplish this.
+
+  ## table
+
+  By default, the table name for the migration and schema will be
+  the plural name provided for the resource. To customize this value,
+  a `--table` option may be provided. For example:
+
+      $ mix flowy.gen.core Users User users --table cms_users
+
+  ## binary_id
+
+  Generated migration can use `binary_id` for schema's primary key
+  and its references with option `--binary-id`.
+
+  ## Default options
+
+  This generator uses default options provided in the `:generators`
+  configuration of your application. These are the defaults:
+
+      config :your_app, :generators,
+        migration: true,
+        binary_id: false,
+        timestamp_type: :naive_datetime,
+        sample_binary_id: "11111111-1111-1111-1111-111111111111"
+
+  You can override those options per invocation by providing corresponding
+  switches, e.g. `--no-binary-id` to use normal ids despite the default
+  configuration or `--migration` to force generation of the migration.
+
+  Read the documentation for `flowy.gen.schema` for more information on
+  attributes.
+
+  ## Skipping prompts
+
+  This generator will prompt you if there is an existing core with the same
+  name, in order to provide more instructions on how to correctly use phoenix cores.
+  You can skip this prompt and automatically merge the new schema access functions and tests into the
+  existing core using `--merge-with-existing-core`. To prevent changes to
+  the existing core and exit the generator, use `--no-merge-with-existing-core`.
   """
 
   use Mix.Task
