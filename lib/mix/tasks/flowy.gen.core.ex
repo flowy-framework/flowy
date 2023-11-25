@@ -9,9 +9,9 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   The first argument is the core module followed by the schema module
   and its plural name (used as the schema table name).
 
-  The cire is an Elixir module that serves as an API boundary for
+  The coire is an Elixir module that serves as an API boundary for
   the given resource. A core often holds many related resources.
-  Therefore, if the context already exists, it will be augmented with
+  Therefore, if the core already exists, it will be augmented with
   functions for the given resource.
 
   > Note: A resource may also be split
