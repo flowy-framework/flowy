@@ -86,9 +86,11 @@ defmodule Flowy.MixProject do
       {:recase, "~> 0.7"},
 
       # Auth
-      {:joken, "~> 2.5"}
-    ] ++
-      private_deps()
+      {:joken, "~> 2.5"},
+      {:paleta, "~> 0.1.0"}
+    ]
+
+    # ++ private_deps()
   end
 
   def private_deps() do
