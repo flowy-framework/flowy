@@ -49,4 +49,28 @@ defmodule Mix.Tasks.Flowy.Gen.CoreTest do
       end)
     end)
   end
+
+  @tag :gen_core_run_names
+  test "generates files with entity name with more than one word", config do
+    in_tmp_project(config.test, fn ->
+      Gen.Core.run(~w(ComponentTypes ComponentType component_types name:string age:integer))
+
+      assert_file("lib/flowy/schemas/component_type.ex")
+      assert_file("lib/flowy/queries/component_type_query.ex")
+      assert_file("test/flowy/queries/component_type_query_test.exs")
+      assert_file("test/support/fixtures/component_type_fixtures.ex")
+
+      assert_file("lib/flowy/core/component_types.ex", fn file ->
+        assert file =~ "defmodule Flowy.Core.ComponentTypes do"
+      end)
+
+      assert_file("lib/flowy/queries/component_type_query.ex", fn file ->
+        assert file =~ "defmodule Flowy.Queries.ComponentTypeQuery do"
+      end)
+
+      assert_file("test/flowy/core/component_types_test.exs", fn file ->
+        assert file =~ "defmodule Flowy.Core.ComponentTypesTest do"
+      end)
+    end)
+  end
 end

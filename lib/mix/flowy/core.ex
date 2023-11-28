@@ -43,7 +43,7 @@ defmodule Mix.Flowy.Core do
   """
   @spec new(String.t(), t(), Keyword.t()) :: t()
   def new(core_name, %Schema{} = schema, opts) do
-    basename = Phoenix.Naming.underscore(schema.plural)
+    basename = schema.plural
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     otp_app = Mix.Flowy.otp_app()
     basedir = Phoenix.Naming.underscore(core_name)
@@ -51,13 +51,14 @@ defmodule Mix.Flowy.Core do
     opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
     base = Mix.Flowy.context_base(ctx_app)
     query = Mix.Flowy.Query.new(schema, opts)
+    module_name = Macro.camelize(schema.plural)
 
     %__MODULE__{
       context_app: opts[:context_app] || Mix.Flowy.context_app(),
       base_module: base,
       query: query,
-      module: Module.concat([base, "Core", "#{schema.human_plural}"]),
-      alias: schema.human_plural |> Module.concat(nil),
+      module: Module.concat([base, "Core", "#{module_name}"]),
+      alias: module_name |> Module.concat(nil),
       file: Mix.Flowy.lib_path(:core, schema.context_app, basename <> ".ex"),
       test_file: Mix.Flowy.test_path(:core, schema.context_app, basename <> "_test.exs"),
       schema: schema,

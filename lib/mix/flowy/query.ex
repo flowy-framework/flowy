@@ -46,12 +46,13 @@ defmodule Mix.Flowy.Query do
     # opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
     base = Mix.Flowy.context_base(schema.context_app)
     generate? = Keyword.get(opts, :query, true)
+    module_name = Macro.camelize(schema.singular) <> "Query"
 
     %__MODULE__{
       base_module: base,
-      module: Module.concat([base, "Queries", "#{schema.human_singular}Query"]),
+      module: Module.concat([base, "Queries", module_name]),
       opts: schema.opts,
-      alias: "#{schema.alias}Query" |> Module.concat(nil),
+      alias: module_name |> Module.concat(nil),
       file: Mix.Flowy.lib_path(:queries, schema.context_app, basename <> "_query.ex"),
       test_file: Mix.Flowy.test_path(:queries, schema.context_app, basename <> "_query_test.exs"),
       fixture_file:
