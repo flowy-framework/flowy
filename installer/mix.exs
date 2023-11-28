@@ -6,7 +6,7 @@ end
 defmodule Flowy.New.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.1"
   @phoenix_version "1.7.10"
   @scm_url "https://github.com/flowy-framework/flowy"
 

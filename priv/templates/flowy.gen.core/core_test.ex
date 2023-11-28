@@ -22,13 +22,14 @@ defmodule <%= inspect core.module %>Test do
     end
 
     test "update <%= schema.singular %>", %{<%= schema.singular %>: <%= schema.singular %>} do
-      attrs = %{name: "Updated Vendor"}
-      assert {:ok, %<%= inspect schema.alias %>{name: "Updated Vendor"}} = <%= inspect core.alias %>.update(<%= schema.singular %>, attrs)
+      update_attrs = <%= Mix.Phoenix.to_text schema.params.update%>
+
+      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect core.alias %>.update(<%= schema.singular %>, update_attrs)<%= for {field, value} <- schema.params.update do %>
+      assert <%= schema.singular %>.<%= field %> == <%= Mix.Phoenix.Schema.value(schema, field, value) %><% end %>
     end
 
     test "change/1", %{<%= schema.singular %>: <%= schema.singular %>} do
-      assert %Ecto.Changeset{changes: %{name: "New name"}} =
-               <%= inspect core.alias %>.change(<%= schema.singular %>, %{name: "New name"})
+      assert %Ecto.Changeset{} = <%= inspect core.alias %>.change(<%= schema.singular %>)
     end
 
     test "delete <%= schema.singular %>", %{<%= schema.singular %>: %{id: <%= schema.singular %>_id} = <%= schema.singular %>} do
