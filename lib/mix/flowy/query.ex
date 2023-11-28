@@ -59,7 +59,7 @@ defmodule Mix.Flowy.Query do
           schema.context_app,
           "support/fixtures/" <> basename <> "_fixtures.ex"
         ),
-      fixture_setup_file: Mix.Flowy.context_test_path(schema.context_app, "support/setup.ex"),
+      fixture_setup_file: Mix.Flowy.context_test_path(schema.context_app, "support/setups.ex"),
       plural: schema.plural,
       schema: schema,
       context_app: schema.context_app,
