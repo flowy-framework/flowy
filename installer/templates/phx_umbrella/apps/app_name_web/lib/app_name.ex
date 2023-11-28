@@ -83,7 +83,6 @@ defmodule <%= @web_namespace %> do
     quote do
       # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components and translation
       import <%= @web_namespace %>.CoreComponents<%= if @gettext do %>
       import <%= @web_namespace %>.Gettext<% end %>
 

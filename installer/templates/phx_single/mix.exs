@@ -123,8 +123,8 @@ defmodule <%= @app_module %>.MixProject do
 
       # Jobs
       {:oban, "~> 2.15"},
-      {:paleta, git: "https://github.com/livesup-dev/paleta", tag: "0.2.12"},
-      {:flowy, git: "https://github.com/flowy-framework/flowy", tag: "0.1.0"}
+      {:paleta, "~> 0.1.0"},
+      {:flowy, git: "https://github.com/flowy-framework/flowy", tag: "0.1.1"}
     ]
   end
 

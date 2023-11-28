@@ -44,3 +44,10 @@ npm-debug.log
 .env*
 .vscode/
 .DS_Store
+
+# Flowy
+
+.env\*
+.vscode/
+.DS_Store
+.elixir_ls

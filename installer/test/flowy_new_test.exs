@@ -26,6 +26,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
     assert_received {:mix_shell, :info, ["Flowy installer v" <> _]}
   end
 
+  @tag :new_with_defaults
   test "new with defaults" do
     in_tmp("new with defaults", fn ->
       Mix.Tasks.Flowy.New.run([@app_name])
