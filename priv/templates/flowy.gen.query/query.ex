@@ -1,4 +1,7 @@
 defmodule <%= inspect query.module %> do
+  @moduledoc """
+  This module contains the queries for <%= schema.plural %> .
+  """
   import Ecto.Query
 
   alias <%= inspect schema.module %>

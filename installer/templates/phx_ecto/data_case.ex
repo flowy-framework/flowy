@@ -19,6 +19,7 @@ defmodule <%= @app_module %>.DataCase do
   using do
     quote do
       alias <%= @app_module %>.Repo
+      use Oban.Testing, repo: <%= @app_module %>.Repo
 
       import Ecto
       import Ecto.Changeset

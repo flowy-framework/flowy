@@ -1,6 +1,13 @@
 defmodule <%= inspect schema.module %> do
   use Ecto.Schema
   import Ecto.Changeset
+
+  @type t :: %__MODULE__{
+    id: binary(),
+    inserted_at: DateTime.t(),
+    updated_at: DateTime.t()
+  }
+
 <%= if schema.prefix do %>
   @schema_prefix :<%= schema.prefix %><% end %><%= if schema.binary_id do %>
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -25,6 +32,7 @@ defmodule <%= inspect schema.module %> do
   end
 
   @doc false
+  @spec changeset(<%= inspect schema.module %>.t(), map()) :: Ecto.Changeset.t()
   def changeset(<%= schema.singular %>, attrs) do
     <%= schema.singular %>
     |> cast(attrs, @required_fields ++ @optional_fields)

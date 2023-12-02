@@ -1,5 +1,11 @@
 #!/bin/bash
 # Docker entrypoint script.
+# Just mapping some generic db env to pg specific ones.
+export PGHOST="$DBHOST"
+export PGDATABASE="$DATABASE_NAME"
+export PGUSER="$DBUSER"
+export PGPASSWORD="$DBPASSWORD"
+export PGPORT="$DBPORT"
 
 # Wait until Postgres is ready
 while ! pg_isready -q -h $PGHOST -p $PGPORT -U $PGUSER

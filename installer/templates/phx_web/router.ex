@@ -1,4 +1,5 @@
 defmodule <%= @web_namespace %>.Router do
+  @moduledoc false
   use <%= @web_namespace %>, :router<%= if @html do %>
 
   pipeline :browser do

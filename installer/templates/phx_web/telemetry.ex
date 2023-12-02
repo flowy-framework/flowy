@@ -1,12 +1,15 @@
 defmodule <%= @web_namespace %>.Telemetry do
+  @moduledoc false
   use Supervisor
   import Telemetry.Metrics
 
+  @doc false
   def start_link(arg) do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
   @impl true
+  @doc false
   def init(_arg) do
     children = [
       # Telemetry poller will execute the given period measurements
@@ -19,6 +22,8 @@ defmodule <%= @web_namespace %>.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
+  @spec metrics() :: [Telemetry.Metrics.Measurement.t()]
+  @doc false
   def metrics do
     [
       # Phoenix Metrics
