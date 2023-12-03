@@ -3,7 +3,7 @@ defmodule Flowy.MixProject do
 
   @repo_url "https://github.com/flowy-framework/flowy"
   @name "Flowy"
-  @version "0.1.2"
+  @version "0.1.3"
 
   def project do
     [
