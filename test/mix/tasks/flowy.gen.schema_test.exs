@@ -418,7 +418,8 @@ defmodule Mix.Tasks.Flowy.Gen.SchemaTest do
       Gen.Schema.run(~w(Blog.Post posts title))
 
       assert_file("lib/flowy/schemas/blog/post.ex", fn file ->
-        assert file =~ "import Ecto.Changeset\n\n  @derive"
+        assert file =~
+                 "defmodule Flowy.Schemas.Blog.Post do\n  use Ecto.Schema\n  import Ecto.Changeset"
       end)
     end)
   end
