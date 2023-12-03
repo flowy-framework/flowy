@@ -21,6 +21,7 @@ defmodule Flowy.New.Single do
      "phx_single/README.md": "README.md",
      "phx_single/formatter.exs": ".formatter.exs",
      "phx_single/gitignore": ".gitignore",
+     "phx_single/doctor.exs": ".doctor.exs",
      "phx_single/dockerignore": ".dockerignore",
      "phx_single/credo.exs": ".credo.exs",
      "phx_single/Dockerfile": "Dockerfile",

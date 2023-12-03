@@ -33,8 +33,8 @@ defmodule Flowy.Support.Http do
   ]
 
   @moduledoc """
-  The `Cache` module provides a simple API for interacting with the configured
-  cache store.
+  The `Http` module provides a simple API for interacting with the configured
+  http client.
 
   ### Options
 

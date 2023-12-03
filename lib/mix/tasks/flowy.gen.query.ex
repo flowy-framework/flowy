@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Flowy.Gen.Query do
 
     Add the generated fixture to your #{query.fixture_setup_file} file:
 
-      alias #{query.base_module}.Tests.Fixtures.#{schema.human_singular}Fixtures
+      alias #{query.base_module}.Tests.Fixtures.#{inspect(schema.alias)}Fixtures
 
       def setup_#{schema.singular}(context) do
         #{schema.singular} = #{inspect(schema.alias)}Fixtures.#{schema.singular}_fixture()

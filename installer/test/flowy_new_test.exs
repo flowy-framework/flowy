@@ -32,7 +32,7 @@ defmodule Mix.Tasks.Flowy.NewTest do
       Mix.Tasks.Flowy.New.run([@app_name])
 
       assert_file("flowy_app/README.md", fn file ->
-        assert file =~ "# FlowyApp powered by Flowy"
+        assert file =~ "<p align=\"center\">\n  <img width=\"140px\" src=\"logos/logo-small.png\">\n"
       end)
 
       assert_file("flowy_app/.formatter.exs", fn file ->

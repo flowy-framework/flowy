@@ -1,9 +1,8 @@
 defmodule <%= @app_module %> do
-  @moduledoc """
-  <%= @app_module %> keeps the contexts that define your domain
-  and business logic.
+  @external_resource readme = Path.join([__DIR__, "../README.md"])
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  @moduledoc readme
+             |> File.read!()
+             |> String.split("<!-- MDOC -->")
+             |> Enum.fetch!(1)
 end

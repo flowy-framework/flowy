@@ -8,6 +8,22 @@ jobs:
   build-test:
     name: Build and test
     runs-on: ubuntu-latest
+    services:
+      db:
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        image: postgres:16
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      MIX_ENV: test
+      DBUSER: postgres
+      DBPASSWORD: postgres
     steps:
       - uses: actions/checkout@v4
       - name: Set up Elixir
@@ -31,6 +47,8 @@ jobs:
         run: mix deps.audit
       - name: Linter
         run: mix credo
+      - name: Doctor
+        run: mix doctor --full --raise
       - name: Run tests
         run: mix coveralls.json
         env:
@@ -40,5 +58,4 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
-      - name: Doctor
-        run: mix doctor --full --raise
+

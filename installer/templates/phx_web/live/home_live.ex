@@ -1,4 +1,5 @@
 defmodule <%= @web_namespace %>.Live.HomeLive do
+  @moduledoc false
   use <%= @web_namespace %>, :live_view
 
   @impl true
