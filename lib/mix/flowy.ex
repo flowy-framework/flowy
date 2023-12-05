@@ -16,6 +16,17 @@ defmodule Mix.Flowy do
   ]
 
   @doc """
+  Returns the module base name based on the configuration value.
+
+      config :my_app
+        namespace: My.App
+
+  """
+  def base do
+    app_base(otp_app())
+  end
+
+  @doc """
   Returns the context module base name based on the configuration value.
 
       config :my_app
@@ -54,6 +65,32 @@ defmodule Mix.Flowy do
   @spec test_path(atom, atom, String.t()) :: String.t()
   def test_path(resource, ctx_app, rel_path) do
     context_test_path(ctx_app, "#{ctx_app}/#{resource}/" <> rel_path)
+  end
+
+  @doc """
+  Returns the web prefix to be used in generated file specs.
+  """
+  def web_path(ctx_app, rel_path \\ "") when is_atom(ctx_app) do
+    this_app = otp_app()
+
+    if ctx_app == this_app do
+      Path.join(["lib", "#{this_app}_web", rel_path])
+    else
+      Path.join(["lib", to_string(this_app), rel_path])
+    end
+  end
+
+  @doc """
+  Returns the test prefix to be used in generated file specs.
+  """
+  def web_test_path(ctx_app, rel_path \\ "") when is_atom(ctx_app) do
+    this_app = otp_app()
+
+    if ctx_app == this_app do
+      Path.join(["test", "#{this_app}_web", rel_path])
+    else
+      Path.join(["test", to_string(this_app), rel_path])
+    end
   end
 
   @doc """

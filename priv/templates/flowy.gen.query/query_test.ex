@@ -35,11 +35,6 @@ defmodule <%= inspect query.module %>Test do
       assert <%= inspect query.module %>.get(<%= schema.singular %>_id) == nil
     end
 
-    test "delete all <%= schema.singular %>s" do
-      assert <%= inspect query.module %>.delete_all() == {1, nil}
-      assert <%= inspect query.module %>.all() == []
-    end
-
     test "changeset/1 returns a <%= schema.singular %> changeset", %{<%= schema.singular %>: <%= schema.singular %>} do
       assert %Ecto.Changeset{} = <%= inspect query.alias %>.changeset(<%= schema.singular %>)
     end

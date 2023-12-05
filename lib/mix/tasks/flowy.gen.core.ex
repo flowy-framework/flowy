@@ -84,7 +84,7 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
     table: :string,
     web: :string,
     schema: :boolean,
-    context: :boolean,
+    core: :boolean,
     context_app: :string,
     merge_with_existing_context: :boolean,
     prefix: :string,
@@ -149,6 +149,26 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
       true ->
         args
     end
+  end
+
+  def raise_with_help(msg) do
+    Mix.raise("""
+    #{msg}
+
+    mix flowy.gen.html, flowy.gen.json, flowy.gen.live, and flowy.gen.core
+    expect a core module name, followed by singular and plural names
+    of the generated resource, ending with any number of attributes.
+    For example:
+
+        mix flowy.gen.html Accounts User users name:string
+        mix flowy.gen.json Accounts User users name:string
+        mix flowy.gen.live Accounts User users name:string
+        mix flowy.gen.core Accounts User users name:string
+
+    The core serves as the API boundary for the given resource.
+    Multiple resources may belong to a core and a resource may be
+    split over distinct cores (such as Accounts.User and Payments.User).
+    """)
   end
 
   defp validate_args!(_, help) do

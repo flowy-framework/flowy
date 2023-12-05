@@ -9,10 +9,9 @@ defmodule <%= inspect core.module %> do
   defdelegate get(id), to: <%= inspect schema.alias %>Query
   defdelegate last(limit), to: <%= inspect schema.alias %>Query
   defdelegate get!(id), to: <%= inspect schema.alias %>Query
-  defdelegate update!(mode, attrs), to: <%= inspect schema.alias %>Query
-  defdelegate update(mode, attrs), to: <%= inspect schema.alias %>Query
-  defdelegate delete(mode), to: <%= inspect schema.alias %>Query
-  defdelegate delete_all(), to: <%= inspect schema.alias %>Query
+  defdelegate update!(model, attrs), to: <%= inspect schema.alias %>Query
+  defdelegate update(model, attrs), to: <%= inspect schema.alias %>Query
+  defdelegate delete(model), to: <%= inspect schema.alias %>Query
   defdelegate create(attrs), to: <%= inspect schema.alias %>Query
   defdelegate change(model, attrs \\ %{}), to: <%= inspect schema.alias %>Query, as: :changeset
 end
