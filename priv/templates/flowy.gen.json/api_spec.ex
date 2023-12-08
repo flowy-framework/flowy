@@ -5,7 +5,7 @@ defmodule <%= inspect core.web_module %>.ApiSpecs.<%= inspect core.alias %> do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "<%= schema.alias %>",
+      title: "<%= inspect schema.alias %>",
       description: "An <%= schema.singular %> of the app",
       type: :object,
       properties: %{
@@ -50,7 +50,7 @@ defmodule <%= inspect core.web_module %>.ApiSpecs.<%= inspect core.alias %> do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "<%= schema.alias %>Request",
+      title: "<%= inspect schema.alias %>Request",
       description: "POST body for creating an <%= schema.singular %>",
       type: :object,
       properties: %{
@@ -67,7 +67,7 @@ defmodule <%= inspect core.web_module %>.ApiSpecs.<%= inspect core.alias %> do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "<%= core.alias %>Response",
+      title: "<%= inspect core.alias %>Response",
       description: "Response schema for multiple <%= schema.plural %>",
       type: :object,
       properties: %{
@@ -90,7 +90,7 @@ defmodule <%= inspect core.web_module %>.ApiSpecs.<%= inspect core.alias %> do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "<%= schema.alias %>Response",
+      title: "<%= inspect schema.alias %>Response",
       description: "Response schema for single <%= schema.singular %>",
       type: :object,
       properties: %{
