@@ -5,27 +5,29 @@ defmodule Mix.Flowy.Core do
   alias Mix.Flowy.Schema
 
   @type t :: %__MODULE__{
-          base_module: atom,
-          module: atom,
-          alias: atom,
+          base_module: atom(),
+          module: atom(),
+          web_module: atom(),
+          alias: atom(),
           file: String.t(),
           test_file: String.t(),
           schema: Mix.Flowy.Schema.t(),
           query: Mix.Flowy.Query.t(),
           generate?: boolean,
           dir: String.t(),
-          context_app: atom,
+          context_app: atom(),
           opts: Keyword.t()
         }
 
   defstruct base_module: nil,
             module: nil,
+            web_module: nil,
             alias: nil,
             file: nil,
             test_file: nil,
             schema: nil,
             query: nil,
-            generate?: false,
+            generate?: true,
             context_app: nil,
             dir: nil,
             opts: []
@@ -43,7 +45,9 @@ defmodule Mix.Flowy.Core do
   """
   @spec new(String.t(), t(), Keyword.t()) :: t()
   def new(core_name, %Schema{} = schema, opts) do
-    basename = schema.plural
+    # basename = schema.plural
+    basedir = Phoenix.Naming.underscore(core_name)
+    basename = Path.basename(basedir)
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     otp_app = Mix.Flowy.otp_app()
     basedir = Phoenix.Naming.underscore(core_name)
@@ -52,9 +56,11 @@ defmodule Mix.Flowy.Core do
     base = Mix.Flowy.context_base(ctx_app)
     query = Mix.Flowy.Query.new(schema, opts)
     module_name = Macro.camelize(schema.plural)
+    generate? = Keyword.get(opts, :core, true)
 
     %__MODULE__{
       context_app: opts[:context_app] || Mix.Flowy.context_app(),
+      web_module: web_module(),
       base_module: base,
       query: query,
       module: Module.concat([base, "Core", "#{module_name}"]),
@@ -63,7 +69,8 @@ defmodule Mix.Flowy.Core do
       test_file: Mix.Flowy.test_path(:core, schema.context_app, basename <> "_test.exs"),
       schema: schema,
       dir: dir,
-      opts: opts
+      opts: opts,
+      generate?: generate?
     }
   end
 
@@ -110,5 +117,20 @@ defmodule Mix.Flowy.Core do
     |> Path.join("**/*.ex")
     |> Path.wildcard()
     |> Enum.count()
+  end
+
+  defp web_module do
+    base = Mix.Flowy.base()
+
+    cond do
+      Mix.Flowy.context_app() != Mix.Flowy.otp_app() ->
+        Module.concat([base])
+
+      String.ends_with?(base, "Web") ->
+        Module.concat([base])
+
+      true ->
+        Module.concat(["#{base}Web"])
+    end
   end
 end

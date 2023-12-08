@@ -55,7 +55,7 @@ defmodule Flowy.New.Web do
         project_path: project_path,
         web_path: web_path,
         web_app: app,
-        generators: [context_app: false],
+        generators: [context_app: false, api_prefix: "/api"],
         web_namespace: project.app_mod
     }
   end

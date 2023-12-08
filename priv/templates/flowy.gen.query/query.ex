@@ -155,20 +155,6 @@ defmodule <%= inspect query.module %> do
   end
 
   @doc """
-  Deletes all <%= schema.plural %> records.
-
-  ## Examples
-
-      iex> <%= query.module %>.delete_all()
-      {:ok, 1}
-
-  """
-  def delete_all() do
-    from(<%= inspect schema.alias %>)
-    |> Repo.delete_all()
-  end
-
-  @doc """
   Returns a data structure for tracking <%= schema.singular %> changes.
 
   ## Examples

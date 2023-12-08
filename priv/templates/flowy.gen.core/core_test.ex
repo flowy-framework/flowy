@@ -36,11 +36,6 @@ defmodule <%= inspect core.module %>Test do
       assert {:ok, %<%= inspect schema.alias %>{id: ^<%= schema.singular %>_id}} = <%= inspect core.alias %>.delete(<%= schema.singular %>)
       assert <%= inspect core.alias %>.get(<%= schema.singular %>_id) == nil
     end
-
-    test "delete all <%= schema.plural %>" do
-      assert <%= inspect core.alias %>.delete_all() == {1, nil}
-      assert <%= inspect core.alias %>.all() == []
-    end
   end
 
   @tag :core_<%= schema.plural %>
