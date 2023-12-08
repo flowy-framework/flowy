@@ -151,6 +151,10 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
     end
   end
 
+  defp validate_args!(_, help) do
+    help.raise_with_help("Invalid arguments")
+  end
+
   def raise_with_help(msg) do
     Mix.raise("""
     #{msg}
@@ -169,10 +173,6 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
     Multiple resources may belong to a core and a resource may be
     split over distinct cores (such as Accounts.User and Payments.User).
     """)
-  end
-
-  defp validate_args!(_, help) do
-    help.raise_with_help("Invalid arguments")
   end
 
   @doc false

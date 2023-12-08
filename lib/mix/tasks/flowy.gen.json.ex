@@ -62,7 +62,7 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
 
   In some cases, you may wish to bootstrap JSON views, controllers,
   and controller tests, but leave internal implementation of the context
-  or schema to yourself. You can use the `--no-context` and `--no-schema`
+  or schema to yourself. You can use the `--no-core` and `--no-schema`
   flags for file generation control.
 
   You can also change the table name or configure the migrations to

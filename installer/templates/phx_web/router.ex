@@ -17,12 +17,19 @@ defmodule <%= @web_namespace %>.Router do
   end<%= if @html do %>
 
   pipeline :api_spec do
+    plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: <%= @web_namespace %>.ApiSpec
   end
 
   scope "/api" do
-    pipe_through [:api, :api_spec]
+    pipe_through [:api_spec]
     get "/specs", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/api/i1", PartyWeb.Controllers.Api, as: :api do
+    pipe_through([:api])
+
+    # Your api resources here
   end
 
   scope "/" do
@@ -33,8 +40,6 @@ defmodule <%= @web_namespace %>.Router do
 
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
-
-
 
     live("/", Live.HomeLive, :show)
   end

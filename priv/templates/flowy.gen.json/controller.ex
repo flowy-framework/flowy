@@ -4,7 +4,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   alias <%= inspect core.module %>
   alias <%= inspect schema.module %>
 
-  action_fallback <%= inspect core.web_module %>.FallbackController
+  action_fallback Flowy.Web.Controllers.FallbackController
 
   def index(conn, _params) do
     <%= schema.plural %> = <%= inspect core.alias %>.all()

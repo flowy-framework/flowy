@@ -1,9 +1,9 @@
 defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_namespace, "Controllers", "Api", schema.alias]) %>ControllerTest do
   use <%= inspect core.web_module %>.ConnCase
 
-  import <%= inspect core.base_module %>.Tests.Fixtures.<%= inspect schema.singular %>Fixtures
+  import <%= core.base_module %>.Tests.Fixtures.<%= inspect schema.alias %>Fixtures
 
-  alias <%= inspect schema.alias %>
+  alias <%= inspect schema.module %>
 
   @create_attrs %{
 <%= schema.params.create |> Enum.map(fn {key, val} -> "    #{key}: #{inspect(val)}" end) |> Enum.join(",\n") %>
