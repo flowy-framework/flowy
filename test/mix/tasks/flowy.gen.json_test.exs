@@ -95,10 +95,6 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
 
       assert [_] = Path.wildcard("priv/repo/migrations/*_create_posts.exs")
 
-      assert_file("lib/flowy_web/controllers/fallback_controller.ex", fn file ->
-        assert file =~ "defmodule FlowyWeb.Controllers.FallbackController"
-      end)
-
       assert_file("lib/flowy_web/controllers/api/post_controller.ex", fn file ->
         assert file =~ "defmodule FlowyWeb.Controllers.Api.PostController"
         assert file =~ "use FlowyWeb, :controller"
@@ -192,10 +188,6 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
 
       assert_file("lib/flowy_web/controllers/api/blog/post_json.ex", fn file ->
         assert file =~ "defmodule FlowyWeb.Blog.Controllers.Api.PostJSON"
-      end)
-
-      assert_file("lib/flowy_web/controllers/changeset_json.ex", fn file ->
-        assert file =~ "Ecto.Changeset.traverse_errors(changeset, &translate_error/1"
       end)
 
       # TODO: We should somehow merge the outputs

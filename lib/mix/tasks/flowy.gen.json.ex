@@ -132,10 +132,7 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
       {:eex, "controller.ex", Path.join([controller_pre, "#{singular}_controller.ex"])},
       {:eex, "json.ex", Path.join([controller_pre, "#{singular}_json.ex"])},
       {:eex, "api_spec.ex", Path.join([web, "api_specs", "#{plural}.ex"])},
-      {:new_eex, "changeset_json.ex", Path.join([web, "controllers", "changeset_json.ex"])},
-      {:eex, "controller_test.exs", Path.join([test_pre, "#{singular}_controller_test.exs"])},
-      {:new_eex, "fallback_controller.ex",
-       Path.join([web, "controllers", "fallback_controller.ex"])}
+      {:eex, "controller_test.exs", Path.join([test_pre, "#{singular}_controller_test.exs"])}
     ]
   end
 
