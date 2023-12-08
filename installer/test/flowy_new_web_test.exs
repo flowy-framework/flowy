@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Flowy.New.WebTest do
       Mix.Tasks.Flowy.New.Web.run([@app_name])
 
       assert_file "../config/config.exs", fn file ->
-        assert file =~ "generators: [context_app: false]"
+        assert file =~ "generators: [context_app: false, api_prefix: \"/api\"]"
       end
 
       assert_file "#{@app_name}/mix.exs", fn file ->

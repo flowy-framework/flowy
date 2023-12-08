@@ -121,6 +121,7 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
   @doc false
   def files_to_be_generated(%Core{schema: schema, context_app: context_app}) do
     singular = schema.singular
+    plural = schema.plural
     web = Mix.Flowy.web_path(context_app)
     test_prefix = Mix.Flowy.web_test_path(context_app)
     web_path = to_string(schema.web_path)
@@ -130,6 +131,7 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
     [
       {:eex, "controller.ex", Path.join([controller_pre, "#{singular}_controller.ex"])},
       {:eex, "json.ex", Path.join([controller_pre, "#{singular}_json.ex"])},
+      {:eex, "api_spec.ex", Path.join([web, "api_specs", "#{plural}.ex"])},
       {:new_eex, "changeset_json.ex", Path.join([web, "controllers", "changeset_json.ex"])},
       {:eex, "controller_test.exs", Path.join([test_pre, "#{singular}_controller_test.exs"])},
       {:new_eex, "fallback_controller.ex",

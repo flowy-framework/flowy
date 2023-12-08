@@ -13,10 +13,28 @@ defmodule <%= @web_namespace %>.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Flowy.Web.Plugs.CamelCaseDecoderPlug
   end<%= if @html do %>
+
+  pipeline :api_spec do
+    plug OpenApiSpex.Plug.PutApiSpec, module: <%= @web_namespace %>.ApiSpec
+  end
+
+  scope "/api" do
+    pipe_through [:api, :api_spec]
+    get "/specs", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/" do
+    # TODO: Make sure you want to have this open in production
+    pipe_through([:browser])
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/specs"
+  end
 
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
+
+
 
     live("/", Live.HomeLive, :show)
   end

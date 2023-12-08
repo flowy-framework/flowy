@@ -34,6 +34,7 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
     end)
   end
 
+  @tag :gen_json_generates
   test "generates json resource", config do
     one_day_in_seconds = 24 * 3600
 
@@ -107,6 +108,10 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
         assert file =~ "Posts.update"
         assert file =~ "Posts.delete"
         assert file =~ ~s|~p"/api/posts|
+      end)
+
+      assert_file("lib/flowy_web/api_specs/posts.ex", fn file ->
+        assert file =~ "defmodule FlowyWeb.ApiSpecs.Posts do"
       end)
 
       assert_receive {:mix_shell, :info,

@@ -28,7 +28,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   def update(conn, %{"id" => id, <%= inspect schema.singular %> => <%= schema.singular %>_params}) do
     <%= schema.singular %> = <%= inspect core.alias %>.get!(id)
 
-    with {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} <- <%= inspect core.alias %>.update>(<%= schema.singular %>, <%= schema.singular %>_params) do
+    with {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} <- <%= inspect core.alias %>.update(<%= schema.singular %>, <%= schema.singular %>_params) do
       render(conn, :show, <%= schema.singular %>: <%= schema.singular %>)
     end
   end
