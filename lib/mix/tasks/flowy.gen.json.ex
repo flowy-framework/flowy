@@ -14,12 +14,9 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
   Therefore, if the context already exists, it will be augmented with
   functions for the given resource.
 
-  > Note: A resource may also be split
-  > over distinct contexts (such as `Accounts.User` and `Payments.User`).
-
   The schema is responsible for mapping the database fields into an
   Elixir struct. It is followed by an optional list of attributes,
-  with their respective names and types. See `mix phx.gen.schema`
+  with their respective names and types. See `mix flowy.gen.schema`
   for more information on attributes.
 
   Overall, this generator will add the following files to `lib/`:
@@ -66,7 +63,7 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
   flags for file generation control.
 
   You can also change the table name or configure the migrations to
-  use binary ids for primary keys, see `mix phx.gen.schema` for more
+  use binary ids for primary keys, see `mix flowy.gen.schema` for more
   information.
   """
 
