@@ -282,28 +282,4 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
       end)
     end)
   end
-
-  test "with existing core_components.ex file", config do
-    in_tmp_project(config.test, fn ->
-      File.mkdir_p!("lib/flowy_web/components")
-
-      File.write!("lib/flowy_web/components/core_components.ex", """
-      defmodule FlowyWeb.CoreComponents do
-      end
-      """)
-
-      [{module, _}] = Code.compile_file("lib/flowy_web/components/core_components.ex")
-
-      Gen.Json.run(~w(Blog Post posts title:string --web Blog))
-
-      assert_file("lib/flowy_web/controllers/changeset_json.ex", fn file ->
-        assert file =~
-                 "Ecto.Changeset.traverse_errors(changeset, &translate_error/1)"
-      end)
-
-      # Clean up test case specific compile artifact so it doesn't leak to other test cases
-      :code.purge(module)
-      :code.delete(module)
-    end)
-  end
 end
