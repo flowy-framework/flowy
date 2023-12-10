@@ -75,7 +75,6 @@ defmodule Flowy.MixProject do
 
       # TODO: This dependency should probably be optional
       {:finch, "~> 0.16"},
-      {:oauth2, "~> 2.0"},
       {:telemetry, "~> 1.2"},
       {:prom_ex, "~> 1.9.0"},
       {:phoenix, "~> 1.7.0"},
@@ -87,7 +86,14 @@ defmodule Flowy.MixProject do
 
       # Auth
       {:joken, "~> 2.5"},
-      {:paleta, "~> 0.1.0"}
+      {:paleta, "~> 0.1.0"},
+
+      # OAuth
+      {:oauth2, "~> 2.0"},
+      # TODO: Update to 0.10.6 when re-released
+      # https://github.com/ueberauth/ueberauth/issues/194
+      {:ueberauth, "== 0.10.5"},
+      {:ueberauth_okta, "~> 0.3"},
     ]
 
     # ++ private_deps()
