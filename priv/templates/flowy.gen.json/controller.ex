@@ -39,7 +39,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
       created: {"<%= inspect schema.alias %>", "application/json", <%= inspect schema.alias %>Response}
     ]
 
-  def create(conn, %{<%= inspect schema.singular %> => <%= schema.singular %>_params}) do
+  def create(conn, <%= schema.singular %>_params) do
     with {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} <- <%= inspect core.alias %>.create(<%= schema.singular %>_params) do
       conn
       |> put_status(:created)
@@ -85,7 +85,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
       ok: {"<%= inspect schema.alias %> response", "application/json", <%= inspect schema.alias %>Response}
     ]
 
-  def update(conn, %{"id" => id, <%= inspect schema.singular %> => <%= schema.singular %>_params}) do
+  def update(conn, %{"id" => id} = <%= schema.singular %>_params) do
     <%= schema.singular %> = <%= inspect core.alias %>.get!(id)
 
     with {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} <- <%= inspect core.alias %>.update(<%= schema.singular %>, <%= schema.singular %>_params) do

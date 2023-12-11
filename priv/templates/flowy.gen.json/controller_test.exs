@@ -13,9 +13,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   }
   @invalid_attrs <%= Mix.Phoenix.to_text for {key, _} <- schema.params.create, into: %{}, do: {key, nil} %>
 
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  end
+  setup [:setup_auth_header]
 
   describe "index" do
     test "lists all <%= schema.plural %>", %{conn: conn} do
@@ -24,9 +22,18 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
     end
   end
 
+  describe "index with no authorization" do
+    setup [:delete_auth_header]
+
+    test "fail to lists all vendors", %{conn: conn} do
+      conn = get(conn, ~p"<%= schema.api_route_prefix %>")
+      assert json_response(conn, 403)
+    end
+  end
+
   describe "create <%= schema.singular %>" do
     test "renders <%= schema.singular %> when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"<%= schema.api_route_prefix %>", <%= schema.singular %>: @create_attrs)
+      conn = post(conn, ~p"<%= schema.api_route_prefix %>", @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, ~p"<%= schema.api_route_prefix %>/#{id}")
@@ -38,7 +45,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, ~p"<%= schema.api_route_prefix %>", <%= schema.singular %>: @invalid_attrs)
+      conn = post(conn, ~p"<%= schema.api_route_prefix %>", @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -47,7 +54,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
     setup [:create_<%= schema.singular %>]
 
     test "renders <%= schema.singular %> when data is valid", %{conn: conn, <%= schema.singular %>: %<%= inspect schema.alias %>{id: id} = <%= schema.singular %>} do
-      conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", <%= schema.singular %>: @update_attrs)
+      conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, ~p"<%= schema.api_route_prefix %>/#{id}")
@@ -59,7 +66,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
     end
 
     test "renders errors when data is invalid", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
-      conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", <%= schema.singular %>: @invalid_attrs)
+      conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
