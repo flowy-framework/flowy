@@ -26,12 +26,12 @@ defmodule Flowy.Config do
     }
   end
 
-  def development?() do
-    System.get_env("MIX_ENV", "dev") == "dev"
-  end
-
   def test?() do
     System.get_env("MIX_ENV", "test") == "test"
+  end
+
+  def run_server?() do
+    System.get_env("PHX_SERVER") != nil
   end
 
   def secret!(env) do
@@ -39,7 +39,8 @@ defmodule Flowy.Config do
       if byte_size(secret_key_base) < 64 do
         abort!(
           "cannot start service because #{env} must be at least 64 characters. " <>
-            "Invoke `openssl rand -base64 48` to generate an appropriately long secret.")
+            "Invoke `openssl rand -base64 48` to generate an appropriately long secret."
+        )
       end
 
       secret_key_base

@@ -98,7 +98,7 @@ defmodule Flowy.Utils.JwtToken do
             keys
 
           _ ->
-            {:ok, %{"keys" => keys}} =
+            {:ok, %{body: %{"keys" => keys}}} =
               Http.get(public_keys_url(opts), headers())
 
             keys

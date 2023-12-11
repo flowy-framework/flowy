@@ -8,15 +8,11 @@ defmodule Flowy.ConfigTest do
   describe "Flowy.Config" do
     @describetag :flowy_config
 
-    test "development?/0" do
-      assert Config.development?() == true
-    end
-
     test "secret!/1" do
       System.put_env("EMPTY", "wrong value")
 
       assert capture_io(fn -> Config.secret!("EMPTY") end) =~
-      "\nERROR!!! Flowy cannot start service because EMPTY must be at least 64 characters. Invoke `openssl rand -base64 48` to generate an appropriately long secret.\n"
+               "\nERROR!!! Flowy cannot start service because EMPTY must be at least 64 characters. Invoke `openssl rand -base64 48` to generate an appropriately long secret.\n"
     end
 
     test "db_ssl!/1" do
@@ -35,7 +31,7 @@ defmodule Flowy.ConfigTest do
       System.put_env("PORT", "invalid")
 
       assert capture_io(fn -> Config.port!("PORT") end) =~
-      "\nERROR!!! Flowy expected PORT to be an integer, got: \"invalid\"\n"
+               "\nERROR!!! Flowy expected PORT to be an integer, got: \"invalid\"\n"
     end
 
     test "hostname!/1" do
@@ -46,13 +42,14 @@ defmodule Flowy.ConfigTest do
 
     test "ip!/1" do
       System.put_env("TEST_IP", "127.0.0.1")
-      assert Config.ip!("TEST_IP") ==  {127, 0, 0, 1}
+      assert Config.ip!("TEST_IP") == {127, 0, 0, 1}
     end
 
     test "ip!/1 with invalid data" do
       System.put_env("TEST_IP", "invalid_id")
+
       assert capture_io(fn -> Config.ip!("TEST_IP") end) =~
-      "\nERROR!!! Flowy expected TEST_IP to be a valid ipv4 or ipv6 address, got: invalid_id\n"
+               "\nERROR!!! Flowy expected TEST_IP to be a valid ipv4 or ipv6 address, got: invalid_id\n"
     end
 
     test "Flowy.Config.build/1 is created with correct default values" do

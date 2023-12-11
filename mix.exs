@@ -3,7 +3,7 @@ defmodule Flowy.MixProject do
 
   @repo_url "https://github.com/flowy-framework/flowy"
   @name "Flowy"
-  @version "0.1.4"
+  @version "0.1.5"
 
   def project do
     [
@@ -93,7 +93,7 @@ defmodule Flowy.MixProject do
       # TODO: Update to 0.10.6 when re-released
       # https://github.com/ueberauth/ueberauth/issues/194
       {:ueberauth, "== 0.10.5"},
-      {:ueberauth_okta, "~> 0.3"},
+      {:ueberauth_okta, "~> 0.3"}
     ]
 
     # ++ private_deps()

@@ -39,4 +39,21 @@ defmodule <%= @web_namespace %>.ConnCase do
   setup _tags do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end<% end %>
+
+  def setup_auth_header(%{conn: conn}) do
+    %{
+      conn:
+        conn
+        |> Plug.Conn.put_req_header(conn, "accept", "application/json")
+        |> Plug.Conn.put_req_header("authorization", "Bearer #{Flowy.Utils.JwtToken.sign!()}")
+    }
+  end
+
+  def delete_auth_header(%{conn: conn}) do
+    %{
+      conn:
+        conn
+        |> Plug.Conn.delete_req_header("authorization")
+    }
+  end
 end
