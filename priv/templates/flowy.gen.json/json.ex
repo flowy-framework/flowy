@@ -12,7 +12,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   Renders a single <%= schema.singular %>.
   """
   def show(%{<%= schema.singular %>: <%= schema.singular %>}) do
-    %{data: data(<%= schema.singular %>)}
+    data(<%= schema.singular %>)
   end
 
   defp data(%<%= inspect schema.alias %>{} = <%= schema.singular %>) do

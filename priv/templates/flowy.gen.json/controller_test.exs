@@ -34,14 +34,14 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   describe "create <%= schema.singular %>" do
     test "renders <%= schema.singular %> when data is valid", %{conn: conn} do
       conn = post(conn, ~p"<%= schema.api_route_prefix %>", @create_attrs)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id} = json_response(conn, 201)
 
       conn = get(conn, ~p"<%= schema.api_route_prefix %>/#{id}")
 
       assert %{
                "id" => ^id<%= for {key, val} <- schema.params.create |> Phoenix.json_library().encode!() |> Phoenix.json_library().decode!() do %>,
                "<%= key %>" => <%= inspect(val) %><% end %>
-             } = json_response(conn, 200)["data"]
+             } = json_response(conn, 200)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -55,14 +55,14 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
 
     test "renders <%= schema.singular %> when data is valid", %{conn: conn, <%= schema.singular %>: %<%= inspect schema.alias %>{id: id} = <%= schema.singular %>} do
       conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", @update_attrs)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      assert %{"id" => ^id} = json_response(conn, 200)
 
       conn = get(conn, ~p"<%= schema.api_route_prefix %>/#{id}")
 
       assert %{
                "id" => ^id<%= for {key, val} <- schema.params.update |> Phoenix.json_library().encode!() |> Phoenix.json_library().decode!() do %>,
                "<%= key %>" => <%= inspect(val) %><% end %>
-             } = json_response(conn, 200)["data"]
+             } = json_response(conn, 200)
     end
 
     test "renders errors when data is invalid", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
