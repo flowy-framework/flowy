@@ -87,7 +87,6 @@ defmodule Mix.Tasks.Flowy.Gen.Json do
       core: core,
       schema: schema,
       query: query,
-      # core_components?: Code.ensure_loaded?(Module.concat(context.web_module, "CoreComponents")),
       gettext?: Code.ensure_loaded?(Module.concat(core.web_module, "Gettext"))
     ]
 

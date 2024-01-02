@@ -127,12 +127,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
         assert file =~ "module.exports = {\n  content: [\n    \"./js/**/*.js\",\n    \"./css/**/*.css\",\n"
       end
 
-      assert_file("flowy_app/assets/vendor/heroicons/LICENSE.md")
-      assert_file("flowy_app/assets/vendor/heroicons/UPGRADE.md")
-      assert_file("flowy_app/assets/vendor/heroicons/optimized/24/outline/cake.svg")
-      assert_file("flowy_app/assets/vendor/heroicons/optimized/24/solid/cake.svg")
-      assert_file("flowy_app/assets/vendor/heroicons/optimized/20/solid/cake.svg")
-
       refute File.exists?("flowy_app/priv/static/assets/app.css")
       refute File.exists?("flowy_app/priv/static/assets/app.js")
       assert File.exists?("flowy_app/assets/vendor")

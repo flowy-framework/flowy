@@ -89,7 +89,7 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
                               "title" => "some title",
                               "votes" => 42,
                               "weight" => 120.5
-                            } = json_response(conn, 200)["data"]
+                            } = json_response(conn, 200)
                """
       end)
 
