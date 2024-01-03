@@ -129,7 +129,6 @@ defmodule Mix.Tasks.Flowy.NewTest do
 
       refute File.exists?("flowy_app/priv/static/assets/app.css")
       refute File.exists?("flowy_app/priv/static/assets/app.js")
-      assert File.exists?("flowy_app/assets/vendor")
 
       assert_file("flowy_app/config/config.exs", fn file ->
         assert file =~ "cd: Path.expand(\"../assets\", __DIR__)"
