@@ -90,7 +90,7 @@ defmodule <%= @web_namespace %> do
       use Paleta
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
-      alias Palette.Components.Breadcrumb.Step
+      alias Paleta.Components.Breadcrumb.Step
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
