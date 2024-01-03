@@ -1,27 +1,23 @@
-defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent do
-  use <%= inspect context.web_module %>, :live_component
+defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent do
+  use <%= inspect core.web_module %>, :live_component
 
-  alias <%= inspect context.module %>
+  alias <%= inspect core.module %>
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.header>
-        <%%= @title %>
-        <:subtitle>Use this form to manage <%= schema.singular %> records in your database.</:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="<%= schema.singular %>-form"
-        phx-target={@myself}
+        target={@myself}
         phx-change="validate"
-        phx-submit="save"
+        event="save"
       >
-<%= Mix.Tasks.Phx.Gen.Html.indent_inputs(inputs, 8) %>
+<%= Mix.Tasks.Flowy.Gen.Html.indent_inputs(inputs, 8) %>
         <:actions>
-          <.button phx-disable-with="Saving...">Save <%= schema.human_singular %></.button>
+          <.close_modal_button modal_id={@modal_id}/>
+          <.save_modal_button />
         </:actions>
       </.simple_form>
     </div>
@@ -30,7 +26,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   @impl true
   def update(%{<%= schema.singular %>: <%= schema.singular %>} = assigns, socket) do
-    changeset = <%= inspect context.alias %>.change_<%= schema.singular %>(<%= schema.singular %>)
+    changeset = <%= inspect core.alias %>.change(<%= schema.singular %>)
 
     {:ok,
      socket
@@ -42,7 +38,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   def handle_event("validate", %{"<%= schema.singular %>" => <%= schema.singular %>_params}, socket) do
     changeset =
       socket.assigns.<%= schema.singular %>
-      |> <%= inspect context.alias %>.change_<%= schema.singular %>(<%= schema.singular %>_params)
+      |> <%= inspect core.alias %>.change(<%= schema.singular %>_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign_form(socket, changeset)}
@@ -53,7 +49,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   end
 
   defp save_<%= schema.singular %>(socket, :edit, <%= schema.singular %>_params) do
-    case <%= inspect context.alias %>.update_<%= schema.singular %>(socket.assigns.<%= schema.singular %>, <%= schema.singular %>_params) do
+    case <%= inspect core.alias %>.update(socket.assigns.<%= schema.singular %>, <%= schema.singular %>_params) do
       {:ok, <%= schema.singular %>} ->
         notify_parent({:saved, <%= schema.singular %>})
 
@@ -68,7 +64,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   end
 
   defp save_<%= schema.singular %>(socket, :new, <%= schema.singular %>_params) do
-    case <%= inspect context.alias %>.create_<%= schema.singular %>(<%= schema.singular %>_params) do
+    case <%= inspect core.alias %>.create(<%= schema.singular %>_params) do
       {:ok, <%= schema.singular %>} ->
         notify_parent({:saved, <%= schema.singular %>})
 

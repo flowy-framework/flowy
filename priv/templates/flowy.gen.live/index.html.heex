@@ -1,11 +1,13 @@
-<.header>
-  Listing <%= schema.human_plural %>
+<.breadcrumb title="<%= schema.human_plural %>" >
   <:actions>
-    <.link patch={~p"<%= schema.route_prefix %>/new"}>
-      <.button>New <%= schema.human_singular %></.button>
-    </.link>
+    <.action_link
+      type={:patch}
+      path={~p"<%= schema.route_prefix %>/new"}
+      tooltip="Create a new <%= schema.human_singular %>"
+      icon={:add}
+    />
   </:actions>
-</.header>
+</.breadcrumb>
 
 <.table
   id="<%= schema.plural %>"
@@ -13,29 +15,35 @@
   row_click={fn {_id, <%= schema.singular %>} -> JS.navigate(~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}") end}
 ><%= for {k, _} <- schema.attrs do %>
   <:col :let={{_id, <%= schema.singular %>}} label="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>"><%%= <%= schema.singular %>.<%= k %> %></:col><% end %>
-  <:action :let={{_id, <%= schema.singular %>}}>
+  <:actions :let={{_id, <%= schema.singular %>}}>
     <div class="sr-only">
-      <.link navigate={~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}"}>Show</.link>
+      <.view_link path={~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}"} />
     </div>
-    <.link patch={~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, <%= schema.singular %>}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: <%= schema.singular %>.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
-  </:action>
+    <.edit_link path={~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}/edit"} />
+    <.delete_link path={~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}/delete"} />
+  </:actions>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>")}>
+<.modal :if={@live_action in [:new, :edit]} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>")} title={@page_title}>
   <.live_component
-    module={<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent}
+    module={<%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent}
     id={@<%= schema.singular %>.id || :new}
     title={@page_title}
     action={@live_action}
     <%= schema.singular %>={@<%= schema.singular %>}
     patch={~p"<%= schema.route_prefix %>"}
+    modal_id="<%= schema.singular %>-modal"
+  />
+</.modal>
+
+<.modal :if={@live_action in [:delete]} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>")} title={@page_title}>
+  <.live_component
+    module={<%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.DeleteComponent}
+    id={@<%= schema.singular %>.id || :new}
+    title={@page_title}
+    action={@live_action}
+    <%= schema.singular %>={@<%= schema.singular %>}
+    patch={~p"<%= schema.route_prefix %>"}
+    modal_id="<%= schema.singular %>-modal"
   />
 </.modal>

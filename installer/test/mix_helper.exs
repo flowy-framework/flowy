@@ -46,7 +46,7 @@ defmodule MixHelper do
         function.()
       end)
     after
-      # File.rm_rf!(base_path)
+      File.rm_rf!(base_path)
       Application.put_env(:flowy, :generators, conf_before)
     end
   end

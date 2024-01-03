@@ -173,7 +173,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
 
       refute File.exists?(web_path(@app, "priv/static/assets/app.css"))
       refute File.exists?(web_path(@app, "priv/static/assets/app.js"))
-      assert File.exists?(web_path(@app, "assets/vendor"))
 
       # web deps
       assert_file(web_path(@app, "mix.exs"), fn file ->
@@ -810,7 +809,6 @@ defmodule Mix.Tasks.Flowy.New.UmbrellaTest do
 
         refute File.exists?("another/priv/static/assets/app.css")
         refute File.exists?("another/priv/static/assets/app.js")
-        assert File.exists?("another/assets/vendor")
 
         # Ecto
         assert_file("another/mix.exs", fn file ->

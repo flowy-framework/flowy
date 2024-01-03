@@ -1,26 +1,56 @@
-<.header>
-  <%= schema.human_singular %> <%%= @<%= schema.singular %>.id %>
-  <:subtitle>This is a <%= schema.singular %> record from your database.</:subtitle>
+<.breadcrumb title="Overview" steps={@steps}>
   <:actions>
-    <.link patch={~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit <%= schema.singular %></.button>
-    </.link>
+    <.action_link
+      type={:patch}
+      path={~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}/show/edit"}
+      tooltip="Edit <%= schema.singular %>"
+      icon={:edit}
+      phx-click={JS.push_focus()}
+    />
+
+    <.action_link
+      type={:patch}
+      path={~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}/show/delete"}
+      tooltip="Delete <%= schema.singular %>"
+      icon={:delete}
+      phx-click={JS.push_focus()}
+    />
   </:actions>
-</.header>
+</.breadcrumb>
 
-<.list><%= for {k, _} <- schema.attrs do %>
-  <:item title="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>"><%%= @<%= schema.singular %>.<%= k %> %></:item><% end %>
-</.list>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+  <.card >
+    <div class="space-y-3">
+      <%= for {k, _} <- schema.attrs do %>
+      <.card_field value={@<%= schema.singular %>.<%= k %>} label="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>" />
+      <% end %>
+      <.card_line />
+      <.card_formatted_field format="date_from_now" value={@<%= schema.singular %>.inserted_at} label="Inserted at" />
+      <.card_formatted_field format="date_from_now" value={@<%= schema.singular %>.updated_at} label="Updated at" />
+    </div>
+  </.card>
+</div>
 
-<.back navigate={~p"<%= schema.route_prefix %>"}>Back to <%= schema.plural %></.back>
-
-<.modal :if={@live_action == :edit} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}")}>
+<.modal :if={@live_action == :edit} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}")} title={@page_title}>
   <.live_component
-    module={<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent}
+    module={<%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent}
     id={@<%= schema.singular %>.id}
     title={@page_title}
     action={@live_action}
     <%= schema.singular %>={@<%= schema.singular %>}
     patch={~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}"}
+    modal_id="<%= schema.singular %>-modal"
+  />
+</.modal>
+
+<.modal :if={@live_action in [:show_delete]} id="<%= schema.singular %>-modal" show on_cancel={JS.patch(~p"<%= schema.route_prefix %>/#{@<%= schema.singular %>}")} title={@page_title}>
+  <.live_component
+    module={<%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.DeleteComponent}
+    id={@<%= schema.singular %>.id || :new}
+    title={@page_title}
+    action={@live_action}
+    <%= schema.singular %>={@<%= schema.singular %>}
+    patch={~p"<%= schema.route_prefix %>"}
+    modal_id="<%= schema.singular %>-modal"
   />
 </.modal>
