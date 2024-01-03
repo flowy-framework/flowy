@@ -1,4 +1,4 @@
-Code.require_file "../../../installer/test/mix_helper.exs", __DIR__
+Code.require_file("../../../installer/test/mix_helper.exs", __DIR__)
 
 defmodule Mix.Tasks.Phx.Gen.LiveTest do
   use ExUnit.Case
@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Phx.Gen.LiveTest do
   end
 
   test "invalid mix arguments", config do
-    in_tmp_live_project config.test, fn ->
+    in_tmp_live_project(config.test, fn ->
       assert_raise Mix.Error, ~r/Expected the core, "blog", to be a valid module name/, fn ->
         Gen.Live.run(~w(blog Post posts title:string))
       end
@@ -50,11 +50,11 @@ defmodule Mix.Tasks.Phx.Gen.LiveTest do
       assert_raise Mix.Error, ~r/Invalid arguments/, fn ->
         Gen.Live.run(~w(Blog Post))
       end
-    end
+    end)
   end
 
   test "generates live resource and handles existing contexts", config do
-    in_tmp_live_project config.test, fn ->
+    in_tmp_live_project(config.test, fn ->
       Gen.Live.run(~w(Posts Post posts title slug:unique votes:integer cost:decimal
                       tags:array:text popular:boolean drafted_at:datetime
                       status:enum:unpublished:published:deleted
@@ -68,50 +68,53 @@ defmodule Mix.Tasks.Phx.Gen.LiveTest do
                       metadata:map
                       weight:float user_id:references:users))
 
-      assert_file "lib/flowy/core/posts.ex"
-      assert_file "lib/flowy/queries/post_query.ex"
-      assert_file "lib/flowy/schemas/post.ex"
-      assert_file "test/flowy/core/posts_test.exs"
-      assert_file "test/flowy/queries/post_query_test.exs"
+      assert_file("lib/flowy/core/posts.ex")
+      assert_file("lib/flowy/queries/post_query.ex")
+      assert_file("lib/flowy/schemas/post.ex")
+      assert_file("test/flowy/core/posts_test.exs")
+      assert_file("test/flowy/queries/post_query_test.exs")
 
-      assert_file "lib/flowy_web/live/post_live/index.ex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/index.ex", fn file ->
         assert file =~ "defmodule FlowyWeb.PostLive.Index"
-      end
+      end)
 
-      assert_file "lib/flowy_web/live/post_live/show.ex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/show.ex", fn file ->
         assert file =~ "defmodule FlowyWeb.PostLive.Show"
-      end
+      end)
 
-      assert_file "lib/flowy_web/live/post_live/form_component.ex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/form_component.ex", fn file ->
         assert file =~ "defmodule FlowyWeb.PostLive.FormComponent"
-      end
+      end)
 
       assert [path] = Path.wildcard("priv/repo/migrations/*_create_posts.exs")
-      assert_file path, fn file ->
+
+      assert_file(path, fn file ->
         assert file =~ "create table(:posts)"
         assert file =~ "add :title, :string"
         assert file =~ "create unique_index(:posts, [:slug])"
-      end
+      end)
 
-      assert_file "lib/flowy_web/live/post_live/index.html.heex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/index.html.heex", fn file ->
         assert file =~ ~S|~p"/posts"|
-      end
+      end)
 
-      assert_file "lib/flowy_web/live/post_live/show.html.heex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/show.html.heex", fn file ->
         assert file =~ ~S|~p"/posts"|
-      end
+      end)
 
-      assert_file "lib/flowy_web/live/post_live/form_component.ex", fn file ->
+      assert_file("lib/flowy_web/live/post_live/form_component.ex", fn file ->
         assert file =~ ~s(<.simple_form)
         assert file =~ ~s(<.text field={@form[:title]} type="text")
         assert file =~ ~s(<.text field={@form[:votes]} type="number")
         assert file =~ ~s(<.text field={@form[:cost]} type="number" label="Cost" step="any")
+
         assert file =~ """
-                <.text
-                  field={@form[:tags]}
-                  type="select"
-                  multiple
-        """
+                       <.text
+                         field={@form[:tags]}
+                         type="select"
+                         multiple
+               """
+
         assert file =~ ~s(<.text field={@form[:popular]} type="checkbox")
         assert file =~ ~s(<.text field={@form[:drafted_at]} type="datetime-local")
         assert file =~ ~s(<.text field={@form[:published_at]} type="datetime-local")
@@ -120,136 +123,140 @@ defmodule Mix.Tasks.Phx.Gen.LiveTest do
         assert file =~ ~s(<.text field={@form[:alarm]} type="time")
         assert file =~ ~s(<.text field={@form[:secret]} type="text" label="Secret" />)
         refute file =~ ~s(<field={@form[:metadata]})
+
         assert file =~ """
-                <.text
-                  field={@form[:status]}
-                  type="select"
-        """
+                       <.text
+                         field={@form[:status]}
+                         type="select"
+               """
+
         assert file =~ ~s|Ecto.Enum.values(Flowy.Schemas.Post, :status)|
 
         refute file =~ ~s(<.text field={@form[:user_id]})
-      end
+      end)
 
-      assert_file "test/flowy_web/live/post_live_test.exs", fn file ->
+      assert_file("test/flowy_web/live/post_live_test.exs", fn file ->
         assert file =~ ~r"@invalid_attrs.*popular: false"
         assert file =~ ~S|~p"/posts"|
         assert file =~ ~S|~p"/posts/new"|
         assert file =~ ~S|~p"/posts/#{post}"|
         assert file =~ ~S|~p"/posts/#{post}/show/edit"|
-      end
-    end
+      end)
+    end)
   end
 
   test "with --no-core skips context and schema file generation", config do
-    in_tmp_live_project config.test, fn ->
+    in_tmp_live_project(config.test, fn ->
       Gen.Live.run(~w(Posts Post posts title:string --no-core))
 
-      refute_file "lib/flowy/core/posts.ex"
-      refute_file "lib/flowy/schemas/post.ex"
+      refute_file("lib/flowy/core/posts.ex")
+      refute_file("lib/flowy/schemas/post.ex")
       assert Path.wildcard("priv/repo/migrations/*.exs") == []
 
-      assert_file "lib/flowy_web/live/post_live/index.ex"
-      assert_file "lib/flowy_web/live/post_live/show.ex"
-      assert_file "lib/flowy_web/live/post_live/form_component.ex"
+      assert_file("lib/flowy_web/live/post_live/index.ex")
+      assert_file("lib/flowy_web/live/post_live/show.ex")
+      assert_file("lib/flowy_web/live/post_live/form_component.ex")
 
-      assert_file "lib/flowy_web/live/post_live/index.html.heex"
-      assert_file "lib/flowy_web/live/post_live/show.html.heex"
-      assert_file "test/flowy_web/live/post_live_test.exs"
-    end
+      assert_file("lib/flowy_web/live/post_live/index.html.heex")
+      assert_file("lib/flowy_web/live/post_live/show.html.heex")
+      assert_file("test/flowy_web/live/post_live_test.exs")
+    end)
   end
 
   test "with --no-schema skips schema file generation", config do
-    in_tmp_live_project config.test, fn ->
+    in_tmp_live_project(config.test, fn ->
       Gen.Live.run(~w(Posts Post posts title:string --no-schema))
 
-      assert_file "lib/flowy/core/posts.ex"
-      refute_file "lib/flowy/schemas/post.ex"
+      assert_file("lib/flowy/core/posts.ex")
+      refute_file("lib/flowy/schemas/post.ex")
       assert Path.wildcard("priv/repo/migrations/*.exs") == []
 
-      assert_file "lib/flowy_web/live/post_live/index.ex"
-      assert_file "lib/flowy_web/live/post_live/show.ex"
-      assert_file "lib/flowy_web/live/post_live/form_component.ex"
+      assert_file("lib/flowy_web/live/post_live/index.ex")
+      assert_file("lib/flowy_web/live/post_live/show.ex")
+      assert_file("lib/flowy_web/live/post_live/form_component.ex")
 
-      assert_file "lib/flowy_web/live/post_live/index.html.heex"
-      assert_file "lib/flowy_web/live/post_live/show.html.heex"
-      assert_file "test/flowy_web/live/post_live_test.exs"
-    end
+      assert_file("lib/flowy_web/live/post_live/index.html.heex")
+      assert_file("lib/flowy_web/live/post_live/show.html.heex")
+      assert_file("test/flowy_web/live/post_live_test.exs")
+    end)
   end
 
   test "with --no-core does not emit warning when context exists", config do
-    in_tmp_live_project config.test, fn ->
+    in_tmp_live_project(config.test, fn ->
       Gen.Live.run(~w(Posts Post posts title:string))
 
-      assert_file "lib/flowy/core/posts.ex"
-      assert_file "lib/flowy/queries/post_query.ex"
-      assert_file "lib/flowy/schemas/post.ex"
+      assert_file("lib/flowy/core/posts.ex")
+      assert_file("lib/flowy/queries/post_query.ex")
+      assert_file("lib/flowy/schemas/post.ex")
 
       Gen.Live.run(~w(Posts Comment comments title:string --no-core))
       refute_received {:mix_shell, :info, ["You are generating into an existing context" <> _]}
 
-      assert_file "lib/flowy_web/live/comment_live/index.ex"
-      assert_file "lib/flowy_web/live/comment_live/show.ex"
-      assert_file "lib/flowy_web/live/comment_live/form_component.ex"
+      assert_file("lib/flowy_web/live/comment_live/index.ex")
+      assert_file("lib/flowy_web/live/comment_live/show.ex")
+      assert_file("lib/flowy_web/live/comment_live/form_component.ex")
 
-      assert_file "lib/flowy_web/live/comment_live/index.html.heex"
-      assert_file "lib/flowy_web/live/comment_live/show.html.heex"
-      assert_file "test/flowy_web/live/comment_live_test.exs"
-    end
+      assert_file("lib/flowy_web/live/comment_live/index.html.heex")
+      assert_file("lib/flowy_web/live/comment_live/show.html.heex")
+      assert_file("test/flowy_web/live/comment_live_test.exs")
+    end)
   end
 
   test "when more than 50 attributes are given", config do
-    in_tmp_live_project config.test, fn ->
-      long_attribute_list = Enum.map_join(0..55, " ", &("attribute#{&1}:string"))
+    in_tmp_live_project(config.test, fn ->
+      long_attribute_list = Enum.map_join(0..55, " ", &"attribute#{&1}:string")
       Gen.Live.run(~w(Posts Post posts title #{long_attribute_list}))
 
-      assert_file "test/flowy/core/posts_test.exs", fn file ->
+      assert_file("test/flowy/core/posts_test.exs", fn file ->
         refute file =~ "...}"
-      end
-      assert_file "test/flowy_web/live/post_live_test.exs", fn file ->
+      end)
+
+      assert_file("test/flowy_web/live/post_live_test.exs", fn file ->
         refute file =~ "...}"
-      end
-    end
+      end)
+    end)
   end
 
   describe "inside umbrella" do
     test "without context_app generators config uses web dir", config do
-      in_tmp_live_umbrella_project config.test, fn ->
+      in_tmp_live_umbrella_project(config.test, fn ->
         File.cd!("flowy_web")
 
         Application.put_env(:phoenix, :generators, context_app: nil)
         Gen.Live.run(~w(Users User users name:string))
 
-        assert_file "lib/flowy/core/users.ex"
-        assert_file "lib/flowy/schemas/user.ex"
+        assert_file("lib/flowy/core/users.ex")
+        assert_file("lib/flowy/schemas/user.ex")
 
-        assert_file "lib/flowy_web/live/user_live/index.ex", fn file ->
+        assert_file("lib/flowy_web/live/user_live/index.ex", fn file ->
           assert file =~ "defmodule FlowyWeb.UserLive.Index"
           assert file =~ "use FlowyWeb, :live_view"
-        end
+        end)
 
-        assert_file "lib/flowy_web/live/user_live/show.ex", fn file ->
+        assert_file("lib/flowy_web/live/user_live/show.ex", fn file ->
           assert file =~ "defmodule FlowyWeb.UserLive.Show"
           assert file =~ "use FlowyWeb, :live_view"
-        end
+        end)
 
-        assert_file "lib/flowy_web/live/user_live/form_component.ex", fn file ->
+        assert_file("lib/flowy_web/live/user_live/form_component.ex", fn file ->
           assert file =~ "defmodule FlowyWeb.UserLive.FormComponent"
           assert file =~ "use FlowyWeb, :live_component"
-        end
+        end)
 
-        assert_file "test/flowy_web/live/user_live_test.exs", fn file ->
+        assert_file("test/flowy_web/live/user_live_test.exs", fn file ->
           assert file =~ "defmodule FlowyWeb.UserLiveTest"
-        end
-      end
+        end)
+      end)
     end
 
     test "raises with false context_app", config do
-      in_tmp_live_umbrella_project config.test, fn ->
+      in_tmp_live_umbrella_project(config.test, fn ->
         Application.put_env(:flowy, :generators, context_app: false)
+
         assert_raise Mix.Error, ~r/no context_app configured/, fn ->
           Gen.Live.run(~w(Users User users name:string))
         end
-      end
+      end)
     end
 
     # TODO: Fix this test
@@ -264,7 +271,6 @@ defmodule Mix.Tasks.Phx.Gen.LiveTest do
 
     #     assert_file "another_app/lib/another_app/accounts.ex"
     #     assert_file "another_app/lib/another_app/accounts/user.ex"
-
 
     #     assert_file "lib/flowy/live/user_live/index.ex", fn file ->
     #       assert file =~ "defmodule Flowy.UserLive.Index"
