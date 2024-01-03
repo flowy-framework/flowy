@@ -44,7 +44,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
     test "updates <%= schema.singular %> in listing", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
       {:ok, index_live, _html} = live(conn, ~p"<%= schema.route_prefix %>")
 
-      assert index_live |> element(~s{#perros-#{<%= schema.singular %>.id} a[href="<%= schema.route_prefix %>/#{<%= schema.singular %>.id}/edit"]}) |> render_click() =~
+      assert index_live |> element(~s{#<%= schema.collection %>-#{<%= schema.singular %>.id} a[href="<%= schema.route_prefix %>/#{<%= schema.singular %>.id}/edit"]}) |> render_click() =~
                "Edit <%= schema.human_singular %>"
 
       assert_patch(index_live, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}/edit")
@@ -67,8 +67,8 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
     test "deletes <%= schema.singular %> in listing", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
       {:ok, index_live, _html} = live(conn, ~p"<%= schema.route_prefix %>")
 
-      assert index_live |> element(~s{#perros-#{<%= schema.singular %>.id} a[href="<%= schema.route_prefix %>/#{<%= schema.singular %>.id}/delete"]}) |> render_click() =~
-      "Delete Perro"
+      assert index_live |> element(~s{#<%= schema.collection %>-#{<%= schema.singular %>.id} a[href="<%= schema.route_prefix %>/#{<%= schema.singular %>.id}/delete"]}) |> render_click() =~
+      "Delete <%= schema.human_singular %>"
     end
   end
 

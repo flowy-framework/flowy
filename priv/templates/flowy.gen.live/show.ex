@@ -26,8 +26,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
 
   defp assign_breadcrumb_steps(socket) do
     socket
-    |> assign(:steps,
-      [
+    |> assign(:steps, [
         %Step{label: "Home", path: "/"},
         %Step{label: "<%= schema.human_plural %>", path: "<%= schema.route_prefix %>"},
         %Step{label: "REPLACE ME"}

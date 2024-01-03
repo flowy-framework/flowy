@@ -34,7 +34,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing <%= schema.human_plural %>")
+    |> assign(:page_title, "<%= schema.human_plural %>")
     |> assign(:<%= schema.singular %>, nil)
   end
 
