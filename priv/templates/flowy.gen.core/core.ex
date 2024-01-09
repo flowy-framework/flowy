@@ -13,5 +13,6 @@ defmodule <%= inspect core.module %> do
   defdelegate update(model, attrs), to: <%= inspect schema.alias %>Query
   defdelegate delete(model), to: <%= inspect schema.alias %>Query
   defdelegate create(attrs), to: <%= inspect schema.alias %>Query
+  defdelegate create!(attrs), to: <%= inspect schema.alias %>Query
   defdelegate change(model, attrs \\ %{}), to: <%= inspect schema.alias %>Query, as: :changeset
 end

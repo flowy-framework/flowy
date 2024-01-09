@@ -9,7 +9,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
   @invalid_attrs <%= Mix.Phoenix.to_text for {key, value} <- schema.params.create, into: %{}, do: {key, value |> Mix.Phoenix.Schema.live_form_value() |> Mix.Phoenix.Schema.invalid_form_value()} %>
 
   describe "Index" do
-    setup [:setup_<%= schema.singular %>]
+    setup [:register_and_log_in_user, :setup_<%= schema.singular %>]
 
     test "lists all <%= schema.plural %>", <%= if schema.string_attr do %>%{conn: conn, <%= schema.singular %>: <%= schema.singular %>}<% else %>%{conn: conn}<% end %> do
       {:ok, _index_live, html} = live(conn, ~p"<%= schema.route_prefix %>")
@@ -73,7 +73,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
   end
 
   describe "Show" do
-    setup [:setup_<%= schema.singular %>]
+    setup [:register_and_log_in_user, :setup_<%= schema.singular %>]
 
     test "displays <%= schema.singular %>", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
       {:ok, _show_live, html} = live(conn, ~p"<%= schema.route_prefix %>/#{<%= schema.singular %>}")

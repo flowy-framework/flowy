@@ -28,14 +28,3 @@ config :flowy, :oauth,
 if Mix.env() == :test do
   import_config "test.exs"
 end
-
-config :ueberauth, Ueberauth,
-  base_path: "/oauth",
-  providers: [
-    okta: {
-      Ueberauth.Strategy.Okta,
-      [
-        oauth2_params: [scope: "openid email profile groups", audience: "api://default"]
-      ]
-    }
-  ]

@@ -48,7 +48,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
 
   defp delete_<%= schema.singular %>(socket, :delete) do
     case <%= inspect core.alias %>.delete(socket.assigns.<%= schema.singular %>) do
-      {:ok, _<%= schema.singular %>} ->
+      {:ok, <%= schema.singular %>} ->
         notify_parent({:deleted, <%= schema.singular %>})
 
         {:noreply,
@@ -63,7 +63,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat(schema.web_na
 
   defp delete_<%= schema.singular %>(socket, :show_delete) do
     case <%= inspect core.alias %>.delete(socket.assigns.<%= schema.singular %>) do
-      {:ok, <%= schema.singular %>} ->
+      {:ok, _<%= schema.singular %>} ->
         {:noreply,
          socket
          |> put_flash(:info, "<%= schema.human_singular %> deleted successfully")

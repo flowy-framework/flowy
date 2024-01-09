@@ -24,13 +24,14 @@ defmodule Flowy.Support.OAuth do
   This function is responsible for building the OAuth client.
   """
   @spec build(Flowy.Support.OAuth.Client.t()) :: Flowy.Support.OAuth.Client.t()
-  def build(%Flowy.Support.OAuth.Client{} = clent) do
+  def build(%Flowy.Support.OAuth.Client{} = client) do
     build(
-      clent.client_id,
-      clent.client_secret,
-      clent.audience,
-      clent.site,
-      clent.token_url
+      client.client_id,
+      client.client_secret,
+      client.audience,
+      client.site,
+      client.token_url,
+      client.scopes
     )
   end
 
@@ -39,9 +40,10 @@ defmodule Flowy.Support.OAuth do
         client_secret: client_secret,
         audience: audience,
         site: site,
-        token_url: token_url
+        token_url: token_url,
+        scopes: scopes
       }) do
-    build(client_id, client_secret, audience, site, token_url)
+    build(client_id, client_secret, audience, site, token_url, scopes)
   end
 
   def build(%{
@@ -49,20 +51,22 @@ defmodule Flowy.Support.OAuth do
         "client_secret" => client_secret,
         "audience" => audience,
         "site" => site,
-        "token_url" => token_url
+        "token_url" => token_url,
+        "scopes" => scopes
       }) do
-    build(client_id, client_secret, audience, site, token_url)
+    build(client_id, client_secret, audience, site, token_url, scopes)
   end
 
-  @spec build(String.t(), String.t(), String.t(), String.t(), String.t()) ::
+  @spec build(String.t(), String.t(), String.t(), String.t(), String.t(), String.t()) ::
           Flowy.Support.OAuth.Client.t()
-  def build(client_id, client_secret, audience, site, token_url) do
+  def build(client_id, client_secret, audience, site, token_url, scopes) do
     oauth = %Flowy.Support.OAuth.Client{
       client_id: client_id,
       client_secret: client_secret,
       site: site,
-      token_url: token_url,
-      audience: audience
+      token_url: token_url || "/oauth2/token",
+      audience: audience,
+      scopes: scopes
     }
 
     client =
@@ -71,7 +75,7 @@ defmodule Flowy.Support.OAuth do
         client_id: client_id,
         client_secret: client_secret,
         site: site,
-        token_url: "#{site}/oauth2/token"
+        token_url: token_url
       )
 
     %{oauth | oauth_client: client}
