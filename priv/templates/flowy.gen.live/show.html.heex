@@ -21,7 +21,12 @@
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
   <.card >
     <div class="space-y-3">
-      <%= for {k, _} <- schema.attrs do %><.card_field value={@<%= schema.singular %>.<%= k %>} label="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>" /><% end %>
+      <.card_field label="ID">
+        <.short_id value={@<%= schema.singular %>.id} />
+        <.copy_to_clipboard value={@<%= schema.singular %>.id} class="fa fa-copy" />
+      </.card_field>
+      <%= for {k, _} <- schema.attrs do %>
+      <.card_field value={@<%= schema.singular %>.<%= k %>} label="<%= Phoenix.Naming.humanize(Atom.to_string(k)) %>" /><% end %>
       <.card_line />
       <.card_formatted_field format="date_from_now" value={@<%= schema.singular %>.inserted_at} label="Inserted at" />
       <.card_formatted_field format="date_from_now" value={@<%= schema.singular %>.updated_at} label="Updated at" />

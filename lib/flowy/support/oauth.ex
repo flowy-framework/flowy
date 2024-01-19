@@ -91,7 +91,9 @@ defmodule Flowy.Support.OAuth do
           client
       ) do
     if expired?(access_token) do
-      get_token(client)
+      client
+      |> Flowy.Support.OAuth.Client.reset_access_token()
+      |> get_token()
     else
       access_token
     end

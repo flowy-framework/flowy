@@ -22,4 +22,8 @@ defmodule Flowy.Support.OAuth.Client do
             oauth_client: nil,
             scopes: [],
             access_token: nil
+
+  def reset_access_token(client) do
+    %{client | access_token: nil}
+  end
 end
