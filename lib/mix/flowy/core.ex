@@ -50,7 +50,6 @@ defmodule Mix.Flowy.Core do
     basename = Path.basename(basedir)
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     otp_app = Mix.Flowy.otp_app()
-    basedir = Phoenix.Naming.underscore(core_name)
     dir = Mix.Flowy.context_lib_path(ctx_app, basedir)
     opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
     base = Mix.Flowy.context_base(ctx_app)
@@ -63,10 +62,10 @@ defmodule Mix.Flowy.Core do
       web_module: web_module(),
       base_module: base,
       query: query,
-      module: Module.concat([base, "Core", "#{module_name}"]),
+      module: Module.concat([base, "Core", "#{core_name}"]),
       alias: module_name |> Module.concat(nil),
-      file: Mix.Flowy.lib_path(:core, schema.context_app, basename <> ".ex"),
-      test_file: Mix.Flowy.test_path(:core, schema.context_app, basename <> "_test.exs"),
+      file: Mix.Flowy.lib_path(:core, schema.context_app, basedir <> ".ex"),
+      test_file: Mix.Flowy.test_path(:core, schema.context_app, basedir <> "_test.exs"),
       schema: schema,
       dir: dir,
       opts: opts,

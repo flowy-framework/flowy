@@ -45,7 +45,8 @@ defmodule Mix.Flowy.Schema do
           timestamp_type: atom()
         }
 
-  defstruct module: nil,
+  defstruct schema_name: nil,
+            module: nil,
             repo: nil,
             table: nil,
             collection: nil,
@@ -166,6 +167,7 @@ defmodule Mix.Flowy.Schema do
     fixture_unique_functions = fixture_unique_functions(singular, uniques, attrs)
 
     %Schema{
+      schema_name: schema_name,
       opts: opts,
       migration?: Keyword.get(opts, :migration, true),
       module: module,

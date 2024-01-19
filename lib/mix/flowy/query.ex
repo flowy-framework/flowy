@@ -41,12 +41,12 @@ defmodule Mix.Flowy.Query do
   """
   @spec new(schema :: Mix.Flowy.Schema.t(), opts :: keyword()) :: t
   def new(schema, opts) do
-    basename = Phoenix.Naming.underscore(schema.singular)
+    basename = Phoenix.Naming.underscore(schema.schema_name)
     # otp_app = Mix.Flowy.otp_app()
     # opts = Keyword.merge(Application.get_env(otp_app, :generators, []), opts)
     base = Mix.Flowy.context_base(schema.context_app)
     generate? = Keyword.get(opts, :query, true)
-    module_name = Macro.camelize(schema.singular) <> "Query"
+    module_name = schema.schema_name <> "Query"
 
     %__MODULE__{
       base_module: base,

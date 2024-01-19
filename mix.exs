@@ -86,7 +86,6 @@ defmodule Flowy.MixProject do
 
       # Auth
       {:joken, "~> 2.5"},
-      {:paleta, "~> 0.1.0"},
       {:oauth2, "~> 2.0"}
     ]
 

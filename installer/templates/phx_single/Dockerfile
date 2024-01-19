@@ -1,6 +1,6 @@
 ARG MIX_ENV="prod"
 
-FROM hexpm/elixir:1.15.6-erlang-26.0.2-debian-bullseye-20230612-slim AS build
+FROM hexpm/elixir:1.16.0-erlang-26.2.1-debian-bullseye-20231009-slim AS build
 
 # RUN apt-get update && \
 #   apt-get install -y curl
@@ -57,7 +57,7 @@ RUN mix assets.deploy
 RUN mix do compile, release
 
 # prepare release image
-FROM hexpm/elixir:1.15.6-erlang-26.0.2-debian-bullseye-20230612-slim
+FROM hexpm/elixir:1.16.0-erlang-26.2.1-debian-bullseye-20231009-slim
 
 # install runtime dependencies
 RUN apt-get update && apt-get upgrade -y && \
