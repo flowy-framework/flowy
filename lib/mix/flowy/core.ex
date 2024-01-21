@@ -45,9 +45,7 @@ defmodule Mix.Flowy.Core do
   """
   @spec new(String.t(), t(), Keyword.t()) :: t()
   def new(core_name, %Schema{} = schema, opts) do
-    # basename = schema.plural
     basedir = Phoenix.Naming.underscore(core_name)
-    basename = Path.basename(basedir)
     ctx_app = opts[:context_app] || Mix.Flowy.context_app()
     otp_app = Mix.Flowy.otp_app()
     dir = Mix.Flowy.context_lib_path(ctx_app, basedir)

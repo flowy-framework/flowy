@@ -12,15 +12,15 @@ defmodule <%= inspect query.module %>Test do
     setup [:setup_<%= schema.singular %>]
 
     test "get all <%= schema.singular %>s", %{<%= schema.singular %>: <%= schema.singular %>} do
-      assert <%= inspect query.module %>.all() == [<%= schema.singular %>]
+      assert <%= inspect query.alias %>.all() == [<%= schema.singular %>]
     end
 
     test "get last <%= schema.singular %>", %{<%= schema.singular %>: <%= schema.singular %>} do
-      assert <%= inspect query.module %>.last(1) == [<%= schema.singular %>]
+      assert <%= inspect query.alias %>.last(1) == [<%= schema.singular %>]
     end
 
     test "get <%= schema.singular %> by id", %{<%= schema.singular %>: <%= schema.singular %>} do
-      assert <%= inspect query.module %>.get!(<%= schema.singular %>.id) == <%= schema.singular %>
+      assert <%= inspect query.alias %>.get!(<%= schema.singular %>.id) == <%= schema.singular %>
     end
 
     test "update <%= schema.singular %>", %{<%= schema.singular %>: <%= schema.singular %>} do
@@ -31,8 +31,8 @@ defmodule <%= inspect query.module %>Test do
     end
 
     test "delete <%= schema.singular %>", %{<%= schema.singular %>: %{id: <%= schema.singular %>_id} = <%= schema.singular %>} do
-      assert {:ok, %<%= inspect schema.alias %>{id: ^<%= schema.singular %>_id}} = <%= inspect query.module %>.delete(<%= schema.singular %>)
-      assert <%= inspect query.module %>.get(<%= schema.singular %>_id) == nil
+      assert {:ok, %<%= inspect schema.alias %>{id: ^<%= schema.singular %>_id}} = <%= inspect query.alias %>.delete(<%= schema.singular %>)
+      assert <%= inspect query.alias %>.get(<%= schema.singular %>_id) == nil
     end
 
     test "changeset/1 returns a <%= schema.singular %> changeset", %{<%= schema.singular %>: <%= schema.singular %>} do

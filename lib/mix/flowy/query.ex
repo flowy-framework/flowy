@@ -47,12 +47,13 @@ defmodule Mix.Flowy.Query do
     base = Mix.Flowy.context_base(schema.context_app)
     generate? = Keyword.get(opts, :query, true)
     module_name = schema.schema_name <> "Query"
+    module = Module.concat(module_name, nil)
 
     %__MODULE__{
       base_module: base,
       module: Module.concat([base, "Queries", module_name]),
       opts: schema.opts,
-      alias: module_name |> Module.concat(nil),
+      alias: module |> Module.split() |> List.last() |> Module.concat(nil),
       file: Mix.Flowy.lib_path(:queries, schema.context_app, basename <> "_query.ex"),
       test_file: Mix.Flowy.test_path(:queries, schema.context_app, basename <> "_query_test.exs"),
       fixture_file:

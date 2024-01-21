@@ -103,7 +103,6 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   def build(args, help \\ __MODULE__) do
     {opts, parsed, _} = parse_opts(args)
     [context_name, schema_name, plural | schema_args] = validate_args!(parsed, help)
-    context_name |> dbg()
     schema = Gen.Schema.build([schema_name, plural | schema_args], opts, help)
     core = Core.new(context_name, schema, opts)
     {core, schema}
