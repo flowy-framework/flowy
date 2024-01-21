@@ -87,9 +87,7 @@ defmodule Flowy.MixProject do
       # Auth
       {:joken, "~> 2.5"},
       {:oauth2, "~> 2.0"}
-    ]
-
-    # ++ private_deps()
+    ] ++ private_deps()
   end
 
   def private_deps() do
@@ -97,13 +95,13 @@ defmodule Flowy.MixProject do
       {"../paleta", :paleta_dep}
     ]
     |> Enum.map(fn {path, fun} ->
-      apply(__MODULE__, fun, [File.exists?(path) && local_dev?()])
+      apply(__MODULE__, fun, [local_dev?(path)])
     end)
     |> List.flatten()
   end
 
-  def local_dev?() do
-    Mix.env() == :dev || Mix.env() == :test
+  defp local_dev?(path) do
+    File.exists?(path) && System.get_env("USE_EXT", "false") == "false"
   end
 
   def paleta_dep(true = _local) do
@@ -112,7 +110,7 @@ defmodule Flowy.MixProject do
 
   def paleta_dep(false) do
     [
-      {:paleta, "~> 0.1.0"}
+      {:paleta, git: "https://github.com/flowy-framework/paleta", tag: "latest"}
     ]
   end
 end
