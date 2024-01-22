@@ -23,6 +23,10 @@ defmodule Flowy.Support.OAuth.Client do
             scopes: [],
             access_token: nil
 
+  @doc """
+  Remove the access token from the client. This is used
+  when the token is expired or invalid.
+  """
   def reset_access_token(client) do
     %{client | access_token: nil}
   end
