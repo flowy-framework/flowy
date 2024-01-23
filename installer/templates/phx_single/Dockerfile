@@ -31,8 +31,6 @@ ARG GITHUB_TOKEN
 # set build ENV
 ENV MIX_ENV="${MIX_ENV}"
 
-RUN git config --global url."https://${GITHUB_TOKEN}@github.com/equinixmetal/".insteadOf "https://github.com/equinixmetal/"
-
 # install mix dependencies
 COPY mix.exs mix.lock ./
 COPY config config

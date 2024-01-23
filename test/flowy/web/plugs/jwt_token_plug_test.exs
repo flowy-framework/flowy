@@ -53,8 +53,8 @@ defmodule Flowy.Web.Plugs.JwtAuthPlugTest do
           conn
           |> Plug.Conn.put_req_header("authorization", "Bearer #{token()}")
           |> Flowy.Web.Plugs.JwtAuthPlug.call(
-            iss: "https://hydra.iam.equinixmetal.net/",
-            aud: ["https://bouncer.core-a.ny5.random.net"],
+            iss: "https://hydra.iam.flowy.net/",
+            aud: ["https://flowy.random.net"],
             skip: [:exp]
           )
 
