@@ -11,6 +11,10 @@ defmodule <%= @web_namespace %>.Router do
     plug :put_secure_browser_headers
   end<% end %>
 
+  pipeline :unauthenticated_layout do
+    plug :put_root_layout, html: {<%= @web_namespace %>.Layouts, :unauthenticated}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug Flowy.Web.Plugs.CamelCaseDecoderPlug

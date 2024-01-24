@@ -12,7 +12,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>.all()
+      iex> <%= inspect query.module %>.all()
       [%<%= inspect schema.alias %>{}, ...]
 
   """
@@ -26,7 +26,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>.last(3)
+      iex> <%= inspect query.module %>.last(3)
       [%<%= inspect schema.alias %>{}, ...]
 
   """
@@ -44,7 +44,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module  %>.get!("44bff7b0-c9e4-4d5d-a6f3-61fb2c6dbddf")
+      iex> <%= inspect query.module  %>.get!("44bff7b0-c9e4-4d5d-a6f3-61fb2c6dbddf")
       %<%= inspect schema.alias %>{}
 
   """
@@ -58,7 +58,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>.get("44bff7b0-c9e4-4d5d-a6f3-61fb2c6dbddf")
+      iex> <%= inspect query.module %>.get("44bff7b0-c9e4-4d5d-a6f3-61fb2c6dbddf")
       %<%= inspect schema.alias %>{}
 
   """
@@ -72,7 +72,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>.create(%{field: value})
+      iex> <%= inspect query.module %>.create(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
       iex> <%= query.module %>.create(%{field: bad_value})
@@ -92,7 +92,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>.create(%{field: value})
+      iex> <%= inspect query.module %>.create(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
       iex> <%= query.module %>.create(%{field: bad_value})
@@ -110,10 +110,10 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>(<%= schema.singular %>, %{field: new_value})
+      iex> <%= inspect query.module %>.update(<%= schema.singular %>, %{field: new_value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= query.module %>(<%= schema.singular %>, %{field: bad_value})
+      iex> <%= query.module %>.update(<%= schema.singular %>, %{field: bad_value})
       {:error, ...}
 
   """
@@ -130,7 +130,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>!(<%= schema.singular %>, %{field: new_value})
+      iex> <%= inspect query.module %>.update!(<%= schema.singular %>, %{field: new_value})
       {:ok, %<%= inspect schema.alias %>{}}
 
   """
@@ -145,7 +145,7 @@ defmodule <%= inspect query.module %> do
 
   ## Examples
 
-      iex> <%= query.module %>(<%= schema.singular %>)
+      iex> <%= inspect query.module %>.delete(<%= schema.singular %>)
       {:ok, %<%= inspect schema.alias %>{}}
 
   """
@@ -155,11 +155,24 @@ defmodule <%= inspect query.module %> do
   end
 
   @doc """
+  Raise an error if the <%= schema.human_singular %> could not be updated.
+  ## Examples
+
+      iex> <%= inspect query.module %>.delete!(<%= schema.singular %>)
+      {:ok, %<%= inspect schema.alias %>{}}
+
+  """
+  def delete!(model) do
+    model
+    |> Repo.delete!()
+  end
+
+  @doc """
   Returns a data structure for tracking <%= schema.singular %> changes.
 
   ## Examples
 
-      iex> <%= query.module %>.changeset(<%= schema.singular %>)
+      iex> <%= inspect query.module %>.changeset(<%= schema.singular %>)
       %Todo{...}
 
   """
