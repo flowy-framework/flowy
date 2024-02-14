@@ -75,7 +75,7 @@ defmodule <%= inspect query.module %> do
       iex> <%= inspect query.module %>.create(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= query.module %>.create(%{field: bad_value})
+      iex> <%= inspect query.module %>.create(%{field: bad_value})
       {:error, ...}
 
   """
@@ -95,7 +95,7 @@ defmodule <%= inspect query.module %> do
       iex> <%= inspect query.module %>.create(%{field: value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= query.module %>.create(%{field: bad_value})
+      iex> <%= inspect query.module %>.create(%{field: bad_value})
       {:error, ...}
 
   """
@@ -113,7 +113,7 @@ defmodule <%= inspect query.module %> do
       iex> <%= inspect query.module %>.update(<%= schema.singular %>, %{field: new_value})
       {:ok, %<%= inspect schema.alias %>{}}
 
-      iex> <%= query.module %>.update(<%= schema.singular %>, %{field: bad_value})
+      iex> <%= inspect query.module %>.update(<%= schema.singular %>, %{field: bad_value})
       {:error, ...}
 
   """

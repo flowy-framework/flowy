@@ -74,7 +74,7 @@ defmodule <%= @app_module %>.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
       {<%= inspect @adapter_app %>, ">= 0.0.0"},<% end %><%= if @html do %>
-      {:phoenix_html, "~> 3.3"},
+      {:phoenix_html, "~> 4.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.20.1"},
       {:floki, ">= 0.30.0", only: :test},<% end %><%= if @dashboard do %>

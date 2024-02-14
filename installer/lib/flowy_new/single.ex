@@ -12,6 +12,7 @@ defmodule Flowy.New.Single do
      "phx_single/config/test.exs": "config/test.exs"},
     {:eex, :web,
      "phx_single/lib/app_name/application.ex": "lib/:app/application.ex",
+     "phx_single/lib/app_name/release.ex": "lib/:app/release.ex",
      "phx_single/lib/app_name.ex": "lib/:app.ex",
      "phx_web/api_spec.ex": "lib/:lib_web_name/api_spec.ex",
      "phx_web/endpoint.ex": "lib/:lib_web_name/endpoint.ex",

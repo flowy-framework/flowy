@@ -16,7 +16,7 @@ import Config
 #
 # Alternatively, you can use `mix flowy.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
-if System.get_env("PHX_SERVER") do
+if Flowy.Config.run_server?() do
   config :<%= @app_name %>, <%= @endpoint_module %>, server: true
 end
 
@@ -39,16 +39,20 @@ if config_env() == :prod do
   config :<%= @app_name %>, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :<%= @app_name %>, <%= @endpoint_module %>,
-    url: [host: host, port: 443, scheme: "https"],
+    url: [host: Flowy.Config.hostname!("PHX_HOST") || "example.com"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
+      ip: {0, 0, 0, 0},
+      port: Flowy.Config.port!("PORT") || 8080
     ],
     secret_key_base: secret_key_base
+
+    config :opentelemetry,
+      span_processor: :batch,
+      traces_exporter: :otlp
 
   # ## SSL Support
   #
