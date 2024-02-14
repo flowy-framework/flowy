@@ -27,6 +27,8 @@ defmodule Flowy.Prometheus do
     {Plugins.Phoenix, router: router, endpoint: endpoint}
   end
 
+  def plugin({plugin}), do: plugin
+
   def plugin(plugin) do
     plugin_name = plugin |> Atom.to_string() |> Macro.camelize()
     "Elixir.PromEx.Plugins.#{plugin_name}" |> String.to_existing_atom()
