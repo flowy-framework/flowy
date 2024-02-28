@@ -3,9 +3,24 @@ defmodule <%= inspect query.module %> do
   This module contains the queries for <%= schema.plural %> .
   """
   import Ecto.Query
+  import <%= query.base_module %>.Queries.Helper
 
   alias <%= inspect schema.module %>
   alias <%= inspect schema.repo %>
+
+  @doc """
+  Returns the number of <%= schema.plural %>.
+
+  ## Examples
+
+      iex> <%= inspect query.module %>.count()
+      10
+
+  """
+  def count() do
+    base()
+    |> Repo.aggregate(:count, :id)
+  end
 
   @doc """
   Returns the list of <%= schema.plural %>.
@@ -16,8 +31,9 @@ defmodule <%= inspect query.module %> do
       [%<%= inspect schema.alias %>{}, ...]
 
   """
-  def all() do
+  def all(opts \\ []) do
     base()
+    |> handle_preloads(opts)
     |> Repo.all()
   end
 
@@ -48,8 +64,9 @@ defmodule <%= inspect query.module %> do
       %<%= inspect schema.alias %>{}
 
   """
-  def get!(id) do
+  def get!(id, opts \\ []) do
     base()
+    |> handle_preloads(opts)
     |> Repo.get!(id)
   end
 
@@ -62,8 +79,9 @@ defmodule <%= inspect query.module %> do
       %<%= inspect schema.alias %>{}
 
   """
-  def get(id) do
+  def get(id, opts \\ []) do
     base()
+    |> handle_preloads(opts)
     |> Repo.get(id)
   end
 
@@ -79,10 +97,11 @@ defmodule <%= inspect query.module %> do
       {:error, ...}
 
   """
-  def create(attrs) do
-    %<%= inspect schema.alias %>{}
-    |> <%= inspect schema.alias %>.changeset(attrs)
-    |> Repo.insert()
+  def create(attrs, opts \\ []) do
+    case <%= inspect schema.alias %>.changeset(%<%= inspect schema.alias %>{}, attrs) |> Repo.insert() do
+      {:ok, record} -> {:ok, record |> handle_preloads(opts)}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 
   @doc """
@@ -99,10 +118,11 @@ defmodule <%= inspect query.module %> do
       {:error, ...}
 
   """
-  def create!(attrs) do
+  def create!(attrs, opts \\ []) do
     %<%= inspect schema.alias %>{}
     |> <%= inspect schema.alias %>.changeset(attrs)
     |> Repo.insert!()
+    |> handle_preloads(opts)
   end
 
   @doc """

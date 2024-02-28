@@ -136,12 +136,12 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
       core == schema ->
         help.raise_with_help("The core and schema should have different names")
 
-      core == Mix.Phoenix.base() ->
+      core == Mix.Flowy.base() ->
         help.raise_with_help(
           "Cannot generate context #{core} because it has the same name as the application"
         )
 
-      schema == Mix.Phoenix.base() ->
+      schema == Mix.Flowy.base() ->
         help.raise_with_help(
           "Cannot generate schema #{schema} because it has the same name as the application"
         )
@@ -213,7 +213,7 @@ defmodule Mix.Tasks.Flowy.Gen.Core do
   defp prompt_for_conflicts(context) do
     context
     |> files_to_be_generated()
-    |> Mix.Phoenix.prompt_for_conflicts()
+    |> Mix.Flowy.prompt_for_conflicts()
   end
 
   @doc false

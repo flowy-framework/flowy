@@ -5,15 +5,16 @@ defmodule <%= inspect core.module %> do
 
   alias <%= inspect core.query.module %>
 
-  defdelegate all, to: <%= inspect schema.alias %>Query
-  defdelegate get(id), to: <%= inspect schema.alias %>Query
-  defdelegate get!(id), to: <%= inspect schema.alias %>Query
+  defdelegate count(), to: <%= inspect schema.alias %>Query
+  defdelegate all(opts \\ []), to: <%= inspect schema.alias %>Query
+  defdelegate get(id, opts \\ []), to: <%= inspect schema.alias %>Query
+  defdelegate get!(id, opts \\ []), to: <%= inspect schema.alias %>Query
   defdelegate last(limit), to: <%= inspect schema.alias %>Query
   defdelegate update!(model, attrs), to: <%= inspect schema.alias %>Query
   defdelegate update(model, attrs), to: <%= inspect schema.alias %>Query
   defdelegate delete(model), to: <%= inspect schema.alias %>Query
   defdelegate delete!(model), to: <%= inspect schema.alias %>Query
-  defdelegate create(attrs), to: <%= inspect schema.alias %>Query
-  defdelegate create!(attrs), to: <%= inspect schema.alias %>Query
+  defdelegate create(attrs, opts \\ []), to: <%= inspect schema.alias %>Query
+  defdelegate create!(attrs, opts \\ []), to: <%= inspect schema.alias %>Query
   defdelegate change(model, attrs \\ %{}), to: <%= inspect schema.alias %>Query, as: :changeset
 end

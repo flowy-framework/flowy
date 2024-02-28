@@ -9,6 +9,10 @@ defmodule <%= inspect core.module %>Test do
     @describetag :core_<%= schema.plural %>
     setup [:setup_<%= schema.singular %>]
 
+    test "count" do
+      assert <%= inspect core.alias %>.count() == 1
+    end
+
     test "get all <%= schema.plural %>", %{<%= schema.singular %>: <%= schema.singular %>} do
       assert <%= inspect core.alias %>.all() == [<%= schema.singular %>]
     end

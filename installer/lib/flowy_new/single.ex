@@ -14,6 +14,9 @@ defmodule Flowy.New.Single do
      "phx_single/lib/app_name/application.ex": "lib/:app/application.ex",
      "phx_single/lib/app_name/release.ex": "lib/:app/release.ex",
      "phx_single/lib/app_name.ex": "lib/:app.ex",
+     "phx_single/lib/app_name/core/users.ex": "lib/:app/core/users.ex",
+     "phx_single/lib/app_name/queries/helper.ex": "lib/:app/queries/helper.ex",
+     "phx_single/lib/app_name/schemas/user.ex": "lib/:app/schemas/user.ex",
      "phx_web/api_spec.ex": "lib/:lib_web_name/api_spec.ex",
      "phx_web/endpoint.ex": "lib/:lib_web_name/endpoint.ex",
      "phx_web/router.ex": "lib/:lib_web_name/router.ex",
@@ -33,6 +36,7 @@ defmodule Flowy.New.Single do
      "phx_single/github/dependabot.yml": ".github/dependabot.yml",
      "phx_single/github/workflows/test.yml": ".github/workflows/test.yml",
      "phx_test/support/conn_case.ex": "test/support/conn_case.ex",
+     "phx_test/support/fixtures/users_fixtures.ex": "test/support/fixtures/users_fixtures.ex",
      "phx_single/test/test_helper.exs": "test/test_helper.exs",
      "phx_test/controllers/error_json_test.exs":
        "test/:lib_web_name/controllers/error_json_test.exs"},

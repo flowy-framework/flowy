@@ -11,6 +11,10 @@ defmodule <%= inspect query.module %>Test do
     @describetag :<%= schema.singular %>_query
     setup [:setup_<%= schema.singular %>]
 
+    test "count" do
+      assert <%= inspect query.alias %>.count() == 1
+    end
+
     test "get all <%= schema.singular %>s", %{<%= schema.singular %>: <%= schema.singular %>} do
       assert <%= inspect query.alias %>.all() == [<%= schema.singular %>]
     end

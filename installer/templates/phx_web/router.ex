@@ -2,6 +2,8 @@ defmodule <%= @web_namespace %>.Router do
   @moduledoc false
   use <%= @web_namespace %>, :router<%= if @html do %>
 
+  import <%= @web_namespace %>.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -30,10 +32,16 @@ defmodule <%= @web_namespace %>.Router do
     get "/specs", OpenApiSpex.Plug.RenderSpec, []
   end
 
-  scope "/api/i1", PartyWeb.Controllers.Api, as: :api do
+  scope "/api/i1", <%= @web_namespace %>.Controllers.Api, as: :api do
     pipe_through([:api])
 
     # Your api resources here
+  end
+
+  scope "/", <%= @web_namespace %> do
+    pipe_through([:browser, :unauthenticated_layout, :redirect_if_user_is_authenticated])
+
+    get("/sign-in", Controllers.SignInController, :new)
   end
 
   scope "/" do
@@ -45,7 +53,9 @@ defmodule <%= @web_namespace %>.Router do
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
 
-    live("/", Live.HomeLive, :show)
+    live_session :authenticated, on_mount: [{EchoWeb.UserAuth, :ensure_authenticated}] do
+      live("/", Live.HomeLive, :show)
+    end
   end
 
   # Other scopes may use custom stacks.
