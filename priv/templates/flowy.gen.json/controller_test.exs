@@ -1,7 +1,7 @@
 defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_namespace, "Controllers", "Api", schema.alias]) %>ControllerTest do
   use <%= inspect core.web_module %>.ConnCase
 
-  import <%= core.base_module %>.Tests.Fixtures.<%= inspect schema.alias %>Fixtures
+  import <%= core.base_module %>.Test.Setups
 
   alias <%= inspect schema.module %>
 
@@ -51,7 +51,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   end
 
   describe "update <%= schema.singular %>" do
-    setup [:create_<%= schema.singular %>]
+    setup [:setup_<%= schema.singular %>]
 
     test "renders <%= schema.singular %> when data is valid", %{conn: conn, <%= schema.singular %>: %<%= inspect schema.alias %>{id: id} = <%= schema.singular %>} do
       conn = put(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}", @update_attrs)
@@ -72,7 +72,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   end
 
   describe "delete <%= schema.singular %>" do
-    setup [:create_<%= schema.singular %>]
+    setup [:setup_<%= schema.singular %>]
 
     test "deletes chosen <%= schema.singular %>", %{conn: conn, <%= schema.singular %>: <%= schema.singular %>} do
       conn = delete(conn, ~p"<%= schema.api_route_prefix %>/#{<%= schema.singular %>}")

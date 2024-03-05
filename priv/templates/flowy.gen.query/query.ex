@@ -8,6 +8,39 @@ defmodule <%= inspect query.module %> do
   alias <%= inspect schema.module %>
   alias <%= inspect schema.repo %>
 
+  def search(filter \\ %{}) do
+    base()
+    |> where(^filter_where(filter))
+    |> limit(^filter_limit(filter))
+    |> order_by(^filter_order_by(filter))
+    |> Repo.all()
+  end
+
+  defp filter_order_by(%{order_by: :updated_at_desc}),
+    do: [desc: dynamic([t], t.updated_at)]
+
+  defp filter_order_by(%{order_by: :updated_at_asc}),
+    do: [asc: dynamic([t], t.updated_at)]
+
+  defp filter_order_by(_), do: []
+
+  defp filter_limit(%{limit: limit}), do: limit
+  defp filter_limit(_), do: 10
+
+  def filter_where(params) do
+    Enum.reduce(params, dynamic(true), fn
+      {:created_after, value}, dynamic ->
+        dynamic([<%= schema.singular %>: <%= schema.singular %>], ^dynamic and <%= schema.singular %>.inserted_at >= ^value)
+
+      {:query, ""}, dynamic ->
+        dynamic
+
+      {_, _}, dynamic ->
+        # Not a where parameter
+        dynamic
+    end)
+  end
+
   @doc """
   Returns the number of <%= schema.plural %>.
 

@@ -5,6 +5,7 @@ defmodule <%= inspect core.module %> do
 
   alias <%= inspect core.query.module %>
 
+  defdelegate search(filter), to: <%= inspect schema.alias %>Query
   defdelegate count(), to: <%= inspect schema.alias %>Query
   defdelegate all(opts \\ []), to: <%= inspect schema.alias %>Query
   defdelegate get(id, opts \\ []), to: <%= inspect schema.alias %>Query
