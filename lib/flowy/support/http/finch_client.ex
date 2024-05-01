@@ -27,6 +27,7 @@ defmodule Flowy.Support.Http.FinchClient do
 
   defp body_to_json(nil), do: ""
   defp body_to_json(""), do: ""
+  defp body_to_json(body_form) when is_binary(body_form), do: body_form
   defp body_to_json(body), do: body |> Jason.encode!()
 
   defp build_response({:ok, %Finch.Response{body: body, headers: headers, status: status_code}})

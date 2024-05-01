@@ -23,4 +23,11 @@ defmodule Flowy.Web.Controllers.FallbackController do
     |> put_view(html: Flowy.Web.Controllers.ErrorHTML, json: Flowy.Web.Controllers.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, error}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(json: Flowy.Web.Controllers.ErrorJSON)
+    |> render(:error, message: error)
+  end
 end
