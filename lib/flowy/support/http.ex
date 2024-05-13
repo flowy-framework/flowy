@@ -4,7 +4,8 @@ defmodule Flowy.Support.Http do
           opts: keyword()
         }
 
-  @type response :: {:ok, Flowy.Support.Http.Response.t()} | {:error, Flowy.Support.Http.Response.t()}
+  @type response ::
+          {:ok, Flowy.Support.Http.Response.t()} | {:error, Flowy.Support.Http.Response.t()}
 
   defstruct [:client, :opts]
 

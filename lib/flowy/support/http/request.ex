@@ -15,7 +15,13 @@ defmodule Flowy.Support.Http.Request do
   @doc """
   Builds a new request struct.
   """
-  @spec build(method :: atom(), url :: String.t(), headers :: list(), body :: map() | nil, opts :: keyword()) :: t()
+  @spec build(
+          method :: atom(),
+          url :: String.t(),
+          headers :: list(),
+          body :: map() | nil,
+          opts :: keyword()
+        ) :: t()
   def build(method, url, headers \\ [], body \\ nil, opts \\ []) do
     %__MODULE__{
       method: method,
