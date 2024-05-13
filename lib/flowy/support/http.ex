@@ -4,7 +4,7 @@ defmodule Flowy.Support.Http do
           opts: keyword()
         }
 
-  @type response :: Flowy.Support.Http.Response.t()
+  @type response :: {:ok, Flowy.Support.Http.Response.t()} | {:error, Flowy.Support.Http.Response.t()}
 
   defstruct [:client, :opts]
 
@@ -68,7 +68,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a GET request.
   """
-  @spec get(url :: String.t(), headers :: keyword()) :: response
+  @spec get(url :: String.t(), headers :: list()) :: response
   def get(url, headers) do
     build()
     |> get(url, headers)
@@ -77,7 +77,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a GET request, using the provided client.
   """
-  @spec get(t(), url :: String.t(), headers :: keyword()) :: response
+  @spec get(t(), url :: String.t(), headers :: list()) :: response
   def get(module, url, headers) do
     do_request(
       module,
@@ -90,7 +90,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a POST request.
   """
-  @spec post(url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec post(url :: String.t(), body :: map(), headers :: list()) :: response
   def post(url, body, headers) do
     build()
     |> post(url, body, headers)
@@ -99,7 +99,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a POST request, using the provided client.
   """
-  @spec post(client :: t(), url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec post(client :: t(), url :: String.t(), body :: map(), headers :: list()) :: response
   def post(module, url, body, headers) do
     do_request(
       module,
@@ -113,7 +113,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a PUT request.
   """
-  @spec put(url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec put(url :: String.t(), body :: map(), headers :: list()) :: response
   def put(url, body, headers) do
     build()
     |> put(url, body, headers)
@@ -122,7 +122,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a PUT request, using the provided client.
   """
-  @spec put(client :: t(), url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec put(client :: t(), url :: String.t(), body :: map(), headers :: list()) :: response
   def put(module, url, body, headers) do
     do_request(
       module,
@@ -136,7 +136,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a PATCH request.
   """
-  @spec patch(url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec patch(url :: String.t(), body :: map(), headers :: list()) :: response
   def patch(url, body, headers) do
     build()
     |> patch(url, body, headers)
@@ -145,7 +145,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a PATCH request, using the provided client.
   """
-  @spec patch(client :: t(), url :: String.t(), body :: map(), headers :: keyword()) :: response
+  @spec patch(client :: t(), url :: String.t(), body :: map(), headers :: list()) :: response
   def patch(module, url, body, headers) do
     do_request(
       module,
@@ -159,7 +159,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a DELETE request.
   """
-  @spec delete(url :: String.t(), headers :: keyword()) :: response
+  @spec delete(url :: String.t(), headers :: list()) :: response
   def delete(url, headers) do
     build()
     |> delete(url, headers)
@@ -168,7 +168,7 @@ defmodule Flowy.Support.Http do
   @doc """
   Makes a DELETE request, using the provided client.
   """
-  @spec delete(client :: t(), url :: String.t(), headers :: keyword()) :: response
+  @spec delete(client :: t(), url :: String.t(), headers :: list()) :: response
   def delete(module, url, headers) do
     do_request(
       module,
@@ -178,6 +178,7 @@ defmodule Flowy.Support.Http do
     )
   end
 
+  @spec do_request(t(), atom(), String.t(), list()) :: response
   def do_request(%__MODULE__{client: client, opts: opts}, method, url, headers) do
     meta = build_meta(method, url)
 
@@ -198,6 +199,7 @@ defmodule Flowy.Support.Http do
     result
   end
 
+  @spec do_request(t(), atom(), String.t(), list(), map()) :: response
   def do_request(%__MODULE__{client: client, opts: opts}, method, url, headers, body) do
     meta = build_meta(method, url)
 

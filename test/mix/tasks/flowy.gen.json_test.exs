@@ -129,13 +129,13 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
       Gen.Json.run(~w(Blogs Post posts title))
 
       assert_file("lib/flowy/core/blogs.ex", fn file ->
-        assert file =~ "defdelegate get(id), to: PostQuery"
+        assert file =~ "defdelegate get(id, opts \\\\ []), to: PostQuery"
         assert file =~ "defdelegate last(limit), to: PostQuery"
-        assert file =~ "defdelegate get!(id), to: PostQuery"
+        assert file =~ "defdelegate get!(id, opts \\\\ []), to: PostQuery"
         assert file =~ "defdelegate update!(model, attrs), to: PostQuery"
         assert file =~ "defdelegate update(model, attrs), to: PostQuery"
         assert file =~ "defdelegate delete(model), to: PostQuery"
-        assert file =~ "defdelegate create(attrs), to: PostQuery"
+        assert file =~ "defdelegate create(attrs, opts \\\\ []), to: PostQuery"
         assert file =~ "defdelegate change(model, attrs \\\\ %{}), to: PostQuery, as: :changeset"
       end)
 
@@ -145,14 +145,14 @@ defmodule Mix.Tasks.Flowy.Gen.JsonTest do
                        ["You are generating into an existing context" <> _notice]}
 
       assert_file("lib/flowy/core/blog.ex", fn file ->
-        assert file =~ "defdelegate all, to: CommentQuery"
-        assert file =~ "defdelegate get(id), to: CommentQuery"
+        assert file =~ "defdelegate all(opts \\\\ []), to: CommentQuery"
+        assert file =~ "defdelegate get(id, opts \\\\ []), to: CommentQuery"
         assert file =~ "defdelegate last(limit), to: CommentQuery"
-        assert file =~ "defdelegate get!(id), to: CommentQuery"
+        assert file =~ "defdelegate get!(id, opts \\\\ []), to: CommentQuery"
         assert file =~ "defdelegate update!(model, attrs), to: CommentQuery"
         assert file =~ "defdelegate update(model, attrs), to: CommentQuery"
         assert file =~ "defdelegate delete(model), to: CommentQuery"
-        assert file =~ "defdelegate create(attrs), to: CommentQuery"
+        assert file =~ "defdelegate create(attrs, opts \\\\ []), to: CommentQuery"
 
         assert file =~
                  "defdelegate change(model, attrs \\\\ %{}), to: CommentQuery, as: :changeset"
