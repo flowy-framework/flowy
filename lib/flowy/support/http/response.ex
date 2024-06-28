@@ -3,7 +3,7 @@ defmodule Flowy.Support.Http.Response do
   This module defines the behaviour for HTTP responses.
   """
   @type t :: %__MODULE__{
-          body: map(),
+          body: map() | list(),
           http_code: integer(),
           headers: map(),
           error: any()
