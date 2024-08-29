@@ -1,4 +1,4 @@
-defmodule Flowy.Web.Controllers.ChangesetJSON do
+defmodule <%= @web_namespace %>.Controllers.ChangesetJSON do
   @moduledoc """
   This module is responsible for rendering changeset errors
   """

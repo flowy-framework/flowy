@@ -1,4 +1,4 @@
-defmodule Flowy.Web.Controllers.ErrorHTML do
+defmodule <%= @web_namespace %>.Controllers.ErrorHTML do
   @moduledoc """
   This module is responsible for rendering error pages
   """

@@ -1,4 +1,4 @@
-defmodule Flowy.Web.Controllers.ErrorJSON do
+defmodule <%= @web_namespace %>.Controllers.ErrorJSON do
   @moduledoc """
   This module is responsible for rendering apis error
   """

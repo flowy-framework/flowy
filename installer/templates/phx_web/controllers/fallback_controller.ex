@@ -1,4 +1,4 @@
-defmodule Flowy.Web.Controllers.FallbackController do
+defmodule <%= @web_namespace %>.Controllers.FallbackController do
   @moduledoc """
   A fallback plug is useful to translate common domain data structures
   into a valid `%Plug.Conn{}` response. If the controller action fails to
@@ -12,7 +12,7 @@ defmodule Flowy.Web.Controllers.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> put_view(json: Flowy.Web.Controllers.ChangesetJSON)
+    |> put_view(json: <%= @web_namespace %>.Controllers.ChangesetJSON)
     |> render(:error, changeset: changeset)
   end
 
@@ -20,14 +20,14 @@ defmodule Flowy.Web.Controllers.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(html: Flowy.Web.Controllers.ErrorHTML, json: Flowy.Web.Controllers.ErrorJSON)
+    |> put_view(html: <%= @web_namespace %>.Controllers.ErrorHTML, json: <%= @web_namespace %>.Controllers.ErrorJSON)
     |> render(:"404")
   end
 
   def call(conn, {:error, error}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> put_view(json: Flowy.Web.Controllers.ErrorJSON)
+    |> put_view(json: <%= @web_namespace %>.Controllers.ErrorJSON)
     |> render(:error, message: error)
   end
 end

@@ -91,9 +91,7 @@ defmodule Flowy.MixProject do
   end
 
   def private_deps() do
-    [
-      {"../paleta", :paleta_dep}
-    ]
+    []
     |> Enum.map(fn {path, fun} ->
       apply(__MODULE__, fun, [local_dev?(path)])
     end)
@@ -102,15 +100,5 @@ defmodule Flowy.MixProject do
 
   defp local_dev?(path) do
     File.exists?(path) && System.get_env("USE_EXT", "false") == "false"
-  end
-
-  def paleta_dep(true = _local) do
-    [{:paleta, path: "../paleta"}]
-  end
-
-  def paleta_dep(false) do
-    [
-      {:paleta, git: "https://github.com/flowy-framework/paleta", tag: "latest"}
-    ]
   end
 end
