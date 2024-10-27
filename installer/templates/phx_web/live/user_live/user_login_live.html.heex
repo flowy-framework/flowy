@@ -1,0 +1,77 @@
+<div class="w-full max-w-lg p-4 mx-auto">
+  <div class="text-center">
+    <img class="mx-auto size-28" src="/images/logo-small.png" alt="logo" />
+    <div class="mt-4">
+      <h2 class="text-2xl font-semibold text-slate-600 dark:text-navy-100">
+        Welcome to Estate Buddy
+      </h2>
+      <p class="text-slate-400 dark:text-navy-300"></p>
+    </div>
+  </div>
+  <div class="p-5 mt-5 space-y-4 rounded-lg card lg:p-7">
+    <.simple_form
+      for={@form}
+      id="login_form"
+      action={UrlHelper.login_path()}
+      phx-update="ignore"
+      event=""
+    >
+      <.input field={@form[:email]} type="email" placeholder="Email" required />
+      <.input field={@form[:password]} type="password" placeholder="Password" required />
+
+      <div class="flex items-center justify-between mt-4 space-x-2">
+        <.outline_circle_checkbox
+          field={@form[:remember_me]}
+          label="Keep me logged in"
+          class="rounded form-checkbox is-basic size-5 border-slate-400/70 checked:border-primary checked:bg-primary hover:border-primary focus:border-primary dark:border-navy-400 dark:checked:border-accent dark:checked:bg-accent dark:hover:border-accent dark:focus:border-accent"
+        />
+        <.link
+          href={UrlHelper.reset_password_path()}
+          class="text-xs transition-colors text-slate-400 hover:text-slate-800 focus:text-slate-800 dark:text-navy-300 dark:hover:text-navy-100 dark:focus:text-navy-100"
+        >
+          Forgot your password?
+        </.link>
+      </div>
+
+      <:actions>
+        <.save_button
+          in_progress_label="Signing in..."
+          label="Sign In"
+          class="w-full mt-5 font-medium text-white btn bg-primary hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90"
+        />
+        <div class="mt-4 text-center text-xs+">
+          <p>
+            <span>Don't have an Account? </span>
+            <.link
+              navigate={UrlHelper.register_path()}
+              class="transition-colors text-primary hover:text-primary-focus dark:text-accent-light dark:hover:text-accent"
+            >
+              Create account
+            </.link>
+          </p>
+        </div>
+        <div class="flex items-center space-x-3 my-7">
+          <div class="flex-1 h-px bg-slate-200 dark:bg-navy-500"></div>
+          <p>OR</p>
+          <div class="flex-1 h-px bg-slate-200 dark:bg-navy-500"></div>
+        </div>
+        <div class="flex space-x-4">
+          <a
+            href="/oauth/google"
+            class="w-full space-x-3 font-medium border btn border-slate-300 text-slate-800 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80 dark:border-navy-450 dark:text-navy-50 dark:hover:bg-navy-500 dark:focus:bg-navy-500 dark:active:bg-navy-500/90"
+          >
+            <img class="size-5.5" src="/images/google.svg" alt="logo" />
+            <span>Google</span>
+          </a>
+          <a
+            href="/oauth/github"
+            class="w-full space-x-3 font-medium border btn border-slate-300 text-slate-800 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80 dark:border-navy-450 dark:text-navy-50 dark:hover:bg-navy-500 dark:focus:bg-navy-500 dark:active:bg-navy-500/90"
+          >
+            <img class="size-5.5" src="/images/github.svg" alt="logo" />
+            <span>Github</span>
+          </a>
+        </div>
+      </:actions>
+    </.simple_form>
+  </div>
+</div>

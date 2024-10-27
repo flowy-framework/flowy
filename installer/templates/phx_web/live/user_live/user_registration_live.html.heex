@@ -1,0 +1,72 @@
+<div class="w-full max-w-lg p-4 mx-auto sm:px-5">
+  <div class="text-center">
+    <img class="mx-auto size-16" src="/images/logo-small.png" alt="logo" />
+    <div class="mt-4">
+      <h2 class="text-2xl font-semibold text-slate-600 dark:text-navy-100">
+        Welcome to Estate Buddy
+      </h2>
+      <p class="text-slate-400 dark:text-navy-300">
+        Please sign up to continue
+      </p>
+    </div>
+  </div>
+  <div class="p-5 mt-5 space-y-4 rounded-lg card lg:p-7">
+    <.simple_form
+      for={@form}
+      id="registration_form"
+      phx-submit="save"
+      phx-change="validate"
+      phx-trigger-action={@trigger_submit}
+      action={UrlHelper.login_path("_action=registered")}
+      method="post"
+    >
+      <.error :if={@check_errors}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
+      <.input
+        field={@form[:first_name]}
+        type="first_name"
+        placeholder="First Name"
+        autocomplete="off"
+        phx-debounce="blur"
+        required
+      />
+      <.input
+        field={@form[:last_name]}
+        type="last_name"
+        placeholder="Last Name"
+        autocomplete="off"
+        phx-debounce="blur"
+        required
+      />
+      <.input field={@form[:email]} type="email" placeholder="Email" autocomplete="off" required />
+      <.input
+        field={@form[:password]}
+        type="password"
+        placeholder="Password"
+        autocomplete="none"
+        phx-debounce="blur"
+        required
+      />
+
+      <:actions>
+        <.save_button
+          in_progress_label="Signing up..."
+          label="Sign Up"
+          class="w-full mt-5 font-medium text-white btn bg-primary hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90"
+        />
+        <div class="mt-4 text-center text-xs+">
+          <p class="line-clamp-1">
+            <span>Already have an account? </span>
+            <.link
+              navigate={UrlHelper.login_path()}
+              class="transition-colors text-primary hover:text-primary-focus dark:text-accent-light dark:hover:text-accent"
+            >
+              Sign in
+            </.link>
+          </p>
+        </div>
+      </:actions>
+    </.simple_form>
+  </div>
+</div>

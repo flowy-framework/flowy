@@ -1,14 +1,20 @@
-<.live_component module={Paleta.Components.Sidebar} id="sidebar">
+<.sidebar>
   <.sidebar_main
     logo="/images/logo.png"
-    logout_path={~p"/users/log-out"}
-    user={@current_user}
+    logout_path={UrlHelper.logout_path()}
+    user={build_paleta_user(@current_user)}
   >
     <.sidebar_main_item
       label="Home"
       path="/"
       icon="fa-solid fa-house"
       active={@section == :home}
+    />
+    <.sidebar_main_item
+      label="Tools"
+      path="/tools/jobs"
+      icon="fa-solid fa-screwdriver-wrench"
+      active={@section == :tools}
     />
   </.sidebar_main>
 
@@ -17,13 +23,16 @@
       <.sidebar_item label="Dashboard" path="/" />
     </.sidebar_panel>
   </.sidebar_panel>
-</.live_component>
+  <.sidebar_panel :if={@section == :tools} title="Tools">
+    <.sidebar_item label="Jobs" path="/tools/jobs" />
+  </.sidebar_panel>
+</.sidebar>
 
 <.app_header_wrapper>
-  <.app_header />
+  <.app_header left_side={false}></.app_header>
 </.app_header_wrapper>
 
 <.main_content_wrapper>
   <.flash_group flash={@flash} />
-  <%%= @inner_content %>
+  <%= @inner_content %>
 </.main_content_wrapper>

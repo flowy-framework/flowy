@@ -87,7 +87,7 @@ RUN mix local.hex --force && \
 
 # Override the default 127.0.0.1 address, so that the app
 # can be accessed outside the container by binding ports
-ENV PARTY_IP 0.0.0.0
+ENV APP_IP 0.0.0.0
 
 # copy release to app container
 COPY --from=build /app/_build/prod/rel/<%= @app_name %> .

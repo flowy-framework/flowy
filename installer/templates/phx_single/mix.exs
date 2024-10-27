@@ -9,7 +9,7 @@ defmodule <%= @app_module %>.MixProject do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",<% end %>
-      elixir: "~> 1.14",
+      elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -88,9 +88,6 @@ defmodule <%= @app_module %>.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {<%= inspect @web_adapter_app %>, "<%= @web_adapter_vsn %>"},
 
-      # flowy
-      {:casex, git: "https://github.com/livesup-dev/casex", tag: "0.4.3"},
-
       # Opentelemetry
       {:opentelemetry_exporter, "~> 1.6.0"},
       {:opentelemetry, "~> 1.3.0"},
@@ -117,16 +114,18 @@ defmodule <%= @app_module %>.MixProject do
       {:bypass, "~> 2.1", only: :test},
       {:mock, "~> 0.3.0", only: :test},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:phoenix_test, "~> 0.2.7", only: :test, runtime: false},
 
       # Docs
       {:ex_doc, "~> 0.30", only: :dev, runtime: false},
       {:open_api_spex, "~> 3.16"},
 
       # Jobs
-      {:oban, "~> 2.15"},
+      {:oban, "~> 2.17"},
       {:paleta, git: "https://github.com/flowy-framework/paleta", tag: "latest"},
       {:flowy, git: "https://github.com/flowy-framework/flowy", tag: "latest"}
-    ]
+    ] ++
+    private_deps()
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -145,6 +144,41 @@ defmodule <%= @app_module %>.MixProject do
       "assets.setup": <%= inspect Enum.map(@asset_builders, &"#{&1}.install --if-missing") %>,
       "assets.build": <%= inspect Enum.map(@asset_builders, &"#{&1} default") %>,
       "assets.deploy": <%= inspect Enum.map(@asset_builders, &"#{&1} default --minify") ++ ["phx.digest"] %><% end %>
+    ]
+  end
+
+  def private_deps() do
+    [
+      {"../paleta", :paleta_dep},
+      {"../flowy", :flowy_dep},
+    ]
+    |> Enum.map(fn {path, fun} ->
+      apply(__MODULE__, fun, [local_dev?(path)])
+    end)
+    |> List.flatten()
+  end
+
+  defp local_dev?(path) do
+    File.exists?(path) && System.get_env("USE_EXT", "false") == "false"
+  end
+
+  def paleta_dep(true = _local) do
+    [{:paleta, path: "../paleta", override: true}]
+  end
+
+  def paleta_dep(false) do
+    [
+      {:paleta, git: "https://github.com/flowy-framework/paleta", tag: "latest", override: true}
+    ]
+  end
+
+  def flowy_dep(true = _local) do
+    [{:flowy, path: "../flowy", override: true}]
+  end
+
+  def flowy_dep(false) do
+    [
+      {:flowy, git: "https://github.com/flowy-framework/flowy", tag: "latest", override: true}
     ]
   end
 end

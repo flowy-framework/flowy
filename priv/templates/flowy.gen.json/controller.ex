@@ -13,7 +13,7 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
   alias <%= inspect core.module %>
   alias <%= inspect schema.module %>
 
-  action_fallback Flowy.Web.Controllers.FallbackController
+  action_fallback <%= inspect core.web_module %>.Controllers.FallbackController
 
   tags ["<%= schema.plural %>"]
 

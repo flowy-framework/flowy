@@ -1,0 +1,95 @@
+<.breadcrumb title="Jobs" steps={@steps} />
+
+<div class="grid grid-cols-1 mb-2"></div>
+
+<.simple_form
+  for={@filter_form}
+  id="filter-form"
+  phx-change="validate"
+  event="search"
+  container_class=""
+>
+  <div class="flex flex-row space-x-2">
+    <.select
+      id="workers"
+      prompt="All"
+      field={@filter_form[:worker]}
+      options={@workers}
+      label="Workers"
+    />
+    <.select
+      id="states"
+      prompt="All"
+      field={@filter_form[:state]}
+      options={@states}
+      label="States"
+    />
+    <.select
+      id="queues"
+      prompt="All"
+      field={@filter_form[:queue]}
+      options={@queues}
+      label="Queues"
+    />
+    <div class="content-end">
+      <button
+        type="submit"
+        class="font-medium text-white btn bg-primary hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90"
+      >
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
+    </div>
+    <div class="right-0 content-end">
+      <.badge description={format_date(@last_updated_at)} color={:info} class="w-40" />
+    </div>
+  </div>
+</.simple_form>
+<.table rows={@jobs}>
+  <:col :let={job} label="ID">
+    <.link patch={"/tools/jobs/#{job.id}"}><%= job.id %></.link>
+  </:col>
+  <:col :let={job} label="Worker">
+    <p class="font-medium"><%= job.worker %></p>
+    <p class="mt-0.5 text-xs"><%= inspect(job.args) %></p>
+  </:col>
+  <:col :let={job} label="State">
+    <.badge description={job.state} color={state_color(job.state)} />
+  </:col>
+  <:col :let={job} label="Queue">
+    <%= job.queue %>
+  </:col>
+  <:col :let={job} label="Inserted At">
+    <.from_now value={job.inserted_at} />
+  </:col>
+  <:col :let={job} label="Scheduled At">
+    <%= job.scheduled_at %>
+  </:col>
+  <:col :let={job} label="Attempted At">
+    <.from_now value={job.attempted_at} />
+  </:col>
+  <:col :let={job} label="Completed At">
+    <.from_now value={job.completed_at} />
+  </:col>
+  <:col :let={job} label="Attempts">
+    <%= "#{job.attempt}/#{job.max_attempts}" %>
+  </:col>
+</.table>
+
+<.modal
+  :if={@live_action in [:show]}
+  id="job-modal"
+  show
+  on_cancel={JS.patch(~p"/tools/jobs")}
+  title="Job"
+  width={:medium}
+>
+  <.live_component
+    module={<%= @web_namespace %>.Live.Tools.JobLive.JobFormComponent}
+    id="job-form"
+    title={@page_title}
+    job={@job}
+    action={@live_action}
+    patch={~p"/tools/jobs"}
+    modal_id="job-modal"
+  />
+</.modal>

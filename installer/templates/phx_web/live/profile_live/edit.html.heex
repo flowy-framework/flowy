@@ -1,0 +1,67 @@
+<.breadcrumb title="Your Profile" steps={@steps}></.breadcrumb>
+
+<.card_with_side_menu items={@menu_items} active={@menu_item_active}>
+  <.card title="Profile">
+    <.simple_form
+      for={@form}
+      id="user-form"
+      phx-change="validate"
+      event="save"
+      action="edit"
+      container_class=""
+      inner_class="grid grid-cols-12 gap-4 p-4 sm:gap-5 lg:gap-6 sm:p-5"
+    >
+      <div class="order-2 col-span-12 lg:order-1 lg:col-span-8">
+        <div class="flex flex-col">
+          <div class="space-y-5">
+            <.input
+              field={@form[:email]}
+              type="email"
+              disabled
+              readonly
+              label="Email"
+              class="!bg-slate-100"
+            />
+            <.input field={@form[:first_name]} type="text" label="First Name" required={true} />
+            <.input field={@form[:last_name]} type="text" label="Last Name" required={true} />
+          </div>
+        </div>
+        <div class="order-3 col-span-12 pt-12 text-right lg:col-span-8">
+          <.cancel_button cancel_url={UrlHelper.launchpad_path()} />
+          <.save_button />
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="order-1 col-span-12 lg:order-2 lg:col-span-4 lg:ml-8">
+        <.form_upload_errors errors={upload_errors(@uploads.avatar_url)} />
+        <div class="my-4 text-center lg:text-left" phx-drop-target="{@uploads.avatar_url.ref}">
+          <%= for entry <- @uploads.avatar_url.entries do %>
+            <.form_upload_errors errors={upload_errors(@uploads.avatar_url, entry)} />
+            <div class="avatar m-auto !size-56">
+              <.live_img_preview
+                entry={entry}
+                class="rounded-full ring-1 ring-gray-400 dark:ring-gray-600"
+              />
+              <div class="absolute bottom-0 left-0 text-white badge bg-navy-700 dark:bg-navy-900">
+                <i class="mr-1 text-xs fa-solid fa-cloud-upload"></i><span class="m-auto"><%= entry.progress %>%</span>
+              </div>
+            </div>
+          <% end %>
+          <div class={"avatar m-auto !size-56 #{if(Enum.any?(@uploads.avatar_url.entries), do: "hidden")}"}>
+            <img
+              src={User.default_avatar_url(@current_user)}
+              class="rounded-full ring-1 ring-gray-400 dark:ring-gray-600"
+              alt="Logo"
+            />
+            <div class="absolute bottom-0 left-0">
+              <label class="text-white cursor-pointer badge bg-navy-700 dark:bg-navy-900">
+                <.live_file_input upload={@uploads.avatar_url} class="hidden" />
+                <i class="mr-1 text-xs fa-solid fa-pencil"></i><span class="m-0">Edit</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </.simple_form>
+  </.card>
+</.card_with_side_menu>

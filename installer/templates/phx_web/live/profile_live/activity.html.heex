@@ -1,0 +1,10 @@
+<.breadcrumb title="Activity" steps={@steps}></.breadcrumb>
+
+<.card_with_side_menu items={@menu_items} active={@menu_item_active}>
+  <.live_component
+    id="activity"
+    module={<%= @web_namespace %>.Live.Components.ActivityComponent}
+    entity={@current_user}
+    title="Your Activity"
+  />
+</.card_with_side_menu>

@@ -83,9 +83,4 @@ defmodule <%= inspect core.web_module %>.<%= inspect Module.concat([schema.web_n
       end
     end
   end
-
-  defp create_<%= schema.singular %>(_) do
-    <%= schema.singular %> = <%= schema.singular %>_fixture()
-    %{<%= schema.singular %>: <%= schema.singular %>}
-  end
 end

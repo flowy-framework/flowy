@@ -53,7 +53,7 @@ defmodule <%= @web_namespace %>.Router do
   scope "/", <%= @web_namespace %> do
     pipe_through :browser
 
-    live_session :authenticated, on_mount: [{EchoWeb.UserAuth, :ensure_authenticated}] do
+    live_session :authenticated, on_mount: [{<%= @web_namespace %>.UserAuth, :ensure_authenticated}] do
       live("/", Live.HomeLive, :show)
     end
   end
