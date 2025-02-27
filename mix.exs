@@ -78,7 +78,7 @@ defmodule Flowy.MixProject do
       {:telemetry, "~> 1.2"},
       {:prom_ex, "~> 1.9.0"},
       {:phoenix, "~> 1.7.0"},
-      {:phoenix_live_view, "~> 0.20.0"},
+      {:phoenix_live_view, "~> 1.0"},
       # Database
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
