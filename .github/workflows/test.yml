@@ -9,7 +9,7 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Elixir
         uses: erlef/setup-elixir@v1
         with:
